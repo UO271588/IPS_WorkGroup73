@@ -39,7 +39,7 @@ public class Main {
         stmt.execute(sql);
         sql = "INSERT INTO PARTICIPANTE (DNI,NAME,SURNAME,EMAIL,SEX,BIRTHDATE) " +
         		"VALUES ('000000001A', 'Francisco', 'Franco Bahamonte', 'paquito@movimiento.es', 'HOMBRE', 1975-11-20);"; 
-stmt.execute(sql);
+        stmt.execute(sql);
         System.out.println("added Data sucess");
 	}
 

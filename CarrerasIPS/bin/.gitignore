@@ -1,9 +1,5 @@
-/Model/
-/createDb/
-/dbAcess/
-/ui/
 /view/
-/bussines/
 /business/
 /dbAccess/
 /database/
+/util/

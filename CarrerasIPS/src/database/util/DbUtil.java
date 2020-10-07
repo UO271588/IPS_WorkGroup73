@@ -2,6 +2,8 @@ package database.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DbUtil {
@@ -22,5 +24,25 @@ public class DbUtil {
 	         System.exit(0);
 	      }
 		return null;
+	}
+	
+	/***
+	 * Metodo que comprueba si existe al menos una fila que cumple la consulta seleccionada con el
+	 * parametro de tipo string introducido
+	 * @param sql
+	 * @return
+	 * @throws SQLException 
+	 */
+	public static boolean existRowStringDB(String sql, String param ) throws SQLException {
+		Connection con = getConnection();
+		PreparedStatement pst = con.prepareStatement(sql);
+		pst.setString(1, param);
+		
+		ResultSet rs = pst.executeQuery();
+		boolean result =  rs.next();
+		rs.close();
+		pst.close();
+		con.close();
+		return result;
 	}
 }
