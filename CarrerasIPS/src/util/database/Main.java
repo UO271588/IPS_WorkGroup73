@@ -1,4 +1,4 @@
-package createDb;
+package util.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,8 +8,7 @@ import java.sql.Statement;
 public class Main {
 	
 	 public static void main( String args[] ) {
-		 Connection c = null;
-		    
+		 Connection c = null;    
 	      
 	      try {
 	         Class.forName("org.sqlite.JDBC");
@@ -23,8 +22,6 @@ public class Main {
 	         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	         System.exit(0);
 	      }
-	      
-	      
 	     
 	   }
 
@@ -50,8 +47,8 @@ stmt.execute(sql);
                        " NAME           VARCHAR(20)    NOT NULL, " +                      
                        " TIPO   		VARCHAR(20)  NOT NULL CHECK(TIPO IN ('RUTA','CIUDAD')), " +
                        " DISTANCE            INT     NOT NULL, " + 
-                       " IncriptionFee       INT     NOT NULL, " + 
-                       " IncriptionDateEnd   DATE     , " + 
+                       " InscriptionFee       INT     NOT NULL, " + 
+                       " InscriptionDateEnd   DATE     , " + 
                        " CompetitionDate   DATE     )"; 
         stmt.executeUpdate(sql);
         sql = "CREATE TABLE PARTICIPANTE " +
