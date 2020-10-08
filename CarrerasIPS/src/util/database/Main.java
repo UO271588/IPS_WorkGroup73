@@ -28,10 +28,10 @@ public class Main {
 	private static void addData(Connection c) throws SQLException {
 		Statement stmt = c.createStatement();
 		stmt = c.createStatement();
-        String sql = "INSERT INTO competition (IDcompetition,NAME,TIPO,DISTANCE,IncriptionFee,IncriptionDateEnd,CompetitionDate) " +
+        String sql = "INSERT INTO competition (IDcompetition,NAME,TIPO,DISTANCE,InscriptionFee,InscriptionDateEnd,CompetitionDate) " +
                        "VALUES (0000001, 'Carrera peq nicolas', 'CIUDAD', 20, 10,2020-11-7, 2020-11-14);"; 
         stmt.execute(sql);
-        sql = "INSERT INTO competition (IDcompetition,NAME,TIPO,DISTANCE,IncriptionFee,IncriptionDateEnd,CompetitionDate) " +
+        sql = "INSERT INTO competition (IDcompetition,NAME,TIPO,DISTANCE,InscriptionFee,InscriptionDateEnd,CompetitionDate) " +
                 "VALUES (0000002, 'Ruta Picos', 'RUTA', 10, 20,2020-12-1, 2020-12-10);"; 
         stmt.execute(sql);
         sql = "INSERT INTO PARTICIPANTE (DNI,NAME,SURNAME,EMAIL,SEX,BIRTHDATE) " +
