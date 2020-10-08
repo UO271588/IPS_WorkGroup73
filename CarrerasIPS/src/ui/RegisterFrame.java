@@ -1,4 +1,4 @@
-package view;
+package ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import business.client.Participant;
 import util.TimeUtil;
-import business.ParticipantModel;
+import business.participant.ParticipantDto;
+import business.participant.ParticipantModel;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -116,7 +116,7 @@ public class RegisterFrame extends JFrame {
 					
 					boolean correct = true;
 					boolean sexMale = false;
-					Participant part = null;
+					ParticipantDto part = null;
 					
 					//comprobar que los campos de texto esta completos como deben
 					String aviso = "";	//se almacenara la informacion incorrecta
@@ -165,7 +165,7 @@ public class RegisterFrame extends JFrame {
 										Integer.parseInt(getTextMes().getText()),
 										Integer.parseInt(getTextDia().getText()));
 					if(correct) {	//si esta correcto tenemos que añadir la entrada a la base de datos
-						part = new Participant(getTextNombre().getText(), getTextApellidos().getText(),
+						part = new ParticipantDto(getTextNombre().getText(), getTextApellidos().getText(),
 								getTextDNI().getText(), getTextMail().getText(), date, sexMale);
 						ParticipantModel.addParticipant(part);
 					}

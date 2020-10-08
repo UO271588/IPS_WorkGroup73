@@ -1,9 +1,9 @@
-package business.client;
+package business.participant;
 
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Participant {
+public class ParticipantDto {
 
 	
 	private String name;
@@ -14,7 +14,7 @@ public class Participant {
 	private boolean sexMale;	//true es hombre, false es mujer
 	
 	
-	public Participant(String name, String surname, String dni, String mail, Date birthday, boolean sexMale) {
+	public ParticipantDto(String name, String surname, String dni, String mail, Date birthday, boolean sexMale) {
 		super();
 		this.name = name;
 		this.surname = surname;

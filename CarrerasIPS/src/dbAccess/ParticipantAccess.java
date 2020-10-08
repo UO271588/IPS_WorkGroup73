@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import business.client.Participant;
-import database.util.DbUtil;
+import business.participant.ParticipantDto;
 import util.TimeUtil;
+import util.databse.DbUtil;
 
 public class ParticipantAccess {
 	
@@ -19,7 +19,7 @@ public class ParticipantAccess {
 	private static final String SQL_SELECT_DNI = "SELECT * FROM PARTICIPANTE WHERE DNI = ?"; 
 	private static final String SQL_SELECT_MAIL = "SELECT * FROM PARTICIPANTE WHERE EMAIL = ?"; 
 
-	public static void addParticipant(Participant part) throws SQLException {
+	public static void addParticipant(ParticipantDto part) throws SQLException {
 		Connection con = DbUtil.getConnection();
 		PreparedStatement pst = con.prepareStatement(SQL_INSERT_PARTICIPANT);
 		pst.setString(1, part.getDni());
