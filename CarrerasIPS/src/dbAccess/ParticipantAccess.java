@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 import business.participant.ParticipantDto;
 import util.TimeUtil;
-import util.databse.DbUtil;
+import util.database.DbUtil;
 
 public class ParticipantAccess {
 	

@@ -8,7 +8,7 @@ import java.util.Date;
 import org.sqlite.JDBC;
 
 import dbAccess.ParticipantAccess;
-import util.databse.DbUtil;
+import util.database.DbUtil;
 
 public class ParticipantModel {
 
