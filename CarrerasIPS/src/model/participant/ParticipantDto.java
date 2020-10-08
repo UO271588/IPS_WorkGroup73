@@ -1,4 +1,4 @@
-package business.participant;
+package model.participant;
 
 import java.time.LocalDate;
 import java.util.Date;

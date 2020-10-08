@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import model.participant.ParticipantDto;
+import model.participant.ParticipantModel;
 import util.TimeUtil;
-import business.participant.ParticipantDto;
-import business.participant.ParticipantModel;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -55,6 +55,7 @@ public class RegisterFrame extends JFrame {
 	private JLabel lblMes;
 	private JLabel lblAo;
 
+	
 	/**
 	 * Launch the application.
 	 */
@@ -134,6 +135,7 @@ public class RegisterFrame extends JFrame {
 					}
 					else if(!checkMail()) {
 						aviso += "Un usuario con el E-Mail introducido ya esta registrado como usuario\n";
+						getTextMail().setText("");
 						correct = false;
 					}
 					if(getTextDNI().getText().trim().length() == 0) {

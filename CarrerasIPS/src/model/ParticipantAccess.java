@@ -1,4 +1,4 @@
-package dbAccess;
+package model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import business.participant.ParticipantDto;
+import model.participant.ParticipantDto;
+import util.DbUtil;
 import util.TimeUtil;
-import util.database.DbUtil;
 
 public class ParticipantAccess {
 	

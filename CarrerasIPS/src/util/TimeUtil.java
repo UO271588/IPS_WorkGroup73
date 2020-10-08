@@ -1,6 +1,7 @@
 package util;
 
 import java.text.DateFormat;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public class TimeUtil {
 		
 		 try {
 			 System.out.println(date);
+			 
 	            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	            df.setLenient(false);
 	            df.parse(date);
@@ -44,6 +46,24 @@ public class TimeUtil {
 	public static String DateToSQL(Date date) {
 		String Sdate = date.getYear()+ "-" + date.getMonth() + "-" + date.getDate();
 		return Sdate;
+	}
+	
+	/** 
+	 * Convierte fecha repesentada como un string iso a fecha java (para conversion de entradas de tipo fecha)
+	 */
+	public static Date isoStringToDate(String isoDateString) {
+		try {
+		return new SimpleDateFormat("yyyy-MM-dd").parse(isoDateString);
+		} catch (ParseException e) {
+			throw new ApplicationException("Formato ISO incorrecto para fecha: "+isoDateString);
+		}
+	}
+	/** 
+	 * Convierte fecha java a un string formato iso (para display o uso en sql) 
+	 */
+	public static String dateToIsoString(Date javaDate) {
+		Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+		return formatter.format(javaDate);
 	}
 	
 

@@ -1,4 +1,4 @@
-package business;
+package controller;
 
 public class CarreraDto {
 	public String nombre;

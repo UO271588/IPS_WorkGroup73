@@ -1,16 +1,5 @@
-<<<<<<< HEAD
-/createDb/
-=======
-/view/
-/business/
-/dbAccess/
-/database/
->>>>>>> branch 'master' of https://github.com/UO271588/IPS_WorkGroup73
 /util/
-/ui/
-/parser/
-<<<<<<< HEAD
 /business/
-/carrera/
-=======
->>>>>>> branch 'master' of https://github.com/UO271588/IPS_WorkGroup73
+/model/
+/controller/
+/ui/

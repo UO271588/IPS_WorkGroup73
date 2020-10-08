@@ -1,4 +1,4 @@
-package business.participant;
+package model.participant;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -7,8 +7,8 @@ import java.util.Date;
 
 import org.sqlite.JDBC;
 
-import dbAccess.ParticipantAccess;
-import util.database.DbUtil;
+import model.ParticipantAccess;
+import util.DbUtil;
 
 public class ParticipantModel {
 
