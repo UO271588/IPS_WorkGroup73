@@ -8,9 +8,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,9 +21,10 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import business.CarreraDto;
+import business.race.RaceDto;
+import dbAccess.CompetitionsAccess;
 
-public class VentanaCompeticiones extends JFrame {
+public class RacesFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField Titulo;
@@ -34,7 +37,7 @@ public class VentanaCompeticiones extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaCompeticiones frame = new VentanaCompeticiones();
+					RacesFrame frame = new RacesFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,37 +49,43 @@ public class VentanaCompeticiones extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaCompeticiones() {
+	public RacesFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 578, 390);
+		setBounds(100, 100, 603, 405);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		Titulo = new JTextField();
+		Titulo.setEditable(false);
 		Titulo.setBounds(186, 10, 196, 30);
 		Titulo.setFont(new Font("Rockwell", Font.BOLD, 20));
 		Titulo.setHorizontalAlignment(SwingConstants.CENTER);
 		Titulo.setText("Competiciones");
 		contentPane.add(Titulo);
 		Titulo.setColumns(10);
+		Titulo.setBorder(new EmptyBorder(5,5,5,5));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(87, 61, 400, 200);
+		scrollPane.setBounds(10, 51, 567, 304);
 		contentPane.add(scrollPane);
 		
 		panel = new JPanel();
+		panel.setBorder(null);
 		scrollPane.setViewportView(panel);
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		crearPanelesCarrera(this.cargarCarreras());
+		
+		CompetitionsAccess ca = new CompetitionsAccess();
+		List<RaceDto> carreras = ca.findAllRaces();
+		panel.setLayout(new GridLayout(0, 1, 0, carreras.size()));
+		crearPanelesCarrera(carreras);
 		
 	}
 	
-	public void crearPanelesCarrera(List<CarreraDto> carreras) {
-		for(CarreraDto carrera: carreras) {
+	public void crearPanelesCarrera(List<RaceDto> carreras) {
+		for(RaceDto carrera: carreras) {
 			JPanel panelCarrera = new JPanel();
 			JTextField txtNombre = new JTextField();
 			JTextField txtTipo = new JTextField();
@@ -84,68 +93,52 @@ public class VentanaCompeticiones extends JFrame {
 			JTextField txtCuota = new JTextField();
 			JTextField txtFechaInscripcion = new JTextField();
 			JTextField txtFechaCarrera = new JTextField();
+			JButton btnRegistro = new JButton();
 			
 			//Creacion textField nombre carrera
 			txtNombre.setText(carrera.nombre);
 			panelCarrera.add(txtNombre);
 			txtNombre.setColumns(10);
+			txtNombre.setHorizontalAlignment(JTextField.CENTER);
 			
 			//Creacion textField tipo
 			txtTipo.setText(carrera.tipo);
 			panelCarrera.add(txtTipo);
-			txtTipo.setColumns(10);
+			txtTipo.setColumns(5);
+			txtTipo.setHorizontalAlignment(JTextField.CENTER);
 			
 			//Creacion textFiled distancia
-			txtDistancia.setText(carrera.distancia);
+			txtDistancia.setText(Double.toString(carrera.distancia)+"Km");
 			panelCarrera.add(txtDistancia);
-			txtDistancia.setColumns(10);
+			txtDistancia.setColumns(5);
+			txtDistancia.setHorizontalAlignment(JTextField.CENTER);
 			
 			//Creacion textField cuota inscripcion
-			txtCuota.setText(carrera.precioInscripcion);
+			txtCuota.setText(Double.toString(carrera.precioInscripcion)+"€");
 			panelCarrera.add(txtCuota);
-			txtCuota.setColumns(10);
+//			txtCuota.setColumns(6);
+			txtCuota.setHorizontalAlignment(JTextField.CENTER);
 			
 			//Creacion textField fechaLimite inscripcion
-			txtFechaInscripcion.setText(carrera.fechaLimite);
+			txtFechaInscripcion.setText(carrera.fechaLimite.toString());
 			panelCarrera.add(txtFechaInscripcion);
-			txtFechaInscripcion.setColumns(10);
+//			txtFechaInscripcion.setColumns(8);
+			txtFechaInscripcion.setHorizontalAlignment(JTextField.CENTER);
 			
 			//Creacion textField fechaCompeticion
-			txtFechaCarrera.setText(carrera.fechaCarrera);
+			txtFechaCarrera.setText(carrera.fechaCarrera.toString());
 			panelCarrera.add(txtFechaCarrera);
-			txtFechaCarrera.setColumns(10);
+//			txtFechaCarrera.setColumns(8);
+			txtFechaCarrera.setHorizontalAlignment(JTextField.CENTER);
+			
+			//Creacion boton de registro
+			btnRegistro.setText("Registrarse");
+			panelCarrera.add(btnRegistro);
+			btnRegistro.setHorizontalAlignment(JTextField.CENTER);
 			
 			panel.add(panelCarrera);
 		}		
 	}
 	
-	private List<CarreraDto> cargarCarreras(){
-		List<CarreraDto> carreras = new ArrayList<CarreraDto>();
-		String SQL = "SELECT * FROM competition";
-		PreparedStatement pst = null;
-		ResultSet rs = null;
-		try {
-			Connection c = DriverManager.getConnection("jdbc:sqlite:test.db");
-			
-			pst = c.prepareStatement(SQL);
-			
-			rs = pst.executeQuery();
-			
-			while(rs.next()) {
-				CarreraDto carrera = new CarreraDto();
-				carrera.nombre = rs.getString("NAME");
-				carrera.tipo = rs.getString("TIPO");
-				carrera.distancia = rs.getString("DISTANCE");
-				carrera.precioInscripcion = rs.getString("INSCRIPTIONFEE");
-				carrera.fechaLimite = rs.getString("INSCRIPTIONDATEEND");
-				carrera.fechaCarrera = rs.getString("COMPETITIONDATE");
-				carreras.add(carrera);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return carreras;
-	}
+	
 }
