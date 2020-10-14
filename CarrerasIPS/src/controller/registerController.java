@@ -83,7 +83,7 @@ public class registerController {
 			//comprueba que la fecha introducida corresponder a una persona mayor de 18 aÃ±os
 			if(!TimeUtil.isAdult(birthday)) {
 				correct = false;
-				aviso += "El año tiene que estar en formato de 4 digitos\n";
+				aviso += "La edad minima para inscribirse son 18 años\n";
 			}
 		}
 

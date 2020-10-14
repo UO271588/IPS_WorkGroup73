@@ -4,11 +4,8 @@ import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-<<<<<<< HEAD
 import java.time.LocalDate;
 import java.time.Period;
-=======
->>>>>>> refs/remotes/origin/master
 import java.util.Date;
 
 public class TimeUtil {
@@ -76,12 +73,13 @@ public class TimeUtil {
 	 * @param birthday
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	public static boolean isAdult(Date birthday) {
 		
 		Date date = new Date();
 		date.setYear(date.getYear() - 18);
-		System.out.println(birthday);
-		System.out.println(date);
+//		System.out.println(birthday);
+//		System.out.println(date);
 		return !date.before(birthday);
 	}
 	
