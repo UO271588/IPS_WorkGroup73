@@ -11,6 +11,10 @@ import model.ParticipantAccess;
 import util.DbUtil;
 
 public class ParticipantModel {
+	
+	private static final String SQL_SELECT_DNI = "SELECT * FROM PARTICIPANTE WHERE DNI = ?"; 
+	private static final String SQL_SELECT_MAIL = "SELECT * FROM PARTICIPANTE WHERE EMAIL = ?"; 
+
 
 	public static void addParticipant(ParticipantDto part) {
 		try {
@@ -25,14 +29,14 @@ public class ParticipantModel {
 	}
 
 	/**
-	 * Comprueba si se puede añadir un nuevo cliente con el dni introducido
+	 * Comprueba si el dni introducido existe en la base de datos
 	 * @param dni
 	 * @return
 	 */
 	public static boolean checkDni(String dni) {
 		try {
 
-			return !ParticipantAccess.anyDniParticipant(dni);
+			return DbUtil.existRowStringDB(SQL_SELECT_DNI, dni);
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -46,7 +50,7 @@ public class ParticipantModel {
 	 */
 	public static boolean checkMail(String mail) {
 		try {
-			return !ParticipantAccess.anyMailParticipant(mail);
+			return !DbUtil.existRowStringDB(SQL_SELECT_MAIL, mail);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException(e);

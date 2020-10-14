@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import model.participant.ParticipantDto;
+import controller.registerController;
 import model.participant.ParticipantModel;
 import util.TimeUtil;
 
@@ -15,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -24,7 +23,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -43,17 +41,19 @@ public class RegisterFrame extends JFrame {
 	private JTextField textNombre;
 	private JTextField textApellidos;
 	private JTextField textMail;
-	private JRadioButton rdbtnH;
-	private JRadioButton rdbtnM;
+	public JRadioButton rdbtnH;
+	public JRadioButton rdbtnM;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JLabel lblFechaNacimiento;
 	private JLabel lblRegistroParticipante;
 	private JTextField textAno;
 	private JTextField textMes;
-	private JTextField textDia;
+	public JTextField textDia;
 	private JLabel lblD;
 	private JLabel lblMes;
 	private JLabel lblAo;
+	
+	private registerController controlador;
 
 	
 	/**
@@ -104,113 +104,46 @@ public class RegisterFrame extends JFrame {
 		contentPane.add(getLblD());
 		contentPane.add(getLblMes());
 		contentPane.add(getLblAo());
+		this.setResizable(false);
+		
+		//partes de modelo vista controlador 
+		controlador = new registerController(this);
 	}
 	
 	
 
 	
-	private JButton getBtnAceptar() {
+	public JButton getBtnAceptar() {
 		if (btnAceptar == null) {
 			btnAceptar = new JButton("Aceptar");
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					boolean correct = true;
-					boolean sexMale = false;
-					ParticipantDto part = null;
-					
-					//comprobar que los campos de texto esta completos como deben
-					String aviso = "";	//se almacenara la informacion incorrecta
-					if(getTextNombre().getText().trim().length() == 0) {
-						aviso += "El nombre es un campo obligatorio\n";
-						correct = false;
-					}
-					if(getTextApellidos().getText().trim().length() == 0) {
-						aviso += "El apellido es un campo obligatorio\n";
-						correct = false;
-					}
-					if(getTextMail().getText().trim().length() == 0) {
-						aviso += "El Mail es un campo obligatorio\n";
-						correct = false;
-					}
-					else if(!checkMail()) {
-						aviso += "Un usuario con el E-Mail introducido ya esta registrado como usuario\n";
-						getTextMail().setText("");
-						correct = false;
-					}
-					if(getTextDNI().getText().trim().length() == 0) {
-						aviso += "El DNI es un campo obligatorio\n";
-						correct = false;
-					}
-					else if(!checkDni()) {
-						aviso += "Un usuario con el DNI introducido ya esta registrado como usuario\n";
-						correct = false;
-					}
-					if(!checkAnoValido()) {
-						aviso += "No ha seleccionado una fecha valida\n";
-						correct = false;
-					}
-					if(rdbtnH.isSelected()) {
-						sexMale = true;
-						
-					}
-					else if(rdbtnM.isSelected()) {
-						sexMale = false;
-					}
-					else {
-						aviso += "Debe de seleccionar el sexo\n";
-						correct = false;
-					}
-					
-					//deprecated
-					Date date = new Date(Integer.parseInt(getTextAno().getText()),
-										Integer.parseInt(getTextMes().getText()),
-										Integer.parseInt(getTextDia().getText()));
-					if(correct) {	//si esta correcto tenemos que añadir la entrada a la base de datos
-						part = new ParticipantDto(getTextNombre().getText(), getTextApellidos().getText(),
-								getTextDNI().getText(), getTextMail().getText(), date, sexMale);
-						ParticipantModel.addParticipant(part);
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Hay campos incorrectos, reviselos y vuelva a pulsar el boton aceptar\n" + aviso);
-					}
+					aceptarAction();
 				}
+
+				
+				
 			});
 			btnAceptar.setBounds(67, 328, 114, 36);
 		}
 		return btnAceptar;
 	}
-	protected boolean checkAnoValido() {
-		return TimeUtil.chechDate(textAno.getText(), textMes.getText(), textDia.getText());
-	}
-
-	protected boolean checkDni() {
-		return ParticipantModel.checkDni( getTextDNI().getText());
-	}
-
-	protected boolean checkMail() {
-		return ParticipantModel.checkMail(getTextMail().getText());
+	
+	protected void aceptarAction() {
+		controlador.aceptarAction(this);
+		
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			btnCancelar.setBounds(265, 328, 114, 36);
 		}
 		return btnCancelar;
@@ -225,7 +158,7 @@ public class RegisterFrame extends JFrame {
 	}
 	private JLabel getLblNombre() {
 		if (lblNombre == null) {
-			lblNombre = new JLabel("Nombre");
+			lblNombre = new JLabel("Nombre:");
 			lblNombre.setLabelFor(getTextNombre());
 			lblNombre.setBounds(67, 121, 127, 21);
 		}
@@ -233,7 +166,7 @@ public class RegisterFrame extends JFrame {
 	}
 	private JLabel getLblApellidos() {
 		if (lblApellidos == null) {
-			lblApellidos = new JLabel("Apellidos");
+			lblApellidos = new JLabel("Apellidos:");
 			lblApellidos.setLabelFor(lblApellidos);
 			lblApellidos.setBounds(67, 153, 127, 21);
 		}
@@ -241,20 +174,20 @@ public class RegisterFrame extends JFrame {
 	}
 	private JLabel getLblSexo() {
 		if (lblSexo == null) {
-			lblSexo = new JLabel("Sexo");
+			lblSexo = new JLabel("Sexo:");
 			lblSexo.setBounds(67, 185, 127, 21);
 		}
 		return lblSexo;
 	}
 	private JLabel getLblCorreoelectronico() {
 		if (lblCorreoelectronico == null) {
-			lblCorreoelectronico = new JLabel("Correo Electronico");
+			lblCorreoelectronico = new JLabel("Correo ElectrÃ³nico:");
 			lblCorreoelectronico.setLabelFor(getTextMail());
-			lblCorreoelectronico.setBounds(67, 217, 127, 21);
+			lblCorreoelectronico.setBounds(67, 217, 147, 21);
 		}
 		return lblCorreoelectronico;
 	}
-	private JTextField getTextDNI() {
+	public JTextField getTextDNI() {
 		if (textDNI == null) {
 			textDNI = new JTextField();
 			textDNI.setBounds(204, 89, 198, 20);
@@ -262,7 +195,7 @@ public class RegisterFrame extends JFrame {
 		}
 		return textDNI;
 	}
-	private JTextField getTextNombre() {
+	public JTextField getTextNombre() {
 		if (textNombre == null) {
 			textNombre = new JTextField();
 			textNombre.setColumns(10);
@@ -270,7 +203,7 @@ public class RegisterFrame extends JFrame {
 		}
 		return textNombre;
 	}
-	private JTextField getTextApellidos() {
+	public JTextField getTextApellidos() {
 		if (textApellidos == null) {
 			textApellidos = new JTextField();
 			textApellidos.setColumns(10);
@@ -278,7 +211,7 @@ public class RegisterFrame extends JFrame {
 		}
 		return textApellidos;
 	}
-	private JTextField getTextMail() {
+	public JTextField getTextMail() {
 		if (textMail == null) {
 			textMail = new JTextField();
 			textMail.setColumns(10);
@@ -320,7 +253,7 @@ public class RegisterFrame extends JFrame {
 		}
 		return lblRegistroParticipante;
 	}
-	private JTextField getTextAno() {
+	public JTextField getTextAno() {
 		if (textAno == null) {
 			textAno = new JTextField();
 			textAno.setBounds(364, 249, 38, 20);
@@ -328,7 +261,7 @@ public class RegisterFrame extends JFrame {
 		}
 		return textAno;
 	}
-	private JTextField getTextMes() {
+	public JTextField getTextMes() {
 		if (textMes == null) {
 			textMes = new JTextField();
 			textMes.setColumns(10);
@@ -336,11 +269,11 @@ public class RegisterFrame extends JFrame {
 		}
 		return textMes;
 	}
-	private JTextField getTextDia() {
+	public JTextField getTextDia() {
 		if (textDia == null) {
 			textDia = new JTextField();
 			textDia.setColumns(10);
-			textDia.setBounds(224, 249, 30, 20);
+			textDia.setBounds(230, 250, 30, 20);
 		}
 		return textDia;
 	}
@@ -348,7 +281,7 @@ public class RegisterFrame extends JFrame {
 		if (lblD == null) {
 			lblD = new JLabel("dia");
 			lblD.setLabelFor(getTextDia());
-			lblD.setBounds(204, 249, 20, 20);
+			lblD.setBounds(204, 249, 30, 20);
 		}
 		return lblD;
 	}
@@ -368,4 +301,18 @@ public class RegisterFrame extends JFrame {
 		}
 		return lblAo;
 	}
+
+	public void reset() {
+		getTextAno().setText("");
+		getTextDia().setText("");
+		getTextMes().setText("");
+		getTextApellidos().setText("");
+		getTextDNI().setText("");
+		getTextMail().setText("");
+		getTextNombre().setText("");
+		getRdbtnH().setSelected(false);
+		getRdbtnM().setSelected(false);
+		
+	}
+
 }

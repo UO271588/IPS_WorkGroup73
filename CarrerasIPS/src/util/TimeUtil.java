@@ -5,7 +5,7 @@ import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
+import java.time.Period;
 import java.util.Date;
 
 public class TimeUtil {
@@ -44,6 +44,7 @@ public class TimeUtil {
 	 * @return
 	 */
 	public static String DateToSQL(Date date) {
+		@SuppressWarnings("deprecation")
 		String Sdate = date.getYear()+ "-" + date.getMonth() + "-" + date.getDate();
 		return Sdate;
 	}
@@ -64,6 +65,21 @@ public class TimeUtil {
 	public static String dateToIsoString(Date javaDate) {
 		Format formatter = new SimpleDateFormat("yyyy-MM-dd");
 		return formatter.format(javaDate);
+	}
+	
+
+	/**
+	 * Recibe una fecha y comprueba si alguien nacido en esa fecha es mayor de edad
+	 * @param birthday
+	 * @return
+	 */
+	public static boolean isAdult(Date birthday) {
+		
+		Date date = new Date();
+		date.setYear(date.getYear() - 18);
+		System.out.println(birthday);
+		System.out.println(date);
+		return !date.before(birthday);
 	}
 	
 
