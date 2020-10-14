@@ -11,6 +11,7 @@ import dbAccess.CompetitionsAccess;
 
 public class Main {
 
+<<<<<<< HEAD
 	public static void main( String args[] ) {
 		Connection c = null;    
 
@@ -29,8 +30,11 @@ public class Main {
 
 	}
 
+=======
+>>>>>>> refs/remotes/origin/master
 	@SuppressWarnings("deprecation")
 	private static void addData(Connection c) throws SQLException {
+<<<<<<< HEAD
 
 		Statement stmt = c.createStatement();
 		stmt = c.createStatement();
@@ -47,6 +51,11 @@ public class Main {
 		CompetitionsAccess ca = new CompetitionsAccess();
 		RaceDto carrera = new RaceDto();
 		carrera.id = "3";
+=======
+		CompetitionsAccess ca = new CompetitionsAccess();
+		RaceDto carrera = new RaceDto();
+		carrera.id = "2";
+>>>>>>> refs/remotes/origin/master
 		carrera.nombre = "Carrera Prueba 2";
 		carrera.tipo = "CIUDAD";
 		carrera.distancia = 15;
