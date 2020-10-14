@@ -1,6 +1,5 @@
 package business.participant;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class ParticipantDto {

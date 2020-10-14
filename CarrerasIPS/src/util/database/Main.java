@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
+
+import business.race.RaceDto;
+import dbAccess.CompetitionsAccess;
 
 public class Main {
 	
@@ -25,18 +29,21 @@ public class Main {
 	     
 	   }
 
+	@SuppressWarnings("deprecation")
 	private static void addData(Connection c) throws SQLException {
-		Statement stmt = c.createStatement();
-		stmt = c.createStatement();
-        String sql = "INSERT INTO competition (IDcompetition,NAME,TIPO,DISTANCE,InscriptionFee,InscriptionDateEnd,CompetitionDate) " +
-                       "VALUES (0000001, 'Carrera peq nicolas', 'CIUDAD', 20, 10,2020-11-7, 2020-11-14);"; 
-        stmt.execute(sql);
-        sql = "INSERT INTO competition (IDcompetition,NAME,TIPO,DISTANCE,InscriptionFee,InscriptionDateEnd,CompetitionDate) " +
-                "VALUES (0000002, 'Ruta Picos', 'RUTA', 10, 20,2020-12-1, 2020-12-10);"; 
-        stmt.execute(sql);
-        sql = "INSERT INTO PARTICIPANTE (DNI,NAME,SURNAME,EMAIL,SEX,BIRTHDATE) " +
-        		"VALUES ('000000001A', 'Francisco', 'Franco Bahamonte', 'paquito@movimiento.es', 'HOMBRE', 1975-11-20);"; 
-stmt.execute(sql);
+		CompetitionsAccess ca = new CompetitionsAccess();
+		RaceDto carrera = new RaceDto();
+		carrera.id = "2";
+		carrera.nombre = "Carrera Prueba 2";
+		carrera.tipo = "CIUDAD";
+		carrera.distancia = 15;
+		carrera.precioInscripcion = 7;
+		carrera.fechaLimite = new java.sql.Date(new Date(119,10,7).getTime()).toLocalDate();
+		carrera.fechaCarrera = new java.sql.Date(new Date(119,10,10).getTime()).toLocalDate();
+		ca.addRace(carrera);
+		
+		
+	
         System.out.println("added Data sucess");
 	}
 
@@ -48,7 +55,7 @@ stmt.execute(sql);
                        " TIPO   		VARCHAR(20)  NOT NULL CHECK(TIPO IN ('RUTA','CIUDAD')), " +
                        " DISTANCE            INT     NOT NULL, " + 
                        " InscriptionFee       INT     NOT NULL, " + 
-                       " InscriptionDateEnd   DATE     , " + 
+                       " InscriptionDateEnd   DATE    , " + 
                        " CompetitionDate   DATE     )"; 
         stmt.executeUpdate(sql);
         sql = "CREATE TABLE PARTICIPANTE " +

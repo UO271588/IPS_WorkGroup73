@@ -3,10 +3,11 @@ package business.race;
 import java.time.LocalDate;
 
 public class RaceDto implements Comparable<RaceDto> {
+	public String id;
 	public String nombre;
 	public String tipo;
-	public double distancia;
-	public double precioInscripcion;
+	public int distancia;
+	public int precioInscripcion;
 	public LocalDate fechaLimite;
 	public LocalDate fechaCarrera;
 	

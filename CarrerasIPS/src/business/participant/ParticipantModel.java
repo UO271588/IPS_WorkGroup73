@@ -1,14 +1,8 @@
 package business.participant;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Date;
-
-import org.sqlite.JDBC;
 
 import dbAccess.ParticipantAccess;
-import util.databse.DbUtil;
 
 public class ParticipantModel {
 

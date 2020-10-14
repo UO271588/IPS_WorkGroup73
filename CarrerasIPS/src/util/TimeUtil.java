@@ -3,8 +3,6 @@ package util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Date;
 
 public class TimeUtil {
@@ -42,6 +40,7 @@ public class TimeUtil {
 	 * @return
 	 */
 	public static String DateToSQL(Date date) {
+		@SuppressWarnings("deprecation")
 		String Sdate = date.getYear()+ "-" + date.getMonth() + "-" + date.getDate();
 		return Sdate;
 	}

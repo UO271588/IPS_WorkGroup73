@@ -3,17 +3,9 @@ package ui;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -30,6 +22,10 @@ import dbAccess.CompetitionsAccess;
 
 public class RacesFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField Titulo;
 	private JPanel panel;
@@ -53,7 +49,6 @@ public class RacesFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	public RacesFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 603, 405);
@@ -99,8 +94,9 @@ public class RacesFrame extends JFrame {
 
 	public void crearPanelesCarrera(List<RaceDto> carreras) {
 		for (RaceDto carrera : carreras) {
-			if (carrera.fechaCarrera.compareTo(new Date(System.currentTimeMillis()).toInstant()
-					.atZone(ZoneId.systemDefault()).toLocalDate()) > 0) {
+			if (carrera.fechaCarrera.compareTo(new java.util.Date().toInstant()
+				      .atZone(ZoneId.systemDefault())
+				      .toLocalDate()) > 0) {
 				JPanel panelCarrera = new JPanel();
 				JTextField txtNombre = new JTextField();
 				JTextField txtTipo = new JTextField();
