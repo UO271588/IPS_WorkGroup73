@@ -6,13 +6,17 @@ import java.util.Date;
 public class ParticipantDto {
 
 	
-	private String name;
-	private String surname;
-	private String dni;
-	private String mail;
-	private Date birthday;
-	private boolean sexMale;	//true es hombre, false es mujer
+	public String name;
+	public String surname;
+	public String dni;
+	public String mail;
+	public Date birthday;
+	public boolean sexMale;	//true es hombre, false es mujer
 	
+	
+	public ParticipantDto() {
+		super();
+	}
 	
 	public ParticipantDto(String name, String surname, String dni, String mail, Date birthday, boolean sexMale) {
 		super();

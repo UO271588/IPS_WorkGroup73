@@ -43,6 +43,10 @@ public class Main {
 		sql = "INSERT INTO PARTICIPANTE (DNI,NAME,SURNAME,EMAIL,SEX,BIRTHDATE) " +
 				"VALUES ('000000001A', 'Francisco', 'Franco Bahamonte', 'paquito@movimiento.es', 'HOMBRE', 1975-11-20);"; 
 		stmt.execute(sql);
+		sql = "INSERT INTO INSCRIPCION (DNI,IDcompetition,INSCRIPTIONDATE,CATEGORY,INSCRIPTIONSTATE) " +
+				"VALUES ('000000001A', 0000001, 2020-12-1, 'veterano a', 'PENDIENTE');"; 
+		stmt.execute(sql);
+		
 		System.out.println("added Data sucess");
 		CompetitionsAccess ca = new CompetitionsAccess();
 		RaceDto carrera = new RaceDto();
