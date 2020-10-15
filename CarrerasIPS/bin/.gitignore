@@ -1,12 +1,15 @@
 /ui/
 /util/
 /business/
-<<<<<<< HEAD
-<<<<<<< HEAD
-/controller/
+/dbAccess/
+/img/
 /model/
+<<<<<<< HEAD
 =======
 >>>>>>> refs/remotes/origin/master
 =======
 >>>>>>> refs/remotes/origin/master
 /resources/
+=======
+/parser/
+>>>>>>> refs/remotes/origin/master
