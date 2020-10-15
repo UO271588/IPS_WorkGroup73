@@ -34,7 +34,7 @@ import util.UnexpectedException;
  * de resultsets, su mapeo a objetos y las excepciones permitiendo un codigo mucho mas limpio 
  * en las clases de la capa de negocio y DAOs.
  */
-public abstract class DbUtil {
+public abstract class DbUtilEjemplo {
 	/** Obtencion de la url de conexion que debe implementarse en la subclase */
 	public abstract String getUrl();
 	

@@ -13,7 +13,7 @@ import util.ApplicationException;
  * Encapsula los datos de acceso JDBC, lectura de la configuracion
  * y scripts de base de datos para creacion y carga.
  */
-public class Database extends DbUtil {
+public class Database extends DbUtilEjemplo {
 	//Localizacion de ficheros de configuracion y carga de bases de datos
 	private static final String APP_PROPERTIES = "src/main/resources/application.properties";
 	private static final String SQL_SCHEMA = "src/main/resources/schema.sql";
