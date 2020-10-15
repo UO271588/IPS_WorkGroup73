@@ -13,35 +13,13 @@ import util.TimeUtil;
 public class ParticipantAccess {
 	
 	
-	private static final String SQL_INSERT_PARTICIPANT = "INSERT INTO PARTICIPANTE (DNI,NAME,SURNAME,EMAIL,SEX,BIRTHDATE) " +
-    		"VALUES (?, ?, ?, ?, ?, ?);"; 
+
 	
 	private static final String SQL_SELECT_DNI = "SELECT * FROM PARTICIPANTE WHERE DNI = ?"; 
 	private static final String SQL_SELECT_MAIL = "SELECT * FROM PARTICIPANTE WHERE EMAIL = ?"; 
 
 	public static void addParticipant(ParticipantDto part) throws SQLException {
-		Connection con = DbUtil.getConnection();
-		PreparedStatement pst = con.prepareStatement(SQL_INSERT_PARTICIPANT);
-		pst.setString(1, part.getDni());
-		pst.setString(2, part.getName());
-		pst.setString(3, part.getSurname());
-		pst.setString(4, part.getMail());
 		
-		
-		String sex;
-		if(part.isSexMale()) {
-			sex = "HOMBRE";
-		}
-		else {
-			sex = "MUJER";
-		}
-		
-		pst.setString(5, sex);
-		pst.setString(6, TimeUtil.DateToSQL(part.getBirthday()));
-		//pst.setString(5, "1975-11-20");
-		pst.executeUpdate();
-		pst.close();
-		con.close();
 		
 	}
 	

@@ -136,8 +136,8 @@ public class VentanaCompeticiones extends JFrame {
 				carrera.nombre = rs.getString("NAME");
 				carrera.tipo = rs.getString("TIPO");
 				carrera.distancia = rs.getString("DISTANCE");
-				carrera.precioInscripcion = rs.getString("INCRIPTIONFEE");
-				carrera.fechaLimite = rs.getString("INCRIPTIONDATEEND");
+				carrera.precioInscripcion = rs.getString("INSCRIPTIONFEE");
+				carrera.fechaLimite = rs.getString("INSCRIPTIONDATEEND");
 				carrera.fechaCarrera = rs.getString("COMPETITIONDATE");
 				carreras.add(carrera);
 			}

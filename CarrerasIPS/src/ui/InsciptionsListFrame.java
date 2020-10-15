@@ -43,14 +43,7 @@ public class InsciptionsListFrame extends JFrame {
 	private JLabel lblCategoria;
 	private JLabel lblFecha;
 	private JLabel lblNewLabel;
-	private JPanel panel_2;
 	private InscriptionListController controller;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_2;
-	private JLabel lblNewLabel_3;
-	private JLabel lblNewLabel_4;
-	private JLabel lblNewLabel_5;
-	private JLabel lblNewLabel_6;
 
 	/**
 	 * Launch the application.
