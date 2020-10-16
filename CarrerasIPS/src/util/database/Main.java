@@ -19,7 +19,7 @@ public class Main {
 			c = DriverManager.getConnection("jdbc:sqlite:test.db");//esta linea crea la base de datos en caso de que no exista
 			System.out.println("Opened database successfully");
 
-			createTables(c);
+			//createTables(c);
 			addData(c);
 			c.close();
 		} catch ( Exception e ) {
@@ -47,16 +47,15 @@ public class Main {
 				"VALUES ('000000001A', 0000001, 2020-12-1, 'veterano a', 'PENDIENTE');"; 
 		stmt.execute(sql);
 		
-		System.out.println("added Data sucess");
 		CompetitionsAccess ca = new CompetitionsAccess();
 		RaceDto carrera = new RaceDto();
-		carrera.id = "3";
+		carrera.id = "2";
 		carrera.nombre = "Carrera Prueba 2";
 		carrera.tipo = "CIUDAD";
 		carrera.distancia = 15;
 		carrera.precioInscripcion = 7;
-		carrera.fechaLimite = new java.sql.Date(new Date(119,10,7).getTime()).toLocalDate();
-		carrera.fechaCarrera = new java.sql.Date(new Date(119,10,10).getTime()).toLocalDate();
+		carrera.fechaLimite = new Date(2020,11,12);
+		carrera.fechaCarrera =new Date(2020,11,30);
 		ca.addRace(carrera);
 		
 		

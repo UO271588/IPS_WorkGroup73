@@ -1,7 +1,4 @@
-/ui/
-/util/
 /business/
 /dbAccess/
-/img/
-/model/
-/parser/
+/ui/
+/util/

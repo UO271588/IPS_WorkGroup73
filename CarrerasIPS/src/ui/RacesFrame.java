@@ -4,8 +4,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 import business.race.RaceDto;
 import dbAccess.CompetitionsAccess;
+import util.TimeUtil;
 
 public class RacesFrame extends JFrame {
 
@@ -94,9 +97,7 @@ public class RacesFrame extends JFrame {
 
 	public void crearPanelesCarrera(List<RaceDto> carreras) {
 		for (RaceDto carrera : carreras) {
-			if (carrera.fechaCarrera.compareTo(new java.util.Date().toInstant()
-				      .atZone(ZoneId.systemDefault())
-				      .toLocalDate()) > 0) {
+			if (carrera.fechaCarrera.compareTo(Calendar.getInstance().getTime()) > 0) {
 				JPanel panelCarrera = new JPanel();
 				JTextField txtNombre = new JTextField();
 				JTextField txtTipo = new JTextField();
@@ -131,13 +132,13 @@ public class RacesFrame extends JFrame {
 				txtCuota.setHorizontalAlignment(JTextField.CENTER);
 
 				// Creacion textField fechaLimite inscripcion
-				txtFechaInscripcion.setText(carrera.fechaLimite.toString());
+				txtFechaInscripcion.setText(TimeUtil.dateToIsoString(carrera.fechaLimite));
 				panelCarrera.add(txtFechaInscripcion);
 //			txtFechaInscripcion.setColumns(8);
 				txtFechaInscripcion.setHorizontalAlignment(JTextField.CENTER);
 
 				// Creacion textField fechaCompeticion
-				txtFechaCarrera.setText(carrera.fechaCarrera.toString());
+				txtFechaCarrera.setText(TimeUtil.dateToIsoString(carrera.fechaCarrera));
 				panelCarrera.add(txtFechaCarrera);
 //			txtFechaCarrera.setColumns(8);
 				txtFechaCarrera.setHorizontalAlignment(JTextField.CENTER);
