@@ -1,7 +1,6 @@
-/ui/
-/util/
 /business/
 /dbAccess/
+<<<<<<< HEAD
 /img/
 /model/
 <<<<<<< HEAD
@@ -14,3 +13,7 @@
 /parser/
 >>>>>>> refs/remotes/origin/master
 /controller/
+=======
+/ui/
+/util/
+>>>>>>> branch 'master' of https://github.com/UO271588/IPS_WorkGroup73.git

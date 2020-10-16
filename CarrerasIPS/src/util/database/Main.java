@@ -18,8 +18,7 @@ public class Main {
 			createTables();
 			addData();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
 		
 //		Connection c = null;    
@@ -58,8 +57,7 @@ public class Main {
 //		sql = "INSERT INTO INSCRIPCION (DNI,IDcompetition,INSCRIPTIONDATE,CATEGORY,INSCRIPTIONSTATE) " +
 //				"VALUES ('000000001A', 0000001, 2020-12-1, 'veterano a', 'PENDIENTE');"; 
 //		stmt.execute(sql);
-		
-		
+
 		
 		
 	

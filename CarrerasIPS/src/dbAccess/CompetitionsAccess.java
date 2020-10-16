@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import business.race.RaceDto;
+import util.TimeUtil;
 
 public class CompetitionsAccess {
 	
@@ -25,8 +26,8 @@ public class CompetitionsAccess {
 			pst.setString(3, carrera.tipo);
 			pst.setInt(4, carrera.distancia);
 			pst.setInt(5, carrera.precioInscripcion);
-			pst.setDate(6, java.sql.Date.valueOf(carrera.fechaLimite));
-			pst.setDate(7, java.sql.Date.valueOf(carrera.fechaLimite));
+			pst.setString(6, TimeUtil.DateToSQL(carrera.fechaLimite));
+			pst.setString(7,  TimeUtil.DateToSQL(carrera.fechaLimite));
 			
 			pst.executeUpdate();
 			
@@ -56,8 +57,8 @@ public class CompetitionsAccess {
 			pst.setString(2, carrera.tipo);
 			pst.setInt(3, carrera.distancia);
 			pst.setInt(4, carrera.precioInscripcion);
-			pst.setDate(5, java.sql.Date.valueOf(carrera.fechaLimite));
-			pst.setDate(6, java.sql.Date.valueOf(carrera.fechaLimite));
+			pst.setString(5, TimeUtil.DateToSQL(carrera.fechaLimite));
+			pst.setString(6, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setString(7, carrera.id);
 			
 			pst.executeUpdate();
@@ -95,8 +96,8 @@ public class CompetitionsAccess {
 				carrera.tipo = rs.getString("TIPO");
 				carrera.distancia = rs.getInt("DISTANCE");
 				carrera.precioInscripcion = rs.getInt("INSCRIPTIONFEE");
-				carrera.fechaLimite = rs.getDate("InscriptionDateEnd").toLocalDate();
-				carrera.fechaCarrera = rs.getDate("CompetitionDate").toLocalDate();
+				carrera.fechaLimite = TimeUtil.isoStringToDate(rs.getString("InscriptionDateEnd"));
+				carrera.fechaCarrera = TimeUtil.isoStringToDate(rs.getString("CompetitionDate"));
 				carreras.add(carrera);
 			}
 		} catch (SQLException e) {
