@@ -23,9 +23,13 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import business.race.RaceDto;
+import controller.CarreraDto;
 import controller.InscriptionListController;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class InsciptionsListFrame extends JFrame {
 
@@ -44,6 +48,7 @@ public class InsciptionsListFrame extends JFrame {
 	private JLabel lblFecha;
 	private JLabel lblNewLabel;
 	private InscriptionListController controller;
+	private RaceDto carrera;
 
 	/**
 	 * Launch the application.
@@ -52,7 +57,10 @@ public class InsciptionsListFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InsciptionsListFrame frame = new InsciptionsListFrame();
+					RaceDto race = new RaceDto();
+					race.id = "1";
+					race.nombre = "carrera guapa";
+					InsciptionsListFrame frame = new InsciptionsListFrame(race);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +72,8 @@ public class InsciptionsListFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InsciptionsListFrame() {
+	public InsciptionsListFrame(RaceDto carrera) {
+		this.carrera = carrera;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 751, 467);
 		contentPane = new JPanel();
@@ -74,7 +83,7 @@ public class InsciptionsListFrame extends JFrame {
 		contentPane.add(getScrollPane(), BorderLayout.CENTER);
 		contentPane.add(getPanel(), BorderLayout.SOUTH);
 		contentPane.add(getPnlNorth(), BorderLayout.NORTH);
-		controller = new InscriptionListController(this);
+		controller = new InscriptionListController(this, carrera);
 		controller.loadRows();
 	}
 
@@ -101,6 +110,11 @@ public class InsciptionsListFrame extends JFrame {
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("Atras");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.exit();
+				}
+			});
 		}
 		return btnNewButton;
 	}
@@ -113,7 +127,7 @@ public class InsciptionsListFrame extends JFrame {
 	}
 	private JLabel getLblParticipantes() {
 		if (lblParticipantes == null) {
-			lblParticipantes = new JLabel("Participantes");
+			lblParticipantes = new JLabel("Participantes  carrera:" + carrera.nombre);
 			lblParticipantes.setFont(new Font("Arial", Font.BOLD, 23));
 		}
 		return lblParticipantes;
@@ -180,7 +194,7 @@ public class InsciptionsListFrame extends JFrame {
 	}
 	private JLabel getLblFecha() {
 		if (lblFecha == null) {
-			lblFecha = new JLabel("Fecha");
+			lblFecha = new JLabel("Fecha Inscrip.");
 			lblFecha.setBorder(new LineBorder(new Color(0, 0, 0)));
 			lblFecha.setHorizontalAlignment(SwingConstants.CENTER);
 			lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 13));

@@ -2,15 +2,16 @@ package model.inscription;
 
 import java.time.LocalDate;
 
-import business.race.RaceDto;
+import util.TimeUtil;
 
+import java.util.Date;
 public class InscriptionDto implements Comparable<InscriptionDto>{
 	public String idCompetition;
 	public String dni;
-	public String nombre;	// (opcional) se pone el nombre(del participante) para facilitar la consultad de atletas inscritos en carrera
+	public String name;	// (opcional) se pone el nombre(del participante) para facilitar la consultad de atletas inscritos en carrera
 	public String Category;
-	public String inscriptionState;
-	public LocalDate inscriptionDate;
+	private String inscriptionState;
+	public String inscriptionDate;
 	
 	
 	@Override
@@ -52,13 +53,13 @@ public class InscriptionDto implements Comparable<InscriptionDto>{
 	}
 
 
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String nombre) {
+		this.name = nombre;
 	}
 
 
@@ -80,14 +81,13 @@ public class InscriptionDto implements Comparable<InscriptionDto>{
 	public void setInscriptionState(String inscriptionState) {
 		this.inscriptionState = inscriptionState;
 	}
-
-
-	public LocalDate getInscriptionDate() {
+	public String getInscriptionDate() {
 		return inscriptionDate;
 	}
-
-
-	public void setInscriptionDate(LocalDate inscriptionDate) {
+	public void setInscriptionDate(String inscriptionDate) {
 		this.inscriptionDate = inscriptionDate;
 	}
+
+
+
 }

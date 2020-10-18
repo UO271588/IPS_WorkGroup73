@@ -16,7 +16,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import business.race.RaceDto;
 import model.inscription.InscriptionDto;
+import model.inscription.InscriptionModel;
 import ui.InsciptionsListFrame;
 import ui.RegisterFrame;
 
@@ -25,156 +27,25 @@ public class InscriptionListController {
 	
 	
 	InsciptionsListFrame vista;
+	private RaceDto carrera;
 
-	public InscriptionListController(InsciptionsListFrame vent) {
+	public InscriptionListController(InsciptionsListFrame vent, RaceDto carrera) {
 		this.vista = vent;
+		this.carrera = carrera;
 	}
 	public void loadRows() {
-		InscriptionDto dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		InscriptionDto dto2 = new InscriptionDto();
-		dto2.Category = "gola2";
-		dto2.dni = "232";
-		dto2.nombre = "pepe2";
-		dto2.inscriptionDate = LocalDate.now();
-		dto2.inscriptionState = "PAGADO2";
+		InscriptionModel model = new InscriptionModel();
 		
-		List<InscriptionDto> list = new ArrayList<InscriptionDto>();
-		list.add(dto);
-		list.add(dto2);
 		
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.of(1456, 11, 12);
-		dto.inscriptionState = "pendiente";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "Pendiente";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
-		dto = new InscriptionDto();
-		dto.Category = "gola";
-		dto.dni = "23";
-		dto.nombre = "pepe";
-		dto.inscriptionDate = LocalDate.now();
-		dto.inscriptionState = "PAGADO";
-		list.add(dto);
+		List<InscriptionDto> list = model.getInscriptionList(carrera.id);
 		
+		for(InscriptionDto dto : list) {
+			System.out.println(list.size());
+			System.out.println(dto.name);
+			System.out.println(dto.getInscriptionDate());
+	}
 		createList(list);
+		
 	}
 	
 	private void createList(List<InscriptionDto> list) {
@@ -182,8 +53,11 @@ public class InscriptionListController {
 		Collections.sort(list);
 		JPanel panel = vista.getPnlViewportCenter();
 		for(InscriptionDto dto : list) {
-
+			
 			panel.setLayout(new GridLayout(rows++, 0, 0, 0));
+			if(rows <10) {	//para que las filas no sean demasiado grandes y siga quedando bien
+				panel.setLayout(new GridLayout(10, 0, 0, 0));
+			}
 			panel.add(createRow(dto));
 		}
 		
@@ -205,7 +79,7 @@ public class InscriptionListController {
 		lbl.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(lbl);
 		lbl = new JLabel();
-		lbl.setText(inscription.nombre);
+		lbl.setText(inscription.name);
 		lbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -217,17 +91,21 @@ public class InscriptionListController {
 		lbl.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(lbl);
 		lbl = new JLabel();
-		lbl.setText(inscription.inscriptionDate.toString());
+		lbl.setText(inscription.getInscriptionDate().toString());
 		lbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(lbl);
 		lbl = new JLabel();
-		lbl.setText(inscription.inscriptionState.toString());
+		lbl.setText(inscription.getInscriptionState().toString());
 		lbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(lbl);
 		return panel;
+	}
+	public void exit() {
+		vista.dispose();
+		
 	}
 }
