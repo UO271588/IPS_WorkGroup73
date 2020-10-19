@@ -26,7 +26,7 @@ CREATE TABLE INSCRIPCION  (DNI  VARCHAR(20)  NOT NULL,
                 IDcompetition  VARCHAR(20) NOT NULL,
                 INSCRIPTIONDATE DATE NOT NULL,
                 CATEGORY           VARCHAR(20)    NOT NULL, 
-                INSCRIPTIONSTATE        VARCHAR(20)    NOT NULL check(INSCRIPTIONSTATE in ('PAGADO','PENDIENTE')), 
+                INSCRIPTIONSTATE        VARCHAR(20)    NOT NULL check(INSCRIPTIONSTATE in ('PAGADO','PENDIENTE','PRE-INSCRITO')), 
                 PRIMARY KEY (DNI,IDcompetition),
                 CONSTRAINT fk_DNI FOREIGN  KEY  (dni) REFERENCES  participante(dni),
                 CONSTRAINT fk_idcomp FOREIGN  KEY  (idcompetition) references competition(IDCompetition));

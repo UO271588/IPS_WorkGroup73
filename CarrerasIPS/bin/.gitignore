@@ -1,4 +1,8 @@
-/model/
+/business/
 /controller/
-/ui/
 /dbAccess/
+/img/
+/model/
+/parser/
+/ui/
+/util/
