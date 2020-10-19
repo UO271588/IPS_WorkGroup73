@@ -9,17 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import business.race.RaceDto;
+import util.DbUtil;
 import util.TimeUtil;
+import util.UnexpectedException;
 
 public class CompetitionsAccess {
-	
-	public void addRace(RaceDto carrera){
+
+	public void addRace(RaceDto carrera) {
 		String SQL = "insert into competition (idcompetition,name,tipo,distance,inscriptionfee,inscriptiondateend,competitiondate) values (?,?,?,?,?,?,?);";
 		PreparedStatement pst = null;
 		Connection c = null;
 		try {
 			c = DriverManager.getConnection("jdbc:sqlite:test.db");
-			
+
 			pst = c.prepareStatement(SQL);
 			pst.setString(1, carrera.id);
 			pst.setString(2, carrera.nombre);
@@ -27,14 +29,14 @@ public class CompetitionsAccess {
 			pst.setInt(4, carrera.distancia);
 			pst.setInt(5, carrera.precioInscripcion);
 			pst.setString(6, TimeUtil.DateToSQL(carrera.fechaLimite));
-			pst.setString(7,  TimeUtil.DateToSQL(carrera.fechaLimite));
-			
+			pst.setString(7, TimeUtil.DateToSQL(carrera.fechaLimite));
+
 			pst.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
 				pst.close();
 				c.close();
@@ -44,14 +46,14 @@ public class CompetitionsAccess {
 			}
 		}
 	}
-	
-	public void updateRace(RaceDto carrera){
+
+	public void updateRace(RaceDto carrera) {
 		String SQL = "	update competition set name = ?, tipo = ?, distance = ?, inscriptionfee = ?, inscriptiondateend = ?, competitiondate = ? where idcompetition = ?;";
 		PreparedStatement pst = null;
 		Connection c = null;
 		try {
 			c = DriverManager.getConnection("jdbc:sqlite:test.db");
-			
+
 			pst = c.prepareStatement(SQL);
 			pst.setString(1, carrera.nombre);
 			pst.setString(2, carrera.tipo);
@@ -60,13 +62,13 @@ public class CompetitionsAccess {
 			pst.setString(5, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setString(6, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setString(7, carrera.id);
-			
+
 			pst.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
 				pst.close();
 				c.close();
@@ -76,21 +78,21 @@ public class CompetitionsAccess {
 			}
 		}
 	}
-	
-	public List<RaceDto> findAllRaces(){
+
+	public List<RaceDto> findAllRaces() {
 		List<RaceDto> carreras = new ArrayList<RaceDto>();
 		String SQL = "SELECT * FROM competition";
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		Connection c  = null;
+		Connection c = null;
 		try {
-			c= DriverManager.getConnection("jdbc:sqlite:test.db");
-			
+			c = DriverManager.getConnection("jdbc:sqlite:test.db");
+
 			pst = c.prepareStatement(SQL);
-			
+
 			rs = pst.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				RaceDto carrera = new RaceDto();
 				carrera.nombre = rs.getString("NAME");
 				carrera.tipo = rs.getString("TIPO");
@@ -103,7 +105,7 @@ public class CompetitionsAccess {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
 				rs.close();
 				pst.close();
@@ -113,11 +115,6 @@ public class CompetitionsAccess {
 				e.printStackTrace();
 			}
 		}
-		
 		return carreras;
 	}
-	
-	
-	
-	
 }

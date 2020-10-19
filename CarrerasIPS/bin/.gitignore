@@ -1,19 +1,2 @@
-/business/
-/dbAccess/
-<<<<<<< HEAD
-/img/
-/model/
-<<<<<<< HEAD
-=======
->>>>>>> refs/remotes/origin/master
-=======
->>>>>>> refs/remotes/origin/master
-/resources/
-=======
-/parser/
->>>>>>> refs/remotes/origin/master
-/controller/
-=======
-/ui/
 /util/
->>>>>>> branch 'master' of https://github.com/UO271588/IPS_WorkGroup73.git
+/dbAccess/
