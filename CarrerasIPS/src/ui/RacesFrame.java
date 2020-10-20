@@ -3,6 +3,8 @@ package ui;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Collections;
@@ -20,7 +22,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import business.race.RaceDto;
+import controller.InscripcionController;
 import dbAccess.CompetitionsAccess;
+
+import model.inscription.InscriptionModel;
 import util.TimeUtil;
 
 public class RacesFrame extends JFrame {
@@ -147,7 +152,25 @@ public class RacesFrame extends JFrame {
 				btnRegistro.setText("Registrarse");
 				panelCarrera.add(btnRegistro);
 				btnRegistro.setHorizontalAlignment(JTextField.CENTER);
-
+				btnRegistro.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						EventQueue.invokeLater(new Runnable() {
+							public void run() {
+								try {
+									InscriptionModel im = new InscriptionModel(carrera.nombre);
+								      InscripcionFrame iv = new InscripcionFrame(carrera.nombre);
+								      InscripcionController ic = new InscripcionController(im, iv);
+								      iv.setVisible(true);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						});
+					}
+				});
+						
+						
+		    
 				panel.add(panelCarrera);
 			}
 		}

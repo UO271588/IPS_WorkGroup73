@@ -38,12 +38,7 @@ public class InscriptionListController {
 		
 		
 		List<InscriptionDto> list = model.getInscriptionList(carrera.id);
-		
-		for(InscriptionDto dto : list) {
-			System.out.println(list.size());
-			System.out.println(dto.name);
-			System.out.println(dto.getInscriptionDate());
-	}
+
 		createList(list);
 		
 	}
