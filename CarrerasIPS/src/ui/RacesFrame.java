@@ -1,6 +1,8 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,12 +16,14 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import business.race.RaceDto;
 import controller.InscripcionController;
@@ -27,6 +31,7 @@ import dbAccess.CompetitionsAccess;
 
 import model.inscription.InscriptionModel;
 import util.TimeUtil;
+import java.awt.BorderLayout;
 
 public class RacesFrame extends JFrame {
 
@@ -37,6 +42,13 @@ public class RacesFrame extends JFrame {
 	private JPanel contentPane;
 	private JTextField Titulo;
 	private JPanel panel;
+	private JPanel pnlNorth;
+	private JLabel lblNombre;
+	private JLabel lblDistancia;
+	private JLabel lblTipo;
+	private JLabel lblCuota;
+	private JLabel lblFechaInscripcion;
+	private JLabel lblFechaCarrera;
 
 	/**
 	 * Launch the application.
@@ -59,7 +71,7 @@ public class RacesFrame extends JFrame {
 	 */
 	public RacesFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 603, 405);
+		setBounds(100, 100, 763, 406);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -77,12 +89,17 @@ public class RacesFrame extends JFrame {
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(10, 51, 567, 304);
+		scrollPane.setBounds(10, 51, 727, 304);
 		contentPane.add(scrollPane);
 
+		JPanel panelCentral = new JPanel();
+		scrollPane.setViewportView(panelCentral);
+		panelCentral.setLayout(new BorderLayout(0, 0));
+
 		panel = new JPanel();
+		panelCentral.add(getPnlNorth(),BorderLayout.NORTH);
+		panelCentral.add(panel, BorderLayout.CENTER);
 		panel.setBorder(null);
-		scrollPane.setViewportView(panel);
 
 		CompetitionsAccess ca = new CompetitionsAccess();
 		List<RaceDto> carreras = ca.findAllRaces();
@@ -95,15 +112,21 @@ public class RacesFrame extends JFrame {
 
 			}
 		});
-		panel.setLayout(new GridLayout(0, 1, 0, carreras.size()));
+		panel.setLayout(new GridLayout(carreras.size(), 1, 0, 0));
+		if (carreras.size() < 10) {
+			panel.setLayout(new GridLayout(10, 0, 0, 0));
+		}
+		
 		crearPanelesCarrera(carreras);
 
 	}
 
 	public void crearPanelesCarrera(List<RaceDto> carreras) {
 		for (RaceDto carrera : carreras) {
-			if (carrera.fechaCarrera.compareTo(Calendar.getInstance().getTime()) > 0) {
+			if (carrera.fechaCarrera.compareTo(Calendar.getInstance().getTime()) > 0
+					&& carrera.fechaLimite.compareTo(Calendar.getInstance().getTime()) > 0) {
 				JPanel panelCarrera = new JPanel();
+				panelCarrera.setLayout(new GridLayout(0,7,0,0));
 				JTextField txtNombre = new JTextField();
 				JTextField txtTipo = new JTextField();
 				JTextField txtDistancia = new JTextField();
@@ -152,15 +175,20 @@ public class RacesFrame extends JFrame {
 				btnRegistro.setText("Registrarse");
 				panelCarrera.add(btnRegistro);
 				btnRegistro.setHorizontalAlignment(JTextField.CENTER);
+				if (carrera.aforoActual >= carrera.aforoMax) {
+					btnRegistro.disable();
+				} else {
+					btnRegistro.enable();
+				}
 				btnRegistro.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						EventQueue.invokeLater(new Runnable() {
 							public void run() {
 								try {
 									InscriptionModel im = new InscriptionModel(carrera.nombre);
-								      InscripcionFrame iv = new InscripcionFrame(carrera.nombre);
-								      InscripcionController ic = new InscripcionController(im, iv);
-								      iv.setVisible(true);
+									InscripcionFrame iv = new InscripcionFrame(carrera.nombre);
+									InscripcionController ic = new InscripcionController(im, iv);
+									iv.setVisible(true);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
@@ -168,12 +196,86 @@ public class RacesFrame extends JFrame {
 						});
 					}
 				});
-						
-						
-		    
+
 				panel.add(panelCarrera);
 			}
 		}
 	}
 
+	private JPanel getPnlNorth() {
+		if (pnlNorth == null) {
+			pnlNorth = new JPanel();
+			pnlNorth.setAutoscrolls(true);
+			pnlNorth.setBorder(new EmptyBorder(1, 0, 1, 0));
+			pnlNorth.setLayout(new GridLayout(0,7,0,0));
+			pnlNorth.add(getLblNombre());
+			pnlNorth.add(getLblTipo());
+			pnlNorth.add(getLblDistancia());
+			pnlNorth.add(getLblCuota());
+			pnlNorth.add(getLblFechaInscripcion());
+			pnlNorth.add(getLblFechaCarrera());
+		}
+		return pnlNorth;
+	}
+
+	private JLabel getLblNombre() {
+		if (lblNombre == null) {
+			lblNombre = new JLabel("Nombre");
+			lblNombre.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		}
+		return lblNombre;
+	}
+
+	private JLabel getLblTipo() {
+		if (lblTipo == null) {
+			lblTipo = new JLabel("Tipo");
+			lblTipo.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblTipo.setHorizontalAlignment(SwingConstants.CENTER);
+			lblTipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		}
+		return lblTipo;
+	}
+
+	private JLabel getLblCuota() {
+		if (lblCuota == null) {
+			lblCuota = new JLabel("Cuota");
+			lblCuota.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblCuota.setHorizontalAlignment(SwingConstants.CENTER);
+			lblCuota.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		}
+		return lblCuota;
+	}
+
+	private JLabel getLblDistancia() {
+		if (lblDistancia == null) {
+			lblDistancia = new JLabel("Distancia");
+			lblDistancia.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblDistancia.setHorizontalAlignment(SwingConstants.CENTER);
+			lblDistancia.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lblDistancia.setSize(40, getHeight());;
+		}
+		return lblDistancia;
+	}
+
+	private JLabel getLblFechaInscripcion() {
+		if (lblFechaInscripcion == null) {
+			lblFechaInscripcion = new JLabel("Fecha Inscripcion");
+			lblFechaInscripcion.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblFechaInscripcion.setHorizontalAlignment(SwingConstants.CENTER);
+			lblFechaInscripcion.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		}
+		return lblFechaInscripcion;
+	}
+
+	private JLabel getLblFechaCarrera() {
+		if (lblFechaCarrera == null) {
+			lblFechaCarrera = new JLabel("Fecha Carrera");
+			lblFechaCarrera.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblFechaCarrera.setHorizontalAlignment(SwingConstants.CENTER);
+			lblFechaCarrera.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		}
+		return lblFechaCarrera;
+	}
 }

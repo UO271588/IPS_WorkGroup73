@@ -18,6 +18,9 @@ import javax.swing.JDialog;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
+
+import business.race.RaceDto;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.JLabel;
 
@@ -110,7 +113,9 @@ public class TransactionFrame extends JFrame {
 	
 	public void lanzarVentanas() {
 		if(opcion == TRANSFERENCIA) {
-			BankAccountFrame baf= new BankAccountFrame(this);
+			//Provisional
+			RaceDto carrera = new RaceDto();
+			BankAccountFrame baf= new BankAccountFrame(this,carrera);
 			baf.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			baf.setVisible(true);
 		}

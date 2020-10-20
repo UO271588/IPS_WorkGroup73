@@ -10,6 +10,8 @@ public class RaceDto implements Comparable<RaceDto> {
 	public int precioInscripcion;
 	public Date fechaLimite;
 	public Date fechaCarrera;
+	public int aforoMax;
+	public int aforoActual;
 	
 	@Override
 	public int compareTo(RaceDto o) {
