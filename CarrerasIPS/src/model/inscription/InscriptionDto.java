@@ -1,5 +1,6 @@
 package model.inscription;
 
+import java.sql.Time;
 import java.time.LocalDate;
 
 import util.TimeUtil;
@@ -19,7 +20,7 @@ public class InscriptionDto implements Comparable<InscriptionDto>{
 	 * Utilizado para ordenar listasde inscripciones
 	 */
 	public int compareTo( InscriptionDto ins) {
-		if(this.inscriptionDate.compareTo(ins.inscriptionDate) == 0) {
+		if(this.getInscriptionDateAsDate().compareTo(ins.getInscriptionDateAsDate()) == 0) {
 			return this.inscriptionState.compareTo(ins.inscriptionState);
 		}
 		
@@ -86,6 +87,10 @@ public class InscriptionDto implements Comparable<InscriptionDto>{
 	}
 	public void setInscriptionDate(String inscriptionDate) {
 		this.inscriptionDate = inscriptionDate;
+	}
+	
+	public Date getInscriptionDateAsDate() {
+		return TimeUtil.isoStringToDate(inscriptionDate);
 	}
 
 
