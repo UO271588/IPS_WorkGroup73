@@ -13,9 +13,14 @@ import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
+
+import business.race.RaceDto;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.JLabel;
 
@@ -28,6 +33,7 @@ public class TransactionFrame extends JFrame {
 	private JPanel panel;
 	private int opcion = 0;
 	private JLabel lblTransaction;
+	private final static int TRANSFERENCIA = 1;
 
 	/**
 	 * Launch the application.
@@ -96,7 +102,7 @@ public class TransactionFrame extends JFrame {
 			btnOk = new JButton("Aceptar\r\n");
 			btnOk.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					lanzarVentanas();
 				}
 			});
 			btnOk.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -104,6 +110,17 @@ public class TransactionFrame extends JFrame {
 		}
 		return btnOk;
 	}
+	
+	public void lanzarVentanas() {
+		if(opcion == TRANSFERENCIA) {
+			//Provisional
+			RaceDto carrera = new RaceDto();
+			BankAccountFrame baf= new BankAccountFrame(this,carrera);
+			baf.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			baf.setVisible(true);
+		}
+	}
+	
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
