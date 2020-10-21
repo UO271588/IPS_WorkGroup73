@@ -8,6 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import business.race.RaceDto;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class InscripcionFrame extends JFrame {
 
 	/**
@@ -23,16 +28,15 @@ public class InscripcionFrame extends JFrame {
 	private JButton btnInscribirse;
 	private JTextField fechaHoy;
 	private String nombreCarrera;
+	private RaceDto carrera;
+	private JButton btnPagar;
 
-	
-	
-
-	
 	/**
 	 * Create the frame.
-	 * @param nombreCarrera 
+	 * 
+	 * @param nombreCarrera
 	 */
-	public InscripcionFrame(String nombreCarrera) {
+	public InscripcionFrame(RaceDto carrera) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -46,9 +50,12 @@ public class InscripcionFrame extends JFrame {
 		contentPane.add(getTextFieldNombreCompeticion());
 		contentPane.add(getBtnInscribirse());
 		contentPane.add(getFechaHoy());
-		this.nombreCarrera=nombreCarrera;
+		this.nombreCarrera = carrera.nombre;
+		this.carrera = carrera;
 		textFieldNombreCompeticion.setText(nombreCarrera);
+		contentPane.add(getBtnPagar());
 	}
+
 	public JLabel getLblFichaInscripcionAtleta() {
 		if (lblFichaInscripcionAtleta == null) {
 			lblFichaInscripcionAtleta = new JLabel("FICHA INSCRIPCION ATLETA");
@@ -56,6 +63,7 @@ public class InscripcionFrame extends JFrame {
 		}
 		return lblFichaInscripcionAtleta;
 	}
+
 	public JLabel getLblEmail() {
 		if (lblEmail == null) {
 			lblEmail = new JLabel("email:");
@@ -63,6 +71,21 @@ public class InscripcionFrame extends JFrame {
 		}
 		return lblEmail;
 	}
+
+	public JButton getBtnPagar() {
+		if (btnPagar == null) {
+			btnPagar = new JButton("PAGAR");
+			btnPagar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					TransactionFrame tf = new TransactionFrame(carrera);
+					tf.setVisible(true);
+				}
+			});
+			btnPagar.setBounds(214, 205, 89, 23);
+		}
+		return btnPagar;
+	}
+
 	public JLabel getLblNombreCompeticion() {
 		if (lblNombreCompeticion == null) {
 			lblNombreCompeticion = new JLabel("nombre Competicion:");
@@ -70,6 +93,7 @@ public class InscripcionFrame extends JFrame {
 		}
 		return lblNombreCompeticion;
 	}
+
 	public JTextField getTextFieldEmail() {
 		if (textFieldEmail == null) {
 			textFieldEmail = new JTextField();
@@ -78,21 +102,22 @@ public class InscripcionFrame extends JFrame {
 		}
 		return textFieldEmail;
 	}
+
 	public JTextField getTextFieldNombreCompeticion() {
 		if (textFieldNombreCompeticion == null) {
 			textFieldNombreCompeticion = new JTextField();
 			textFieldNombreCompeticion.setBounds(164, 126, 162, 20);
 			textFieldNombreCompeticion.setColumns(10);
 			textFieldNombreCompeticion.setEditable(false);
-			
+
 		}
 		return textFieldNombreCompeticion;
 	}
+
 	public JButton getBtnInscribirse() {
 		if (btnInscribirse == null) {
 			btnInscribirse = new JButton("INSCRIBIRSE");
-			
-			
+
 			btnInscribirse.setBounds(313, 205, 111, 23);
 		}
 		return btnInscribirse;
@@ -100,8 +125,9 @@ public class InscripcionFrame extends JFrame {
 
 	public void setFechaHoy(String fecha) {
 		fechaHoy.setText(fecha.toString());
-		
+
 	}
+
 	public JTextField getFechaHoy() {
 		if (fechaHoy == null) {
 			fechaHoy = new JTextField();
@@ -112,19 +138,12 @@ public class InscripcionFrame extends JFrame {
 		return fechaHoy;
 	}
 
-	
 	public boolean comprobarCampos() {
-		if(textFieldEmail.getText().isEmpty()) {
+		if (textFieldEmail.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Introduzca un email porfavor");
 			return false;
 		}
-		
+
 		return true;
 	}
-		
-	
-		
-		
-		
-
 }

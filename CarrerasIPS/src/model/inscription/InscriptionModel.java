@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 
+import business.race.RaceDto;
 import util.ApplicationException;
 import util.DbUtil;
 import util.Justificante;
@@ -39,11 +40,11 @@ public class InscriptionModel {
 		String nombreCarrera;
 
 
-		public InscriptionModel(String nombreCarrera) {
+		public InscriptionModel(RaceDto carrera) {
 			fecha_hoy = dateToIsoString(date_hoy);
 
 			cal_hoy.setTime(date_hoy);
-			this.nombreCarrera=nombreCarrera;
+			this.nombreCarrera=carrera.nombre;
 
 		}
 

@@ -176,17 +176,17 @@ public class RacesFrame extends JFrame {
 				panelCarrera.add(btnRegistro);
 				btnRegistro.setHorizontalAlignment(JTextField.CENTER);
 				if (carrera.aforoActual >= carrera.aforoMax) {
-					btnRegistro.disable();
+					btnRegistro.setEnabled(false);
 				} else {
-					btnRegistro.enable();
+					btnRegistro.setEnabled(true);
 				}
 				btnRegistro.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						EventQueue.invokeLater(new Runnable() {
 							public void run() {
 								try {
-									InscriptionModel im = new InscriptionModel(carrera.nombre);
-									InscripcionFrame iv = new InscripcionFrame(carrera.nombre);
+									InscriptionModel im = new InscriptionModel(carrera);
+									InscripcionFrame iv = new InscripcionFrame(carrera);
 									InscripcionController ic = new InscripcionController(im, iv);
 									iv.setVisible(true);
 								} catch (Exception e) {

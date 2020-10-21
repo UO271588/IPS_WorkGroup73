@@ -13,7 +13,8 @@ CREATE TABLE competition (IDcompetition  VARCHAR(20) PRIMARY KEY     NOT NULL,
                         InscriptionFee       INT     NOT NULL, 
                         InscriptionDateEnd   DATE    , 
                         CompetitionDate   DATE     ,
-                        slots INT); 
+                        slots INT,
+                        actualSlots INT); 
 
 CREATE TABLE PARTICIPANTE (DNI  VARCHAR(20) PRIMARY KEY     NOT NULL,
                 NAME           VARCHAR(20)    NOT NULL,

@@ -14,7 +14,7 @@ import util.TimeUtil;
 public class CompetitionsAccess {
 	
 	public void addRace(RaceDto carrera){
-		String SQL = "insert into competition (idcompetition,name,tipo,distance,inscriptionfee,inscriptiondateend,competitiondate) values (?,?,?,?,?,?,?);";
+		String SQL = "insert into competition (idcompetition,name,tipo,distance,inscriptionfee,inscriptiondateend,competitiondate,slots,actualSlots) values (?,?,?,?,?,?,?,?,?);";
 		PreparedStatement pst = null;
 		Connection c = null;
 		try {
@@ -28,6 +28,8 @@ public class CompetitionsAccess {
 			pst.setInt(5, carrera.precioInscripcion);
 			pst.setString(6, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setString(7,  TimeUtil.DateToSQL(carrera.fechaLimite));
+			pst.setInt(8, carrera.aforoMax);
+			pst.setInt(9, carrera.aforoActual);
 			
 			pst.executeUpdate();
 			
@@ -46,7 +48,7 @@ public class CompetitionsAccess {
 	}
 	
 	public void updateRace(RaceDto carrera){
-		String SQL = "	update competition set name = ?, tipo = ?, distance = ?, inscriptionfee = ?, inscriptiondateend = ?, competitiondate = ? where idcompetition = ?;";
+		String SQL = "	update competition set name = ?, tipo = ?, distance = ?, inscriptionfee = ?, inscriptiondateend = ?, competitiondate = ? slots = ?,actualSlots = ?where idcompetition = ?;";
 		PreparedStatement pst = null;
 		Connection c = null;
 		try {
@@ -59,7 +61,9 @@ public class CompetitionsAccess {
 			pst.setInt(4, carrera.precioInscripcion);
 			pst.setString(5, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setString(6, TimeUtil.DateToSQL(carrera.fechaLimite));
-			pst.setString(7, carrera.id);
+			pst.setInt(7, carrera.aforoMax);
+			pst.setInt(8, carrera.aforoActual);
+			pst.setString(9, carrera.id);
 			
 			pst.executeUpdate();
 			
@@ -98,7 +102,10 @@ public class CompetitionsAccess {
 				carrera.precioInscripcion = rs.getInt("INSCRIPTIONFEE");
 				carrera.fechaLimite = TimeUtil.isoStringToDate(rs.getString("InscriptionDateEnd"));
 				carrera.fechaCarrera = TimeUtil.isoStringToDate(rs.getString("CompetitionDate"));
+				carrera.aforoMax = rs.getInt("slots");
+				carrera.aforoActual = rs.getInt("actualSlots");
 				carreras.add(carrera);
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -34,30 +34,16 @@ public class TransactionFrame extends JFrame {
 	private int opcion = 0;
 	private JLabel lblTransaction;
 	private final static int TRANSFERENCIA = 1;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TransactionFrame frame = new TransactionFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private RaceDto carrera;
 
 	/**
 	 * Create the frame.
 	 */
-	public TransactionFrame() {
+	public TransactionFrame(RaceDto carrera) {
 		setTitle("Metodos de Pago");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 561, 389);
+		this.carrera = carrera;
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -113,8 +99,6 @@ public class TransactionFrame extends JFrame {
 	
 	public void lanzarVentanas() {
 		if(opcion == TRANSFERENCIA) {
-			//Provisional
-			RaceDto carrera = new RaceDto();
 			BankAccountFrame baf= new BankAccountFrame(this,carrera);
 			baf.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			baf.setVisible(true);

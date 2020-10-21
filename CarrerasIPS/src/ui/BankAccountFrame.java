@@ -22,7 +22,8 @@ public class BankAccountFrame extends JDialog {
 	private JTextField tfNumeroCuenta;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JFrame padre = null;
+	private JFrame padre;
+	private RaceDto carrera;
 
 	/**
 	 * Create the dialog.
@@ -30,6 +31,7 @@ public class BankAccountFrame extends JDialog {
 	public BankAccountFrame(JFrame padre, RaceDto carrera) {
 		setTitle("Informacion para el abono");
 		this.padre = padre;
+		this.carrera = carrera;
 		setBounds(100, 100, 450, 224);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -56,7 +58,7 @@ public class BankAccountFrame extends JDialog {
 		textField.setBounds(129, 64, 86, 20);
 		contentPanel.add(textField);
 		textField.setColumns(10);
-		textField.setText(0+ "€");
+		textField.setText(carrera.precioInscripcion+"€");
 
 		JLabel lblFechalimite = new JLabel("Fecha limite:");
 		lblFechalimite.setBounds(28, 98, 92, 14);
@@ -67,7 +69,7 @@ public class BankAccountFrame extends JDialog {
 		textField_1.setBounds(130, 95, 86, 20);
 		contentPanel.add(textField_1);
 		textField_1.setColumns(10);
-		textField_1.setText( "2020-10-11");
+		textField_1.setText( carrera.fechaLimite+"");
 
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
