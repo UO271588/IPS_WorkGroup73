@@ -171,7 +171,7 @@ public class RegisterFrame extends JFrame {
 	}
 	private JLabel getLblCorreoelectronico() {
 		if (lblCorreoelectronico == null) {
-			lblCorreoelectronico = new JLabel("Correo Electrónico:");
+			lblCorreoelectronico = new JLabel("Correo Electronico:");
 			lblCorreoelectronico.setLabelFor(getTextMail());
 			lblCorreoelectronico.setBounds(67, 217, 147, 21);
 		}
