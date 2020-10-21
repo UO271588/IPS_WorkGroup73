@@ -8,7 +8,7 @@ drop table INSCRIPCION;
 
 CREATE TABLE competition (IDcompetition  VARCHAR(20) PRIMARY KEY     NOT NULL,
                         NAME           VARCHAR(20)    NOT NULL,                      
-                        TIPO   		VARCHAR(20)  NOT NULL CHECK(TIPO IN ('RUTA','CIUDAD')), 
+                        TIPO   		VARCHAR(20)  NOT NULL CHECK(TIPO IN ('MONTANA','ASFALTO')), 
                         DISTANCE            INT     NOT NULL,
                         InscriptionFee       INT     NOT NULL, 
                         InscriptionDateEnd   DATE    , 

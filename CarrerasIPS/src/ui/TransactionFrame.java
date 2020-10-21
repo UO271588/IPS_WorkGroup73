@@ -35,11 +35,13 @@ public class TransactionFrame extends JFrame {
 	private JLabel lblTransaction;
 	private final static int TRANSFERENCIA = 1;
 	private RaceDto carrera;
+	private String email;
 
 	/**
 	 * Create the frame.
 	 */
-	public TransactionFrame(RaceDto carrera) {
+	public TransactionFrame(RaceDto carrera, String email) {
+		this.email = email;
 		setTitle("Metodos de Pago");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 561, 389);
@@ -99,7 +101,7 @@ public class TransactionFrame extends JFrame {
 	
 	public void lanzarVentanas() {
 		if(opcion == TRANSFERENCIA) {
-			BankAccountFrame baf= new BankAccountFrame(this,carrera);
+			BankAccountFrame baf= new BankAccountFrame(this,carrera,email);
 			baf.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			baf.setVisible(true);
 		}

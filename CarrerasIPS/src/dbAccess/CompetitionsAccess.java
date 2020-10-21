@@ -96,6 +96,7 @@ public class CompetitionsAccess {
 			
 			while(rs.next()) {
 				RaceDto carrera = new RaceDto();
+				carrera.id = rs.getString("IDCOMPETITION");
 				carrera.nombre = rs.getString("NAME");
 				carrera.tipo = rs.getString("TIPO");
 				carrera.distancia = rs.getInt("DISTANCE");

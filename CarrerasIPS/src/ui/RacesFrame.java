@@ -188,6 +188,7 @@ public class RacesFrame extends JFrame {
 									InscriptionModel im = new InscriptionModel(carrera);
 									InscripcionFrame iv = new InscripcionFrame(carrera);
 									InscripcionController ic = new InscripcionController(im, iv);
+									System.out.println(carrera.id);
 									iv.setVisible(true);
 								} catch (Exception e) {
 									e.printStackTrace();

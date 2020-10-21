@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import business.race.RaceDto;
+import model.inscription.InscriptionModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -24,14 +25,16 @@ public class BankAccountFrame extends JDialog {
 	private JTextField textField_1;
 	private JFrame padre;
 	private RaceDto carrera;
+	private String email;
 
 	/**
 	 * Create the dialog.
 	 */
-	public BankAccountFrame(JFrame padre, RaceDto carrera) {
+	public BankAccountFrame(JFrame padre, RaceDto carrera,String email) {
 		setTitle("Informacion para el abono");
 		this.padre = padre;
 		this.carrera = carrera;
+		this.email = email;
 		setBounds(100, 100, 450, 224);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -78,13 +81,20 @@ public class BankAccountFrame extends JDialog {
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				padre.dispose();
-				dispose();
+				accionBotonOk();
 			}
 		});
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
 
+	}
+	
+	
+	public void accionBotonOk() {
+		String dni = InscriptionModel.getDni(email);
+		InscriptionModel.updateEstado("PENDIENTE", dni, carrera.id);
+		padre.dispose();
+		dispose();
 	}
 }

@@ -39,7 +39,8 @@ public class Main {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void addData() throws SQLException {
+	public
+	static void addData() throws SQLException {
 
 		Database db = new Database();
 		db.loadDatabase();
@@ -64,7 +65,7 @@ public class Main {
         System.out.println("added Data sucess");
 	}
 
-	private static void createTables() throws SQLException {
+	public static void createTables() throws SQLException {
 		Database db = new Database();
 		db.createDatabase(true);
 		System.out.println("Tables Created Sucessfully");

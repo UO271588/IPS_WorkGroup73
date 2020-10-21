@@ -3,13 +3,13 @@
 	
 	
 INSERT INTO competition (IDcompetition,NAME,TIPO,DISTANCE,InscriptionFee,InscriptionDateEnd,CompetitionDate,slots,actualSlots)
-				VALUES (1, 'Carrera peq nicolas', 'CIUDAD', 20, 10,'2020-11-7', '2020-11-14',30,20); 
+				VALUES (1, 'Carrera peq nicolas', 'ASFALTO', 20, 10,'2020-11-7', '2020-11-14',30,20); 
 
 INSERT INTO competition (IDcompetition,NAME,TIPO,DISTANCE,InscriptionFee,InscriptionDateEnd,CompetitionDate,slots,actualSlots) 
-				VALUES (2, 'Ruta Picos', 'RUTA', 10, 20,'2020-12-1', '2020-12-10',30,30);
+				VALUES (2, 'Ruta Picos', 'MONTANA', 10, 20,'2020-12-1', '2020-12-10',30,30);
 
 insert into competition(IDcompetition, name, tipo, distance, inscriptionFee, inscriptiondateend, competitiondate,slots,actualSlots) values
-		('3', 'Carrera Prueba 2', 'CIUDAD', 15, 7, '2019-10-7', '2019-10-10',20,10);
+		('3', 'Carrera Prueba 2', 'ASFALTO', 15, 7, '2019-10-7', '2019-10-10',20,10);
 
 
 

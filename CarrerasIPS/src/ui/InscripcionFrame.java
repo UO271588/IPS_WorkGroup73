@@ -9,9 +9,12 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import business.race.RaceDto;
+import model.inscription.InscriptionModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class InscripcionFrame extends JFrame {
 
@@ -77,8 +80,14 @@ public class InscripcionFrame extends JFrame {
 			btnPagar = new JButton("PAGAR");
 			btnPagar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					TransactionFrame tf = new TransactionFrame(carrera);
-					tf.setVisible(true);
+					if (InscriptionModel.existeYaInscripcion(InscriptionModel.getDni(textFieldEmail.getText()),
+							carrera.nombre)) {
+						comprobarCampos();
+						TransactionFrame tf = new TransactionFrame(carrera, textFieldEmail.getText());
+						tf.setVisible(true);
+					}else {
+						JOptionPane.showMessageDialog(null, "No estas inscrito en la competicion");
+					}
 				}
 			});
 			btnPagar.setBounds(214, 205, 89, 23);
