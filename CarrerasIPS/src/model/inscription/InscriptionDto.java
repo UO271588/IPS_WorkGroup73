@@ -21,10 +21,10 @@ public class InscriptionDto implements Comparable<InscriptionDto>{
 	 */
 	public int compareTo( InscriptionDto ins) {
 		if(this.getInscriptionDateAsDate().compareTo(ins.getInscriptionDateAsDate()) == 0) {
-			return this.inscriptionState.compareTo(ins.inscriptionState);
+			return this.getInscriptionDateAsDate().compareTo(ins.getInscriptionDateAsDate());
 		}
 		
-		return this.inscriptionDate.compareTo(ins.inscriptionDate);
+		return this.getInscriptionDateAsDate().compareTo(ins.getInscriptionDateAsDate());
 		
 	}
 	
