@@ -13,8 +13,10 @@ import javax.swing.border.EmptyBorder;
 
 import business.race.RaceDto;
 import model.inscription.InscriptionModel;
+import util.TimeUtil;
 
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class BankAccountFrame extends JDialog {
@@ -72,7 +74,10 @@ public class BankAccountFrame extends JDialog {
 		textField_1.setBounds(130, 95, 86, 20);
 		contentPanel.add(textField_1);
 		textField_1.setColumns(10);
-		textField_1.setText( carrera.fechaLimite+"");
+		
+		Date fechaActual = new Date();
+		fechaActual.setDate(new Date().getDate()+2);
+		textField_1.setText(TimeUtil.dateToIsoString(fechaActual));
 
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

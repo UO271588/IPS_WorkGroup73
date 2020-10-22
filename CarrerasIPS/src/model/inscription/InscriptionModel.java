@@ -22,8 +22,8 @@ import util.database.Database;
 public class InscriptionModel {
 
 	Justificante j = new Justificante();
-	String fecha_hoy = "2020-10-22";
-	Date date_hoy = TimeUtil.isoStringToDate(fecha_hoy);
+	String fecha_hoy;
+	Date date_hoy = new Date();
 	Calendar cal_hoy = Calendar.getInstance();
 	Calendar cal_birthdate;
 	String nombreCarrera;
