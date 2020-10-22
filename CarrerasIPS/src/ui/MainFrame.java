@@ -23,6 +23,7 @@ public class MainFrame extends JFrame {
 	private JButton btnAministradorDeCarreras;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_1_1;
+	private JButton btnNewButton_2;
 
 	/**
 	 * Launch the application.
@@ -54,6 +55,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(getBtnAministradorDeCarreras());
 		contentPane.add(getBtnNewButton_1());
 		contentPane.add(getBtnNewButton_1_1());
+		contentPane.add(getBtnNewButton_2());
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
@@ -125,5 +127,18 @@ public class MainFrame extends JFrame {
 			btnNewButton_1_1.setBounds(358, 292, 175, 53);
 		}
 		return btnNewButton_1_1;
+	}
+	
+	private JButton getBtnNewButton_2() {
+		if (btnNewButton_2 == null) {
+			btnNewButton_2 = new JButton("Registrarse");
+			btnNewButton_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new RegisterFrame().setVisible(true);
+				}
+			});
+			btnNewButton_2.setBounds(266, 11, 124, 30);
+		}
+		return btnNewButton_2;
 	}
 }
