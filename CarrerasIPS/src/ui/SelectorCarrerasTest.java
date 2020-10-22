@@ -26,6 +26,7 @@ public class SelectorCarrerasTest extends JFrame {
 	private JLabel lblNewLabel;
 	private JTextField textField;
 	private JButton btnNewButton;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Launch the application.
@@ -56,6 +57,7 @@ public class SelectorCarrerasTest extends JFrame {
 		contentPane.add(getLblNewLabel());
 		contentPane.add(getTextField());
 		contentPane.add(getBtnNewButton());
+		contentPane.add(getBtnNewButton_1());
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
@@ -88,7 +90,7 @@ public class SelectorCarrerasTest extends JFrame {
 					new InsciptionsListFrame(carrera).setVisible(true);;
 				}
 			});
-			btnNewButton.setBounds(108, 186, 170, 23);
+			btnNewButton.setBounds(68, 157, 170, 23);
 		}
 		return btnNewButton;
 	}
@@ -106,5 +108,17 @@ public class SelectorCarrerasTest extends JFrame {
 		dto.nombre = rs.getString(1);
 		System.out.println(dto.id + " " +  dto.nombre);
 		return dto;
+	}
+	private JButton getBtnNewButton_1() {
+		if (btnNewButton_1 == null) {
+			btnNewButton_1 = new JButton("Registrarse");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new RegisterFrame().setVisible(true);
+				}
+			});
+			btnNewButton_1.setBounds(266, 11, 124, 30);
+		}
+		return btnNewButton_1;
 	}
 }
