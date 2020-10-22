@@ -37,9 +37,8 @@ public class InsciptionsListFrame extends JFrame {
 	private JLabel lblNombre;
 	private JLabel lblCategoria;
 	private JLabel lblFecha;
-	private JLabel lblNewLabel;
+	private JLabel lblEstado;
 	private InscriptionListController controller;
-	private RaceDto carrera;
 
 	/**
 	 * Launch the application.
@@ -51,7 +50,7 @@ public class InsciptionsListFrame extends JFrame {
 					RaceDto race = new RaceDto();
 					race.id = "1";
 					race.nombre = "carrera guapa";
-					InsciptionsListFrame frame = new InsciptionsListFrame(race);
+					InsciptionsListFrame frame = new InsciptionsListFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,8 +62,7 @@ public class InsciptionsListFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InsciptionsListFrame(RaceDto carrera) {
-		this.carrera = carrera;
+	public InsciptionsListFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 751, 467);
 		contentPane = new JPanel();
@@ -74,8 +72,8 @@ public class InsciptionsListFrame extends JFrame {
 		contentPane.add(getScrollPane(), BorderLayout.CENTER);
 		contentPane.add(getPanel(), BorderLayout.SOUTH);
 		contentPane.add(getPnlNorth(), BorderLayout.NORTH);
-		controller = new InscriptionListController(this, carrera);
-		controller.loadRows();
+		controller = new InscriptionListController(this);
+		//controller.loadParticipantRows();
 	}
 
 	private JScrollPane getScrollPane() {
@@ -94,18 +92,13 @@ public class InsciptionsListFrame extends JFrame {
 			panel = new JPanel();
 			panel.setBorder(new EmptyBorder(5, 0, 0, 0));
 			panel.setLayout(new GridLayout(0, 4, 0, 0));
-			panel.add(getBtnNewButton());
+			panel.add(getBtnVolver());
 		}
 		return panel;
 	}
-	private JButton getBtnNewButton() {
+	public JButton getBtnVolver() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("Atras");
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					controller.exit();
-				}
-			});
 		}
 		return btnNewButton;
 	}
@@ -116,9 +109,9 @@ public class InsciptionsListFrame extends JFrame {
 		}
 		return pnlNorth;
 	}
-	private JLabel getLblParticipantes() {
+	public JLabel getLblParticipantes() {
 		if (lblParticipantes == null) {
-			lblParticipantes = new JLabel("Participantes  carrera:" + carrera.nombre);
+			lblParticipantes = new JLabel("Carreras :");
 			lblParticipantes.setFont(new Font("Arial", Font.BOLD, 23));
 		}
 		return lblParticipantes;
@@ -143,7 +136,7 @@ public class InsciptionsListFrame extends JFrame {
 			pnlViewportNorth.add(getLblNombre());
 			pnlViewportNorth.add(getLblCategoria());
 			pnlViewportNorth.add(getLblFecha());
-			pnlViewportNorth.add(getLblNewLabel());
+			pnlViewportNorth.add(getLblEstado());
 		}
 		return pnlViewportNorth;
 	}
@@ -156,7 +149,7 @@ public class InsciptionsListFrame extends JFrame {
 		}
 		return pnlViewportCenter;
 	}
-	private JLabel getLblDni() {
+	public JLabel getLblDni() {
 		if (lblDni == null) {
 			lblDni = new JLabel("DNI");
 			lblDni.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -165,7 +158,7 @@ public class InsciptionsListFrame extends JFrame {
 		}
 		return lblDni;
 	}
-	private JLabel getLblNombre() {
+	public JLabel getLblNombre() {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre");
 			lblNombre.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -174,7 +167,7 @@ public class InsciptionsListFrame extends JFrame {
 		}
 		return lblNombre;
 	}
-	private JLabel getLblCategoria() {
+	public JLabel getLblCategoria() {
 		if (lblCategoria == null) {
 			lblCategoria = new JLabel("Categoria");
 			lblCategoria.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -183,7 +176,7 @@ public class InsciptionsListFrame extends JFrame {
 		}
 		return lblCategoria;
 	}
-	private JLabel getLblFecha() {
+	public JLabel getLblFecha() {
 		if (lblFecha == null) {
 			lblFecha = new JLabel("Fecha Inscrip.");
 			lblFecha.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -192,14 +185,14 @@ public class InsciptionsListFrame extends JFrame {
 		}
 		return lblFecha;
 	}
-	private JLabel getLblNewLabel() {
-		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("Estado");
-			lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	public JLabel getLblEstado() {
+		if (lblEstado == null) {
+			lblEstado = new JLabel("Estado");
+			lblEstado.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblEstado.setHorizontalAlignment(SwingConstants.CENTER);
+			lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
-		return lblNewLabel;
+		return lblEstado;
 	}
 	
 }

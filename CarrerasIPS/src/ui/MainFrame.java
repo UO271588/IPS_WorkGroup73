@@ -90,7 +90,7 @@ public class MainFrame extends JFrame {
 	}
 
 	protected void launchAdministrator() {
-		new SelectorCarrerasTest().setVisible(true);
+		new InsciptionsListFrame().setVisible(true);
 		this.setVisible(false);
 		
 	}

@@ -85,7 +85,7 @@ public class SelectorCarrerasTest extends JFrame {
 						e1.printStackTrace();
 					}
 					System.out.println(carrera.id + " " +  carrera.nombre);
-					new InsciptionsListFrame(carrera).setVisible(true);;
+					new InsciptionsListFrame().setVisible(true);;
 				}
 			});
 			btnNewButton.setBounds(68, 157, 170, 23);

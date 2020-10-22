@@ -93,6 +93,16 @@ public class registerController {
 					registerFrame.getTextDNI().getText(), registerFrame.getTextMail().getText(), birthday, sexMale);
 			ParticipantModel.addParticipant(part);
 			JOptionPane.showMessageDialog(null, "Participante introducido con exito");
+			String justificante = "---------------------------------------\n"+
+			"DNI: " + registerFrame.getTextDNI().getText() +
+			"\nNombre: " + registerFrame.getTextNombre().getText() +
+			"\nApellidos: " + registerFrame.getTextApellidos().getText() +
+			"\nCorreo Electronico: " + registerFrame.getTextMail().getText() +
+			"\nFecha Nacimiento: " + TimeUtil.dateToIsoString(birthday) +
+			"\nFecha Registro: " + TimeUtil.dateToIsoString(new Date()) +
+			"\n---------------------------------------";
+			System.out.println(justificante);
+			JOptionPane.showMessageDialog(null, justificante);
 			vista.reset();
 		}
 		else {

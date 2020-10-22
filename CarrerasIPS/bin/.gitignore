@@ -1,2 +1,8 @@
-/ui/
+/business/
+/controller/
+/dbAccess/
+/img/
 /model/
+/parser/
+/ui/
+/util/
