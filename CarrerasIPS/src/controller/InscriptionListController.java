@@ -73,7 +73,7 @@ public class InscriptionListController {
 		panel.removeAll();
 
 
-		System.out.println("crear la lista de Carreras, listeners: " + vista.getBtnVolver().getActionListeners().length);
+//		System.out.println("crear la lista de Carreras, listeners: " + vista.getBtnVolver().getActionListeners().length);
 		//si hay un action listener hay que eliminarlo para que solo haya una acion asociada al boton
 		resetBtn(vista.getBtnVolver());
 		vista.getBtnVolver().addActionListener(new ActionListener() {
@@ -170,7 +170,7 @@ public class InscriptionListController {
 		vista.getBtnVolver().addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("crear la lista de carreras, listeners: " + vista.getBtnVolver().getActionListeners().length);
+//				System.out.println("crear la lista de carreras, listeners: " + vista.getBtnVolver().getActionListeners().length);
 				loadRacesRows();				
 			}
 		});
