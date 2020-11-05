@@ -388,8 +388,8 @@ public class InscriptionModel {
 	 */
 	public List<InscriptionDto> getInscriptionList(String id) {
 
-		String sql = "select name,participante.dni, idcompetition, inscriptionDate,category, inscriptionstate"
-				+ " from INSCRIPTION, participante where participante.dni = inscripcion.dni and idcompetition = ?";
+		String sql = "select name,par.dni, idcompetition, INSCRIPTIONDATE,CATEGORY, INSCRIPTIONSTATE"
+				+ " from INSCRIPTION as ins, PARTICIPANT as par where par.dni = ins.dni and idcompetition = ?";
 		Database db = new Database();
 		return db.executeQueryPojo(InscriptionDto.class, sql, id);
 

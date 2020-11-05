@@ -99,13 +99,13 @@ public class CompetitionsAccess {
 				RaceDto carrera = new RaceDto();
 				carrera.id = rs.getString("IDCOMPETITION");
 				carrera.nombre = rs.getString("NAME");
-				carrera.tipo = rs.getString("TIPO");
+				carrera.tipo = rs.getString("COMPETITION_TYPE");
 				carrera.distancia = rs.getInt("DISTANCE");
-				carrera.precioInscripcion = rs.getInt("INSCRIPTIONFEE");
-				carrera.fechaLimite = TimeUtil.isoStringToDate(rs.getString("InscriptionDateEnd"));
-				carrera.fechaCarrera = TimeUtil.isoStringToDate(rs.getString("CompetitionDate"));
-				carrera.aforoMax = rs.getInt("slots");
-				carrera.aforoActual = rs.getInt("actualSlots");
+				carrera.precioInscripcion = rs.getInt("INSCRIPTION_FEE");
+				carrera.fechaLimite = TimeUtil.isoStringToDate(rs.getString("INSCRIPTION_DATE_END"));
+				carrera.fechaCarrera = TimeUtil.isoStringToDate(rs.getString("COMPETITION_DATE"));
+				carrera.aforoMax = rs.getInt("SLOTS");
+				//carrera.aforoActual = rs.getInt("actualSlots");	//esto ya lo existe
 				carreras.add(carrera);
 
 			}
