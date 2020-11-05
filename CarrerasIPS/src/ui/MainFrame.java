@@ -24,6 +24,7 @@ public class MainFrame extends JFrame {
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_1_1;
 	private JButton btnNewButton_2;
+	private JButton btnApuntados;
 
 	/**
 	 * Launch the application.
@@ -56,16 +57,17 @@ public class MainFrame extends JFrame {
 		contentPane.add(getBtnNewButton_1());
 		contentPane.add(getBtnNewButton_1_1());
 		contentPane.add(getBtnNewButton_2());
+		contentPane.add(getBtnApuntados());
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("Participante");
+			btnNewButton = new JButton("Inscripcion");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					launchParticipant();
 				}
 			});
-			btnNewButton.setBounds(358, 150, 175, 53);
+			btnNewButton.setBounds(394, 92, 139, 40);
 		}
 		return btnNewButton;
 	}
@@ -140,5 +142,17 @@ public class MainFrame extends JFrame {
 			btnNewButton_2.setBounds(266, 11, 124, 30);
 		}
 		return btnNewButton_2;
+	}
+	private JButton getBtnApuntados() {
+		if (btnApuntados == null) {
+			btnApuntados = new JButton("Car. Apuntadas");
+			btnApuntados.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new IdentificationFrame(new InscribedRacesFrame()).setVisible(true);;
+				}
+			});
+			btnApuntados.setBounds(394, 165, 139, 40);
+		}
+		return btnApuntados;
 	}
 }

@@ -2,32 +2,56 @@
 --(en este caso en cada una de las aplicaciones (tkrun y descuento) se usa solo una tabla, por lo que no hace falta)
 
 --Para giis.demo.tkrun:
-drop table competition;
-drop table PARTICIPANTE;
-drop table INSCRIPCION;
+drop table COMPETITION;
+drop table PARTICIPANT;
+drop table INSCRIPTION;
+drop table CATEGORY;
+drop table REL_CATEGORY_COMPETITION;
+drop table INSCRIPTION_DEADLINE;
 
-CREATE TABLE competition (IDcompetition  VARCHAR(20) PRIMARY KEY     NOT NULL,
-                        NAME           VARCHAR(20)    NOT NULL,                      
-                        TIPO   		VARCHAR(20)  NOT NULL CHECK(TIPO IN ('MONTANA','ASFALTO')), 
-                        DISTANCE            INT     NOT NULL,
-                        InscriptionFee       INT     NOT NULL, 
-                        InscriptionDateEnd   DATE    , 
-                        CompetitionDate   DATE     ,
-                        slots INT,
-                        actualSlots INT); 
+CREATE TABLE COMPETITION (IDCOMPETITION  VARCHAR(20) PRIMARY KEY     NOT NULL,
+                NAME           VARCHAR(20)    NOT NULL,                      
+                COMPETITION_TYPE   		VARCHAR(20)  NOT NULL CHECK(COMPETITION_TYPE IN ('MONTANA','ASFALTO')), 
+                DISTANCE            INT     NOT NULL,
+                INSCRIPTION_FEE       INT     NOT NULL, 
+                INSCRIPTION_DATE_END   DATE    , 
+                COMPETITION_DATE   DATE     ,
+                SLOTS INT NOT NULL); 
+						
+CREATE TABLE CATEGORY (IDCATEGORY VARCHAR(20) PRIMARY KEY NOT NULL,
+				SEX VARCHAR(8) NOT NULL CHECK(SEX IN ('HOMBRE','MUJER')),
+				NAME VARCHAR(20) NOT NULL,
+				INITIAL_AGE INT NOT NULL,
+				FINAL_AGE INT NOT NULL);
 
-CREATE TABLE PARTICIPANTE (DNI  VARCHAR(20) PRIMARY KEY     NOT NULL,
+CREATE TABLE PARTICIPANT (DNI  VARCHAR(20) PRIMARY KEY     NOT NULL,
                 NAME           VARCHAR(20)    NOT NULL,
                 SURNAME           VARCHAR(20)    NOT NULL,
                 EMAIL        VARCHAR(30)    NOT NULL,
                 SEX            VARCHAR(8)     NOT NULL CHECK(SEX IN ('HOMBRE','MUJER')),
                 BIRTHDATE       DATE     NOT NULL); 
 
-CREATE TABLE INSCRIPCION  (DNI  VARCHAR(20)  NOT NULL,
-                IDcompetition  VARCHAR(20) NOT NULL,
+CREATE TABLE INSCRIPTION (DNI  VARCHAR(20)  NOT NULL,
+                IDCOMPETITION  VARCHAR(20) NOT NULL,
                 INSCRIPTIONDATE DATE NOT NULL,
-                CATEGORY           VARCHAR(20)    NOT NULL, 
-                INSCRIPTIONSTATE        VARCHAR(20)    NOT NULL check(INSCRIPTIONSTATE in ('PAGADO','PENDIENTE','PRE-INSCRITO')), 
-                PRIMARY KEY (DNI,IDcompetition),
-                CONSTRAINT fk_DNI FOREIGN  KEY  (dni) REFERENCES  participante(dni),
-                CONSTRAINT fk_idcomp FOREIGN  KEY  (idcompetition) references competition(IDCompetition));
+                IDCATEGORY VARCHAR(20) NOT NULL,
+				CATEGORY  VARCHAR(20),				
+                INSCRIPTIONSTATE VARCHAR(20)    NOT NULL check(INSCRIPTIONSTATE in ('PAGADO','PENDIENTE','PRE-INSCRITO','CANCELADO')), 
+                PRIMARY KEY (DNI,IDCOMPETITION),
+                CONSTRAINT FK_DNI FOREIGN  KEY  (DNI) REFERENCES  PARTICIPANT(DNI),
+                CONSTRAINT FK_IDCOMP FOREIGN  KEY  (IDCOMPETITION) references COMPETITION(IDCOMPETITION),
+                CONSTRAINT FK_CATEG FOREIGN KEY (IDCATEGORY) references CATEGORY(IDCATEGORY));
+
+CREATE TABLE REL_CATEGORY_COMPETITION( IDCOMPETITION VARCHAR (20) NOT NULL ,
+				IDCATEGORY VARCHAR(20) NOT NULL,
+				PRIMARY KEY(IDCOMPETITION,IDCATEGORY),
+				CONSTRAINT FK_COMP FOREIGN KEY (IDCOMPETITION) REFERENCES COMPETITION(IDCOMPETITION),
+				CONSTRAINT FK_CAT FOREIGN KEY (IDCATEGORY) REFERENCES CATEGORY(IDCATEGORY));
+				
+CREATE TABLE INSCRIPTION_DEADLINE (IDDEADLINE VARCHAR(20) NOT NULL,
+				IDCOMPETITION VARCHAR(20) NOT NULL,				
+				INITIALDATE DATE NOT NULL,
+				FINALDATE DATE NOT NULL,
+				FEE INT NOT NULL,
+				PRIMARY KEY (IDDEADLINE,IDCOMPETITION));
+

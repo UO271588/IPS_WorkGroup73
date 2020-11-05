@@ -74,8 +74,8 @@ public abstract class DbUtilEjemplo {
 		try {
 			conn=this.getConnection();
 			//Como no hay una clase especificada para realizar el mapeo, utiliza el ArrayListHandler
-			ArrayListHandler beanListHandler=new ArrayListHandler();
-			QueryRunner runner=new QueryRunner();
+			ArrayListHandler beanListHandler=new ArrayListHandler();			QueryRunner runner=new QueryRunner();
+
 			return runner.query(conn, sql, beanListHandler, params);
 		} catch (SQLException e) {
 			throw new UnexpectedException(e);

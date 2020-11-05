@@ -344,7 +344,7 @@ public class InscriptionModel {
 	}
 
 	public boolean comprobacionDniPorNombre(String e) {
-		String sql = "select dni from inscripcion where dni= ?";
+		String sql = "select dni from INSCRIPTION where dni= ?";
 		try {
 			return DbUtil.existRowStringDB(sql, getDni(e));
 		} catch (SQLException e1) {
@@ -355,7 +355,7 @@ public class InscriptionModel {
 	}
 	
 	public static boolean comprobacionDniPorDni(String e) {
-		String sql = "select dni from inscripcion where dni= ?";
+		String sql = "select dni from INSCRIPTION where dni= ?";
 		try {
 			return DbUtil.existRowStringDB(sql, e);
 		} catch (SQLException e1) {
@@ -368,7 +368,7 @@ public class InscriptionModel {
 	
 
 	public static boolean existeYaInscripcion(String e, String name) {
-			String sql = "select idcompetition from inscripcion where idcompetition=? and dni ="+e;
+			String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ="+e;
 			try {
 				if(DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
 					return true;
@@ -389,10 +389,22 @@ public class InscriptionModel {
 	public List<InscriptionDto> getInscriptionList(String id) {
 
 		String sql = "select name,participante.dni, idcompetition, inscriptionDate,category, inscriptionstate"
-				+ " from inscripcion, participante where participante.dni = inscripcion.dni and idcompetition = ?";
+				+ " from INSCRIPTION, participante where participante.dni = inscripcion.dni and idcompetition = ?";
 		Database db = new Database();
 		return db.executeQueryPojo(InscriptionDto.class, sql, id);
 
+	}
+	
+	/**
+	 * Metodo que hace una consulta sobre todas las carreras a las que se ha inscrito un participante
+	 * devuelve una lista de competiciones.
+	 */
+	public static List<InscriptionDto> getInscribedCompetitions(String dni){
+		String sql = "select name, inscriptionstate, inscriptionDate, ins.idcompetition, ins.IDCATEGORY from INSCRIPTION as ins, competition where "
+				+ "competition.idcompetition = ins.idcompetition and dni = ?";
+		Database db = new Database();
+		List<InscriptionDto> result = db.executeQueryPojo(InscriptionDto.class, sql, dni);
+		return result;
 	}
 
 }

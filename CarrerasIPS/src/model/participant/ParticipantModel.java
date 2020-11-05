@@ -30,7 +30,7 @@ public class ParticipantModel {
 			pst.setString(1, part.getDni());
 			pst.setString(2, part.getName());
 			pst.setString(3, part.getSurname());
-			pst.setString(4, part.getMail());
+			pst.setString(4, part.getEmail());
 			
 			
 			String sex;
@@ -84,6 +84,35 @@ public class ParticipantModel {
 		
 	}
 
+	/**
+	 * Devuelve un Dto con la infomacion basica del participante,
+	 * se debe de comprobar antes si existe un usuario con el dni introducido
+	 * @param dni
+	 * @return
+	 */
+	public static ParticipantDto getBasicData(String dni) {
+		Database db = new Database();
+		String sql = "select name, surname, email from participante where dni = ?";
+		
+		return db.executeQueryPojo(ParticipantDto.class, sql, dni).get(0);
+		
+	}
+	
+	/**
+	 * Devuelve un Dto con la infomacion basica del participante,
+	 * se debe de comprobar antes si existe un usuario con el mail introducido
+	 * 
+	 * 
+	 * @param dni
+	 * @return
+	 */
+	public static ParticipantDtoPojo getByEmail(String mail) {
+		Database db = new Database();
+		String sql = "select * from participante where email = ?";
+		
+		return db.executeQueryPojo(ParticipantDtoPojo.class, sql, mail).get(0);
+		
+	}
 
 
 

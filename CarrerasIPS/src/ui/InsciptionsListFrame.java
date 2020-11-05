@@ -26,7 +26,7 @@ public class InsciptionsListFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
-	private JPanel panel;
+	private JPanel pnlSouth;
 	private JButton btnNewButton;
 	private JPanel pnlNorth;
 	private JLabel lblParticipantes;
@@ -70,7 +70,7 @@ public class InsciptionsListFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(getScrollPane(), BorderLayout.CENTER);
-		contentPane.add(getPanel(), BorderLayout.SOUTH);
+		contentPane.add(getPnlSouth(), BorderLayout.SOUTH);
 		contentPane.add(getPnlNorth(), BorderLayout.NORTH);
 		controller = new InscriptionListController(this);
 		//controller.loadParticipantRows();
@@ -87,14 +87,14 @@ public class InsciptionsListFrame extends JFrame {
 		}
 		return scrollPane;
 	}
-	private JPanel getPanel() {
-		if (panel == null) {
-			panel = new JPanel();
-			panel.setBorder(new EmptyBorder(5, 0, 0, 0));
-			panel.setLayout(new GridLayout(0, 4, 0, 0));
-			panel.add(getBtnVolver());
+	private JPanel getPnlSouth() {
+		if (pnlSouth == null) {
+			pnlSouth = new JPanel();
+			pnlSouth.setBorder(new EmptyBorder(5, 0, 0, 0));
+			pnlSouth.setLayout(new GridLayout(0, 4, 0, 0));
+			pnlSouth.add(getBtnVolver());
 		}
-		return panel;
+		return pnlSouth;
 	}
 	public JButton getBtnVolver() {
 		if (btnNewButton == null) {
