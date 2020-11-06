@@ -85,6 +85,8 @@ public class InscripcionFrame extends JFrame {
 						comprobarCampos();
 						TransactionFrame tf = new TransactionFrame(carrera, textFieldEmail.getText());
 						tf.setVisible(true);
+					}else if(InscriptionModel.yaPagoOEstaPendiente(InscriptionModel.getDni(textFieldEmail.getText()),carrera.nombre)){
+						JOptionPane.showMessageDialog(null, "Ya se ha pagado");
 					}else {
 						JOptionPane.showMessageDialog(null, "No estas inscrito en la competicion");
 					}

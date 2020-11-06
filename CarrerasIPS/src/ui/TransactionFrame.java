@@ -1,36 +1,36 @@
 package ui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JRadioButton;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import business.race.RaceDto;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.JLabel;
+import java.awt.BorderLayout;
 
 public class TransactionFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JRadioButton rdbtnTransaction;
-	private JButton btnNewButton;
+	private JButton btnCancelar;
 	private JButton btnOk;
-	private JPanel panel;
+	private JPanel paneTransaction;
 	private int opcion = 0;
 	private JLabel lblTransaction;
 	private final static int TRANSFERENCIA = 1;
@@ -50,9 +50,9 @@ public class TransactionFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		contentPane.add(getBtnNewButton());
+		contentPane.add(getBtnCancelar());
 		contentPane.add(getBtnOk());
-		contentPane.add(getPanel());
+		contentPane.add(getPaneTransaction());
 	}
 	
 	private void setImagenAdaptada(JLabel label, String rutaImagen){
@@ -72,18 +72,22 @@ public class TransactionFrame extends JFrame {
 					}
 				}
 			});
-			rdbtnTransaction.setBounds(30, 51, 113, 25);
 			rdbtnTransaction.setFont(new Font("Tahoma", Font.BOLD, 14));
 		}
 		return rdbtnTransaction;
 	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("Cancelar\r\n");
-			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btnNewButton.setBounds(456, 321, 85, 21);
+	private JButton getBtnCancelar() {
+		if (btnCancelar == null) {
+			btnCancelar = new JButton("Cancelar\r\n");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnCancelar.setBounds(456, 321, 85, 21);
 		}
-		return btnNewButton;
+		return btnCancelar;
 	}
 	private JButton getBtnOk() {
 		if (btnOk == null) {
@@ -107,22 +111,20 @@ public class TransactionFrame extends JFrame {
 		}
 	}
 	
-	private JPanel getPanel() {
-		if (panel == null) {
-			panel = new JPanel();
-			panel.setBounds(10, 10, 531, 119);
-			panel.setLayout(null);
-			panel.add(getRdbtnTransaction());
-			panel.add(getLblTransaction());
+	private JPanel getPaneTransaction() {
+		if (paneTransaction == null) {
+			paneTransaction = new JPanel();
+			paneTransaction.setBounds(10, 10, 531, 119);
+			paneTransaction.setLayout(new BorderLayout(0, 0));
+			paneTransaction.add(getRdbtnTransaction(), BorderLayout.WEST);
+			paneTransaction.add(getLblTransaction());
 		}
-		return panel;
+		return paneTransaction;
 	}
 	private JLabel getLblTransaction() {
 		if (lblTransaction == null) {
 			lblTransaction = new JLabel("");
-			lblTransaction.setBounds(180, 11, 341, 97);
 			setImagenAdaptada(lblTransaction,"/img/transferencia-logo.png");
-			lblTransaction.setBounds(149, 11, 372, 97);
 		}
 		return lblTransaction;
 	}
