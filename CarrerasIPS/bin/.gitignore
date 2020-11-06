@@ -1,8 +1,8 @@
-/ui/
-/data.sql
-/schema (1).sql
-/schema.sql
+/business/
 /controller/
-/model/
 /dbAccess/
+/img/
+/model/
+/parser/
+/ui/
 /util/
