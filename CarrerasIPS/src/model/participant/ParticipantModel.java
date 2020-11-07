@@ -14,10 +14,10 @@ import util.TimeUtil;
 import util.database.Database;
 
 public class ParticipantModel {
-	private static final String SQL_INSERT_PARTICIPANT = "INSERT INTO PARTICIPANTE (DNI,NAME,SURNAME,EMAIL,SEX,BIRTHDATE) " +
+	private static final String SQL_INSERT_PARTICIPANT = "INSERT INTO PARTICIPANT (DNI,NAME,SURNAME,EMAIL,SEX,BIRTHDATE) " +
     		"VALUES (?, ?, ?, ?, ?, ?);"; 
-	private static final String SQL_SELECT_DNI = "SELECT * FROM PARTICIPANTE WHERE DNI = ?"; 
-	private static final String SQL_SELECT_MAIL = "SELECT * FROM PARTICIPANTE WHERE EMAIL = ?"; 
+	private static final String SQL_SELECT_DNI = "SELECT * FROM PARTICIPANT WHERE DNI = ?"; 
+	private static final String SQL_SELECT_MAIL = "SELECT * FROM PARTICIPANT WHERE EMAIL = ?"; 
 
 	Database db = new Database();
 
@@ -92,7 +92,7 @@ public class ParticipantModel {
 	 */
 	public static ParticipantDto getBasicData(String dni) {
 		Database db = new Database();
-		String sql = "select name, surname, email from participante where dni = ?";
+		String sql = "select name, surname, email from participant where dni = ?";
 		
 		return db.executeQueryPojo(ParticipantDto.class, sql, dni).get(0);
 		
@@ -108,7 +108,7 @@ public class ParticipantModel {
 	 */
 	public static ParticipantDtoPojo getByEmail(String mail) {
 		Database db = new Database();
-		String sql = "select * from participante where email = ?";
+		String sql = "select * from participant where email = ?";
 		
 		return db.executeQueryPojo(ParticipantDtoPojo.class, sql, mail).get(0);
 		

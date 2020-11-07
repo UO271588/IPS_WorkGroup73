@@ -230,7 +230,7 @@ public class InscriptionListController {
 		return panel;
 	}
 	private void exit() {
-		vista.dispose();
+		vista.close();
 		
 	}
 	

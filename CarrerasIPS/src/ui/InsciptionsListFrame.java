@@ -39,6 +39,7 @@ public class InsciptionsListFrame extends JFrame {
 	private JLabel lblFecha;
 	private JLabel lblEstado;
 	private InscriptionListController controller;
+	private JFrame parent;
 
 	/**
 	 * Launch the application.
@@ -50,7 +51,7 @@ public class InsciptionsListFrame extends JFrame {
 					RaceDto race = new RaceDto();
 					race.id = "1";
 					race.nombre = "carrera guapa";
-					InsciptionsListFrame frame = new InsciptionsListFrame();
+					InsciptionsListFrame frame = new InsciptionsListFrame(new MainFrame());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,7 +63,7 @@ public class InsciptionsListFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InsciptionsListFrame() {
+	public InsciptionsListFrame(JFrame parent) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 751, 467);
 		contentPane = new JPanel();
@@ -74,6 +75,7 @@ public class InsciptionsListFrame extends JFrame {
 		contentPane.add(getPnlNorth(), BorderLayout.NORTH);
 		controller = new InscriptionListController(this);
 		//controller.loadParticipantRows();
+		this.parent = parent;
 	}
 
 	private JScrollPane getScrollPane() {
@@ -99,9 +101,21 @@ public class InsciptionsListFrame extends JFrame {
 	public JButton getBtnVolver() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("Atras");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					close();
+				}
+			});
 		}
 		return btnNewButton;
 	}
+	public void close() {
+		parent.setVisible(true);
+		this.dispose();
+		
+		
+	}
+
 	private JPanel getPnlNorth() {
 		if (pnlNorth == null) {
 			pnlNorth = new JPanel();

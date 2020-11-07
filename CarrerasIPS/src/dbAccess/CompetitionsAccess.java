@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import business.race.RaceDto;
@@ -15,7 +16,7 @@ import util.database.Database;
 public class CompetitionsAccess {
 
 	public void addRace(RaceDto carrera){
-		String SQL = "insert into competition (idcompetition,name,tipo,distance,inscriptionfee,inscriptiondateend,competitiondate,slots,actualSlots) values (?,?,?,?,?,?,?,?,?);";
+		String SQL = "insert into competition (idcompetition,name,tipo,distance,inscriptionfee,inscriptiondateend,competitiondate,slots) values (?,?,?,?,?,?,?,?,?);";
 		PreparedStatement pst = null;
 		Connection c = null;
 		try {
@@ -30,7 +31,6 @@ public class CompetitionsAccess {
 			pst.setString(6, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setString(7,  TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setInt(8, carrera.aforoMax);
-			pst.setInt(9, carrera.aforoActual);
 
 			pst.executeUpdate();
 
@@ -49,7 +49,7 @@ public class CompetitionsAccess {
 	}
 
 	public void updateRace(RaceDto carrera){
-		String SQL = "	update competition set name = ?, tipo = ?, distance = ?, inscriptionfee = ?, inscriptiondateend = ?, competitiondate = ? slots = ?,actualSlots = ?where idcompetition = ?;";
+		String SQL = "	update competition set name = ?, tipo = ?, distance = ?, inscriptionfee = ?, inscriptiondateend = ?, competitiondate = ?, slots = ? where idcompetition = ?;";
 		PreparedStatement pst = null;
 		Connection c = null;
 		try {
@@ -63,7 +63,6 @@ public class CompetitionsAccess {
 			pst.setString(5, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setString(6, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setInt(7, carrera.aforoMax);
-			pst.setInt(8, carrera.aforoActual);
 			pst.setString(9, carrera.id);
 
 			pst.executeUpdate();
@@ -124,6 +123,17 @@ public class CompetitionsAccess {
 		}
 
 		return carreras;
+	}
+	
+	
+	public static void createRace(RaceDto race) {
+
+		Database db = new Database();
+		String sql = "INSERT INTO COMPETITION (IDCOMPETITION,NAME,COMPETITION_TYPE,DISTANCE,INSCRIPTION_FEE,INSCRIPTION_DATE_END,COMPETITION_DATE,SLOTS)"
+				+ " VALUES (?, ?, ?, ?, ?,?, ?,?);";
+		db.executeUpdate(sql,race.id, race.nombre, race.tipo, race.distancia, race.precioInscripcion, TimeUtil.dateToIsoString(race.fechaLimite), TimeUtil.dateToIsoString(race.fechaCarrera), race.aforoMax);
+		
+				
 	}
 
 	

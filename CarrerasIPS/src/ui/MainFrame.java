@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import model.RaceCreationController;
 import util.database.Main;
 
 import javax.swing.JSplitPane;
@@ -25,6 +26,7 @@ public class MainFrame extends JFrame {
 	private JButton btnNewButton_1_1;
 	private JButton btnNewButton_2;
 	private JButton btnApuntados;
+	private JButton btnCrearCarreras;
 
 	/**
 	 * Launch the application.
@@ -58,6 +60,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(getBtnNewButton_1_1());
 		contentPane.add(getBtnNewButton_2());
 		contentPane.add(getBtnApuntados());
+		contentPane.add(getBtnCrearCarreras());
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
@@ -86,13 +89,13 @@ public class MainFrame extends JFrame {
 					launchAdministrator();
 				}
 			});
-			btnAministradorDeCarreras.setBounds(63, 150, 175, 53);
+			btnAministradorDeCarreras.setBounds(63, 165, 139, 38);
 		}
 		return btnAministradorDeCarreras;
 	}
 
 	protected void launchAdministrator() {
-		new InsciptionsListFrame().setVisible(true);
+		new InsciptionsListFrame(this).setVisible(true);
 		this.setVisible(false);
 		
 	}
@@ -154,5 +157,23 @@ public class MainFrame extends JFrame {
 			btnApuntados.setBounds(394, 165, 139, 40);
 		}
 		return btnApuntados;
+	}
+	private JButton getBtnCrearCarreras() {
+		if (btnCrearCarreras == null) {
+			btnCrearCarreras = new JButton("Crear Carreras");
+			btnCrearCarreras.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					launchCrearCarreras();
+				}
+			});
+			btnCrearCarreras.setBounds(63, 92, 139, 38);
+		}
+		return btnCrearCarreras;
+	}
+
+	protected void launchCrearCarreras() {
+		this.setVisible(false);
+		new RaceCrationFrame(this).setVisible(true);
+		
 	}
 }
