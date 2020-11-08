@@ -28,7 +28,7 @@ public class BankAccountFrame extends JDialog {
 	private JFrame padre;
 	private RaceDto carrera;
 	private String email;
-
+	
 	/**
 	 * Create the dialog.
 	 */
