@@ -37,6 +37,7 @@ import javax.swing.border.LineBorder;
 
 import business.race.RaceDto;
 import controller.RaceCreationController;
+import controller.RaceCreationController2;
 import util.database.Database;
 import javax.swing.JTextArea;
 import java.awt.FlowLayout;
@@ -89,6 +90,7 @@ public class RaceCrationFrame extends JFrame {
 	private JLabel lblMascInici;
 	private JLabel lblMascFin;
 	private RaceCreationController controller;
+	private RaceCreationController2 controller2;
 	private JPanel pnlAdd;
 	private JPanel pnlRemove;
 	private JPanel pnlValidate;
@@ -147,8 +149,8 @@ public class RaceCrationFrame extends JFrame {
 	private JLabel lblPlazosFechaInicio;
 	private JLabel lblPlazosFechaFinal;
 	private JPanel pnlPlazosView;
-	private JPanel rowMasc1_1;
-	private JTextField textField;
+	private JPanel row1;
+	private JTextField textFieldCantidad;
 	private JPanel pnlPlazosR1C2;
 	private JPanel pnlPlazosR1C3;
 	private JComboBox comboDias1;
@@ -157,6 +159,14 @@ public class RaceCrationFrame extends JFrame {
 	private JComboBox comboDias2;
 	private JComboBox comboMeses2;
 	private JComboBox comboAnios2;
+	private JPanel pnlBotones_1;
+	private JPanel pnlAdd_1;
+	private JButton btnAdd_1;
+	private JPanel pnlValidate_1;
+	private JButton btnValidarPlazos;
+	private JLabel lblValCategory_1;
+	private JPanel pnlRemove_1;
+	private JButton btnRemove_1;
 
 	/**
 	 * Launch the application.
@@ -186,8 +196,10 @@ public class RaceCrationFrame extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(getPnlTitulo(), BorderLayout.NORTH);
 		contentPane.add(getSpnlCenter(), BorderLayout.CENTER);
+		contentPane.add(getPnlBotones_1(), BorderLayout.EAST);
 		contentPane.add(getPnlCategorias(), BorderLayout.SOUTH);
 		controller = new RaceCreationController(this);
+		controller2 = new RaceCreationController2(this);
 	}
 
 	protected RaceDto getDto(String text) throws SQLException {
@@ -1325,26 +1337,26 @@ public class RaceCrationFrame extends JFrame {
 		if (pnlPlazosView == null) {
 			pnlPlazosView = new JPanel();
 			pnlPlazosView.setLayout(new GridLayout(8, 0, 0, 0));
-			pnlPlazosView.add(getRowMasc1_1());
+			pnlPlazosView.add(getRow1());
 		}
 		return pnlPlazosView;
 	}
-	private JPanel getRowMasc1_1() {
-		if (rowMasc1_1 == null) {
-			rowMasc1_1 = new JPanel();
-			rowMasc1_1.setLayout(new GridLayout(0, 3, 0, 0));
-			rowMasc1_1.add(getTextField());
-			rowMasc1_1.add(getPnlPlazosR1C2());
-			rowMasc1_1.add(getPanel_1_3());
+	private JPanel getRow1() {
+		if (row1 == null) {
+			row1 = new JPanel();
+			row1.setLayout(new GridLayout(0, 3, 0, 0));
+			row1.add(getTextFieldCantidad());
+			row1.add(getPnlPlazosR1C2());
+			row1.add(getPanel_1_3());
 		}
-		return rowMasc1_1;
+		return row1;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
+	private JTextField getTextFieldCantidad() {
+		if (textFieldCantidad == null) {
+			textFieldCantidad = new JTextField();
 
 		}
-		return textField;
+		return textFieldCantidad;
 	}
 	private JPanel getPnlPlazosR1C2() {
 		if (pnlPlazosR1C2 == null) {
@@ -1760,5 +1772,82 @@ public class RaceCrationFrame extends JFrame {
 				
 		}
 		}
+	}
+	private JPanel getPnlBotones_1() {
+		if (pnlBotones_1 == null) {
+			pnlBotones_1 = new JPanel();
+			pnlBotones_1.setLayout(new GridLayout(3, 4, 20, 20));
+			pnlBotones_1.add(getPnlAdd_1());
+			pnlBotones_1.add(getPnlRemove_1());
+			pnlBotones_1.add(getPnlValidate_1());
+			
+		}
+		return pnlBotones_1;
+	}
+	private JPanel getPnlAdd_1() {
+		if (pnlAdd_1 == null) {
+			pnlAdd_1 = new JPanel();
+			pnlAdd_1.setLayout(new GridLayout(0, 1, 0, 0));
+			pnlAdd_1.add(getBtnAdd_1());
+		}
+		return pnlAdd_1;
+	}
+	private JButton getBtnAdd_1() {
+		if (btnAdd_1 == null) {
+			btnAdd_1 = new JButton("A\u00F1adir");
+			btnAdd_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller2.addPlazosRow(getPnlPlazosView());
+				}
+			});
+		}
+		return btnAdd_1;
+	}
+	private JPanel getPnlValidate_1() {
+		if (pnlValidate_1 == null) {
+			pnlValidate_1 = new JPanel();
+			pnlValidate_1.setLayout(new GridLayout(2, 1, 0, 0));
+			pnlValidate_1.add(getBtnValidarPlazos());
+			pnlValidate_1.add(getLblValCategory_1());
+		}
+		return pnlValidate_1;
+	}
+	private JButton getBtnValidarPlazos() {
+		if (btnValidarPlazos == null) {
+			btnValidarPlazos = new JButton("Validar Plazos");
+			btnValidarPlazos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller2.validateCategories(pnlPlazosView);
+				}
+			});
+		}
+		return btnValidarPlazos;
+	}
+	private JLabel getLblValCategory_1() {
+		if (lblValCategory_1 == null) {
+			lblValCategory_1 = new JLabel("Sin Validar");
+			lblValCategory_1.setHorizontalAlignment(SwingConstants.CENTER);
+			lblValCategory_1.setForeground(Color.BLACK);
+		}
+		return lblValCategory_1;
+	}
+	private JPanel getPnlRemove_1() {
+		if (pnlRemove_1 == null) {
+			pnlRemove_1 = new JPanel();
+			pnlRemove_1.setLayout(new GridLayout(1, 1, 0, 0));
+			pnlRemove_1.add(getBtnRemove_1());
+		}
+		return pnlRemove_1;
+	}
+	private JButton getBtnRemove_1() {
+		if (btnRemove_1 == null) {
+			btnRemove_1 = new JButton("Eliminar");
+			btnRemove_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller2.deleteCategoryRow(getPnlPlazosView());
+				}
+			});
+		}
+		return btnRemove_1;
 	}
 }
