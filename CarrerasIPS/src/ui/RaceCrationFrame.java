@@ -14,6 +14,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.sql.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -35,6 +38,8 @@ import javax.swing.border.LineBorder;
 import business.race.RaceDto;
 import controller.RaceCreationController;
 import util.database.Database;
+import javax.swing.JTextArea;
+import java.awt.FlowLayout;
 
 public class RaceCrationFrame extends JFrame {
 
@@ -65,12 +70,12 @@ public class RaceCrationFrame extends JFrame {
 	private JPanel pnlDato5;
 	private JPanel pnlDato4;
 	private JLabel lblNameRace;
-	private JTextField textField;
+	private JTextField textFieldName;
 	private JLabel lblDistancia;
 	private JTextField textDistancia;
 	private JLabel lblTipo;
-	private JRadioButton rdbtnNewRadioButton;
-	private JRadioButton rdbtnNewRadioButton_1;
+	private JRadioButton rdbtnMontania;
+	private JRadioButton rdbtnAsfalto;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -137,6 +142,21 @@ public class RaceCrationFrame extends JFrame {
 	private JComboBox comboBoxAños;
 	private JTextField textFieldPlazas;
 	private JRadioButton rdSinDefinir;
+	private JPanel pnlPlazosHead;
+	private JLabel lblPlazosCantidad;
+	private JLabel lblPlazosFechaInicio;
+	private JLabel lblPlazosFechaFinal;
+	private JPanel pnlPlazosView;
+	private JPanel rowMasc1_1;
+	private JTextField textField;
+	private JPanel pnlPlazosR1C2;
+	private JPanel pnlPlazosR1C3;
+	private JComboBox comboDias1;
+	private JComboBox comboMeses1;
+	private JComboBox comboAnios1;
+	private JComboBox comboDias2;
+	private JComboBox comboMeses2;
+	private JComboBox comboAnios2;
 
 	/**
 	 * Launch the application.
@@ -159,7 +179,7 @@ public class RaceCrationFrame extends JFrame {
 	 */
 	public RaceCrationFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 845, 602);
+		setBounds(100, 100, 1075, 603);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -241,6 +261,8 @@ public class RaceCrationFrame extends JFrame {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
+			scrollPane.setColumnHeaderView(getPnlPlazosHead());
+			scrollPane.setViewportView(getPnlPlazosView());
 		}
 		return scrollPane;
 	}
@@ -315,7 +337,7 @@ public class RaceCrationFrame extends JFrame {
 		if (pnlDato1 == null) {
 			pnlDato1 = new JPanel();
 			pnlDato1.add(getLblNameRace());
-			pnlDato1.add(getTextField());
+			pnlDato1.add(getTextFieldName());
 		}
 		return pnlDato1;
 	}
@@ -323,8 +345,8 @@ public class RaceCrationFrame extends JFrame {
 		if (pnlDato3 == null) {
 			pnlDato3 = new JPanel();
 			pnlDato3.add(getLblTipo());
-			pnlDato3.add(getRdbtnNewRadioButton());
-			pnlDato3.add(getRdbtnNewRadioButton_1());
+			pnlDato3.add(getRdbtnMontania());
+			pnlDato3.add(getRdbtnAsfalto());
 		}
 		return pnlDato3;
 	}
@@ -362,12 +384,12 @@ public class RaceCrationFrame extends JFrame {
 		}
 		return lblNameRace;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setColumns(10);
+	private JTextField getTextFieldName() {
+		if (textFieldName == null) {
+			textFieldName = new JTextField();
+			textFieldName.setColumns(10);
 		}
-		return textField;
+		return textFieldName;
 	}
 	private JLabel getLblDistancia() {
 		if (lblDistancia == null) {
@@ -388,19 +410,19 @@ public class RaceCrationFrame extends JFrame {
 		}
 		return lblTipo;
 	}
-	private JRadioButton getRdbtnNewRadioButton() {
-		if (rdbtnNewRadioButton == null) {
-			rdbtnNewRadioButton = new JRadioButton("monta\u00F1a");
-			buttonGroup.add(rdbtnNewRadioButton);
+	private JRadioButton getRdbtnMontania() {
+		if (rdbtnMontania == null) {
+			rdbtnMontania = new JRadioButton("monta\u00F1a");
+			buttonGroup.add(rdbtnMontania);
 		}
-		return rdbtnNewRadioButton;
+		return rdbtnMontania;
 	}
-	private JRadioButton getRdbtnNewRadioButton_1() {
-		if (rdbtnNewRadioButton_1 == null) {
-			rdbtnNewRadioButton_1 = new JRadioButton("asfalto");
-			buttonGroup.add(rdbtnNewRadioButton_1);
+	private JRadioButton getRdbtnAsfalto() {
+		if (rdbtnAsfalto == null) {
+			rdbtnAsfalto = new JRadioButton("asfalto");
+			buttonGroup.add(rdbtnAsfalto);
 		}
-		return rdbtnNewRadioButton_1;
+		return rdbtnAsfalto;
 	}
 	private JLabel getLblNewLabel_4() {
 		if (lblNewLabel_4 == null) {
@@ -909,9 +931,91 @@ public class RaceCrationFrame extends JFrame {
 	private JButton getBtnCrear() {
 		if (btnCrear == null) {
 			btnCrear = new JButton("Crear");
+			btnCrear.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!validarNombre(getTextFieldName().getText())) {
+						JOptionPane.showMessageDialog(null, "El nombre de la carrera no puede estar vacío");
+					}
+					else if(!validarDistancia(getTextDistancia().getText())) {
+						JOptionPane.showMessageDialog(null, "El numero de kilometros no es válido");
+					}
+					else if(!validarTipo()) {
+						JOptionPane.showMessageDialog(null, "Seleccione un tipo");
+					}
+					else if(!validarPlazas()) {
+						JOptionPane.showMessageDialog(null, "Seleccione un numero de plazas o marquelo como sin definir");
+					}
+					else if(!validarFecha()) {
+						JOptionPane.showMessageDialog(null, "La fecha introducida tiene que ser posterior al día de hoy");
+					}
+				}
+
+				
+			});
 		}
 		return btnCrear;
 	}
+	protected boolean validarFecha() {
+		LocalDate hoy = LocalDate.now();
+		int day = comboBoxDias.getSelectedIndex()+1;
+		int mes = comboBoxMeses.getSelectedIndex()+1;
+		int year = (int)comboBoxAños.getSelectedItem();
+		
+		LocalDate introducida = LocalDate.of(year, mes, day);
+		if(hoy.compareTo(introducida)>0) {
+			return false;
+		}
+		return true;
+	}
+
+	protected boolean validarPlazas() {
+		if(rdSinDefinir.isSelected()) {
+			return true;
+		}
+		else {
+			if(textFieldPlazas.getText()==null || textFieldPlazas.getText().isBlank() ||!isNumeric(textFieldPlazas.getText()))
+				return false;
+			else
+				return true;
+		}
+	}
+	
+
+	private boolean validarTipo() {
+		if(rdbtnAsfalto.isSelected() || rdbtnMontania.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+	private boolean validarDistancia(String d) {
+		if(d.isEmpty() || d.isBlank() || !validacionNumero(d)) {
+
+			return false;
+		}
+		if(isNumeric(d)) {
+			if(Integer.parseInt(d) <0) {
+				return false;
+			}
+			if(Double.parseDouble(d)<0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	boolean validacionNumero(String numero) {
+		if(isNumeric(numero) || isDouble(numero)) {
+			return true;
+		}
+		return false;
+	}
+	private boolean validarNombre(String name) {
+		if(name.isEmpty() || name.isBlank() )
+			return false;
+		return true;
+	}
+	
+	
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("Cancelar");
@@ -927,9 +1031,11 @@ public class RaceCrationFrame extends JFrame {
 	private JComboBox getComboBoxDias() {
 		if (comboBoxDias == null) {
 			comboBoxDias = new JComboBox();
+			
 			for(int a=1;a<=31;a++){
 				comboBoxDias.addItem(a);
 			}
+			comboBoxDias.setSelectedItem(null);
 			
 		}
 		return comboBoxDias;
@@ -937,6 +1043,7 @@ public class RaceCrationFrame extends JFrame {
 	private JComboBox getComboBoxMeses() {
 		if (comboBoxMeses == null) {
 			comboBoxMeses = new JComboBox();
+			
 			comboBoxMeses.addItem("ENERO");
 			comboBoxMeses.addItem("FEBRERO");
 			comboBoxMeses.addItem("MARZO");
@@ -949,50 +1056,129 @@ public class RaceCrationFrame extends JFrame {
 			comboBoxMeses.addItem("OCTUBRE");
 			comboBoxMeses.addItem("NOVIEMBRE");
 			comboBoxMeses.addItem("DICIEMBRE");
+			comboBoxMeses.setSelectedItem(null);
 			comboBoxMeses.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					if(getComboBoxMeses().getSelectedItem().equals("ABRIL") || getComboBoxMeses().getSelectedItem().equals("JUNIO") ||
-							getComboBoxMeses().getSelectedItem().equals("SEPTIEMBRE") || getComboBoxMeses().getSelectedItem().equals("NOVIEMBRE")) {
-						int dia = (int) comboBoxDias.getSelectedItem();
-						comboBoxDias.removeAllItems();
-						for(int a=1;a<=30;a++){
-							comboBoxDias.addItem(a);
+				
+					meses();
 					}
-						comboBoxDias.setSelectedItem(dia);
-				}
-					else if( getComboBoxMeses().getSelectedItem().equals("FEBRERO")) {
-						int dia = (int) comboBoxDias.getSelectedItem();
-						comboBoxDias.removeAllItems();
-						if(añobisiesto((int)comboBoxAños.getSelectedItem())){
-							for(int a=1;a<=29;a++){
-								comboBoxDias.addItem(a);
-							}
-							comboBoxDias.setSelectedItem(dia);
-						}
-						else {
-						for(int a=1;a<=28;a++){
-							comboBoxDias.addItem(a);
-						}
-						comboBoxDias.setSelectedItem(dia);
-						}
-					}
-					
-					else {
-						int dia = (int) comboBoxDias.getSelectedItem();
-						comboBoxDias.removeAllItems();
-						for(int a=1;a<=31;a++){
-							comboBoxDias.addItem(a);
-						}
-						comboBoxDias.setSelectedItem(dia);
-					}
-			}
+				
+				
+			
 			});
 			
 		}
 		return comboBoxMeses;
 	}
-	private boolean añobisiesto(int anio) {
+	protected void meses() {
+		if(getComboBoxMeses().getSelectedItem().equals("ABRIL") || getComboBoxMeses().getSelectedItem().equals("JUNIO") ||
+				getComboBoxMeses().getSelectedItem().equals("SEPTIEMBRE") || getComboBoxMeses().getSelectedItem().equals("NOVIEMBRE")) {
+
+				
+				if(comboBoxDias.getSelectedItem()!=null) {
+					int dia = (int) comboBoxDias.getSelectedItem();
+					comboBoxDias.removeAllItems();
+					for(int a=1;a<=30;a++){
+						comboBoxDias.addItem(a);
+					}
+					if(dia==31) {
+						comboBoxDias.setSelectedItem(null);
+						JOptionPane.showMessageDialog(null, "Este mes no tiene 31 dias. Seleccione un día válido");
+						
+					}
+					else {
+
+						comboBoxDias.setSelectedItem(dia);
+					}
+				}
+				else {
+					comboBoxDias.removeAllItems();
+					for(int a=1;a<=30;a++){
+						comboBoxDias.addItem(a);
+					}
+					comboBoxDias.setSelectedItem(null);
+					}
+				}
+	
+		else if( getComboBoxMeses().getSelectedItem().equals("FEBRERO")) {
+			
+			
+			if(añobisiesto((int)comboBoxAños.getSelectedItem())){
+				if(comboBoxDias.getSelectedItem()!=null) {
+					int dia = (int) comboBoxDias.getSelectedItem();
+					comboBoxDias.removeAllItems();
+					
+						for(int a=1;a<=29;a++){
+							comboBoxDias.addItem(a);
+						}
+					
+					if(dia>29) {
+						comboBoxDias.setSelectedItem(null);
+						JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+					}
+					else {
+						comboBoxDias.setSelectedItem(dia);
+					}
+				}
+				else {
+					comboBoxDias.removeAllItems();
+					
+					for(int a=1;a<=29;a++){
+						comboBoxDias.addItem(a);
+					}
+					comboBoxDias.setSelectedItem(null);
+				}
+				}
+			if(!añobisiesto((int)comboBoxAños.getSelectedItem())) {
+				if(comboBoxDias.getSelectedItem()!=null) {
+					int dia = (int) comboBoxDias.getSelectedItem();
+					comboBoxDias.removeAllItems();
+					
+						for(int a=1;a<=28;a++){
+							comboBoxDias.addItem(a);
+						}
+					
+					if(dia>28) {
+						comboBoxDias.setSelectedItem(null);
+						JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+					}
+					else {
+						comboBoxDias.setSelectedItem(dia);
+					}
+				}
+				else {
+					comboBoxDias.removeAllItems();
+					
+					for(int a=1;a<=29;a++){
+						comboBoxDias.addItem(a);
+					}
+					comboBoxDias.setSelectedItem(null);
+				}
+			}
+		}
+				
+		else {
+			if(comboBoxDias.getSelectedItem()==null) {
+			
+			comboBoxDias.removeAllItems();
+			for(int a=1;a<=31;a++){
+				comboBoxDias.addItem(a);
+			}
+			comboBoxDias.setSelectedItem(null);
+			}
+			else {
+				int dia = (int) comboBoxDias.getSelectedItem();
+				comboBoxDias.removeAllItems();
+				for(int a=1;a<=31;a++){
+					comboBoxDias.addItem(a);
+				}
+				comboBoxDias.setSelectedItem(dia);
+				}
+			}
+		
+	}
+
+	public boolean añobisiesto(int anio) {
 		if ((anio % 4 == 0) && ((anio % 100 != 0) || (anio % 400 == 0)))
 			return true;
 		return false;
@@ -1002,67 +1188,68 @@ public class RaceCrationFrame extends JFrame {
 			comboBoxAños = new JComboBox();
 			comboBoxAños.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int dia = (int) comboBoxDias.getSelectedItem();
 					
 					
-					if(añobisiesto((int)comboBoxAños.getSelectedItem()) && comboBoxMeses.getSelectedItem().equals("FEBRERO")){
-						comboBoxDias.removeAllItems();
-						for(int a=1;a<=29;a++){
-							comboBoxDias.addItem(a);
-						}
-						comboBoxDias.setSelectedItem(dia);
-					}
-					if(!añobisiesto((int)comboBoxAños.getSelectedItem()) && comboBoxMeses.getSelectedItem().equals("FEBRERO")){
-						comboBoxDias.removeAllItems();
-						for(int a=1;a<=28;a++){
-							comboBoxDias.addItem(a);
-					}
-					comboBoxDias.setSelectedItem(dia);
-					}
+					
+					años();
+					
 				}
 			});
+			
 			for(int a=2020;a<=2040;a++){
 				comboBoxAños.addItem(a);
 			}
+			
 		}
 		return comboBoxAños;
 	}
+	protected void años() {
+		if(comboBoxDias.getSelectedItem()!=null) {
+			int dia = (int) comboBoxDias.getSelectedItem();
+		if(añobisiesto((int)comboBoxAños.getSelectedItem()) && comboBoxMeses.getSelectedItem().equals("FEBRERO")){
+			comboBoxDias.removeAllItems();
+			for(int a=1;a<=29;a++){
+				comboBoxDias.addItem(a);
+			}
+			if(dia>29) {
+				comboBoxDias.setSelectedItem(null);
+				JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+				
+			}
+			else {
+			comboBoxDias.setSelectedItem(dia);
+			}
+			
+		}
+		if(!añobisiesto((int)comboBoxAños.getSelectedItem()) && comboBoxMeses.getSelectedItem().equals("FEBRERO")){
+			comboBoxDias.removeAllItems();
+			for(int a=1;a<=28;a++){
+				comboBoxDias.addItem(a);
+		}
+			if(comboBoxMeses.getSelectedItem().equals("FEBRERO")) {
+				if(dia>28) {
+					comboBoxDias.setSelectedItem(null);
+					JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+					
+				}
+				else {
+				comboBoxDias.setSelectedItem(dia);
+				}
+			}
+				
+		}
+		
+		
+		
+		
+		}
+		
+	}
+
 	private JTextField getTextField_1_1() {
 		if (textFieldPlazas == null) {
 			textFieldPlazas = new JTextField();
-			textFieldPlazas.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					String numero="";
-					if(rdSinDefinir.isSelected()) {
-						numero = JOptionPane.showInputDialog(textFieldPlazas,  "Está seleccionado que el numero de plazas está sin definir. Si desea añadir un limite de plazas, por favor, introducelo ahora");
-						System.out.print(numero);
-						if (isNumeric(numero) ) {
-							rdSinDefinir.setSelected(false);
-							textFieldPlazas.setText(numero);
-						}
-						else {
-							if(numero==null || numero=="") {
-							}
-							else {
-							String numero2 = null;
-							if(isNumeric(numero2)==false) {
-								numero2 = JOptionPane.showInputDialog(textFieldPlazas,  "Introduzca un número máximo de plazas válido");
-								if(numero2==null) {
-									
-								}
-							}
-							rdSinDefinir.setSelected(false);
-							textFieldPlazas.setText(numero2);
-							}
-							
-						}
-							
-					}
-					
-				
-				}
-			});
+			
 			
 			textFieldPlazas.setColumns(10);
 		}
@@ -1076,15 +1263,502 @@ public class RaceCrationFrame extends JFrame {
 			return false;
 		}
 	}
+	private static boolean isDouble(String cadena) {
+		try {
+			Double.parseDouble(cadena);
+			return true;
+		}
+		catch (NumberFormatException nfe){
+			return false;
+		}
+	}
 	private JRadioButton getRdSinDefinir() {
 		if (rdSinDefinir == null) {
 			rdSinDefinir = new JRadioButton("Sin definir");
 			rdSinDefinir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					if(rdSinDefinir.isSelected()) {
 					textFieldPlazas.setText("");
+					textFieldPlazas.setEnabled(false);
+					}
+					if(rdSinDefinir.isSelected()==false) {
+						textFieldPlazas.setEnabled(true);
+					}
 				}
 			});
 		}
 		return rdSinDefinir;
+	}
+	private JPanel getPnlPlazosHead() {
+		if (pnlPlazosHead == null) {
+			pnlPlazosHead = new JPanel();
+			pnlPlazosHead.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pnlPlazosHead.setLayout(new GridLayout(0, 3, 0, 0));
+			pnlPlazosHead.add(getLblPlazosCantidad());
+			pnlPlazosHead.add(getLblPlazosFechaInicio());
+			pnlPlazosHead.add(getLblPlazosFechaFinal());
+		}
+		return pnlPlazosHead;
+	}
+	private JLabel getLblPlazosCantidad() {
+		if (lblPlazosCantidad == null) {
+			lblPlazosCantidad = new JLabel("Cantidad a pagar");
+			lblPlazosCantidad.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblPlazosCantidad;
+	}
+	private JLabel getLblPlazosFechaInicio() {
+		if (lblPlazosFechaInicio == null) {
+			lblPlazosFechaInicio = new JLabel("Fecha inicio");
+			lblPlazosFechaInicio.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblPlazosFechaInicio;
+	}
+	private JLabel getLblPlazosFechaFinal() {
+		if (lblPlazosFechaFinal == null) {
+			lblPlazosFechaFinal = new JLabel("Fecha final");
+			lblPlazosFechaFinal.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblPlazosFechaFinal;
+	}
+	private JPanel getPnlPlazosView() {
+		if (pnlPlazosView == null) {
+			pnlPlazosView = new JPanel();
+			pnlPlazosView.setLayout(new GridLayout(8, 0, 0, 0));
+			pnlPlazosView.add(getRowMasc1_1());
+		}
+		return pnlPlazosView;
+	}
+	private JPanel getRowMasc1_1() {
+		if (rowMasc1_1 == null) {
+			rowMasc1_1 = new JPanel();
+			rowMasc1_1.setLayout(new GridLayout(0, 3, 0, 0));
+			rowMasc1_1.add(getTextField());
+			rowMasc1_1.add(getPnlPlazosR1C2());
+			rowMasc1_1.add(getPanel_1_3());
+		}
+		return rowMasc1_1;
+	}
+	private JTextField getTextField() {
+		if (textField == null) {
+			textField = new JTextField();
+
+		}
+		return textField;
+	}
+	private JPanel getPnlPlazosR1C2() {
+		if (pnlPlazosR1C2 == null) {
+			pnlPlazosR1C2 = new JPanel();
+			pnlPlazosR1C2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			pnlPlazosR1C2.add(getComboBoxDias1());
+			pnlPlazosR1C2.add(getComboBoxMeses1());
+			pnlPlazosR1C2.add(getComboBoxAnios1());
+		}
+		return pnlPlazosR1C2;
+	}
+	private JPanel getPanel_1_3() {
+		if (pnlPlazosR1C3 == null) {
+			pnlPlazosR1C3 = new JPanel();
+			pnlPlazosR1C3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			pnlPlazosR1C3.add(getComboBoxDias2());
+			pnlPlazosR1C3.add(getComboBoxMeses2());
+			pnlPlazosR1C3.add(getComboBoxAnios2());
+		}
+		return pnlPlazosR1C3;
+	}
+	private JComboBox getComboBoxDias1() {
+		if (comboDias1 == null) {
+			comboDias1 = new JComboBox();
+			
+			for(int a=1;a<=31;a++){
+				comboDias1.addItem(a);
+			}
+			comboDias1.setSelectedItem(null);
+		}
+		return comboDias1;
+	}
+	private JComboBox getComboBoxMeses1() {
+		if (comboMeses1 == null) {
+			comboMeses1 = new JComboBox();
+			comboMeses1.addItem("ENERO");
+			comboMeses1.addItem("FEBRERO");
+			comboMeses1.addItem("MARZO");
+			comboMeses1.addItem("ABRIL");
+			comboMeses1.addItem("MAYO");
+			comboMeses1.addItem("JUNIO");
+			comboMeses1.addItem("JULIO");
+			comboMeses1.addItem("AGOSTO");
+			comboMeses1.addItem("SEPTIEMBRE");
+			comboMeses1.addItem("OCTUBRE");
+			comboMeses1.addItem("NOVIEMBRE");
+			comboMeses1.addItem("DICIEMBRE");
+			comboMeses1.setSelectedItem(null);
+			comboMeses1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					meses1();
+				}
+			});
+			
+		}
+		return comboMeses1;
+	}
+	protected void meses1() {
+		if(getComboBoxMeses1().getSelectedItem().equals("ABRIL") || getComboBoxMeses1().getSelectedItem().equals("JUNIO") ||
+				getComboBoxMeses1().getSelectedItem().equals("SEPTIEMBRE") || getComboBoxMeses1().getSelectedItem().equals("NOVIEMBRE")) {
+
+				
+				if(comboDias1.getSelectedItem()!=null) {
+					int dia = (int) comboDias1.getSelectedItem();
+					comboDias1.removeAllItems();
+					for(int a=1;a<=30;a++){
+						comboDias1.addItem(a);
+					}
+					if(dia==31) {
+						comboDias1.setSelectedItem(null);
+						JOptionPane.showMessageDialog(null, "Este mes no tiene 31 dias. Seleccione un día válido");
+						
+					}
+					else {
+
+						comboDias1.setSelectedItem(dia);
+					}
+				}
+				else {
+					comboDias1.removeAllItems();
+					for(int a=1;a<=30;a++){
+						comboDias1.addItem(a);
+					}
+					comboDias1.setSelectedItem(null);
+					}
+				}
+	
+		else if( getComboBoxMeses1().getSelectedItem().equals("FEBRERO")) {
+			
+			
+			if(añobisiesto((int)comboBoxAños.getSelectedItem())){
+				if(comboDias1.getSelectedItem()!=null) {
+					int dia = (int) comboDias1.getSelectedItem();
+					comboDias1.removeAllItems();
+					
+						for(int a=1;a<=29;a++){
+							comboDias1.addItem(a);
+						}
+					
+					if(dia>29) {
+						comboDias1.setSelectedItem(null);
+						JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+					}
+					else {
+						comboDias1.setSelectedItem(dia);
+					}
+				}
+				else {
+					comboDias1.removeAllItems();
+					
+					for(int a=1;a<=29;a++){
+						comboDias1.addItem(a);
+					}
+					comboDias1.setSelectedItem(null);
+				}
+				}
+			if(!añobisiesto((int)comboAnios1.getSelectedItem())) {
+				if(comboDias1.getSelectedItem()!=null) {
+					int dia = (int) comboDias1.getSelectedItem();
+					comboDias1.removeAllItems();
+					
+						for(int a=1;a<=28;a++){
+							comboDias1.addItem(a);
+						}
+					
+					if(dia>28) {
+						comboDias1.setSelectedItem(null);
+						JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+					}
+					else {
+						comboDias1.setSelectedItem(dia);
+					}
+				}
+				else {
+					comboDias1.removeAllItems();
+					
+					for(int a=1;a<=29;a++){
+						comboDias1.addItem(a);
+					}
+					comboDias1.setSelectedItem(null);
+				}
+			}
+		}
+				
+		else {
+			if(comboDias1.getSelectedItem()==null) {
+			
+			comboDias1.removeAllItems();
+			for(int a=1;a<=31;a++){
+				comboDias1.addItem(a);
+			}
+			comboDias1.setSelectedItem(null);
+			}
+			else {
+				int dia = (int) comboDias1.getSelectedItem();
+				comboDias1.removeAllItems();
+				for(int a=1;a<=31;a++){
+					comboDias1.addItem(a);
+				}
+				comboDias1.setSelectedItem(dia);
+				}
+			}
+		
+	}
+
+	private JComboBox getComboBoxAnios1() {
+		if (comboAnios1 == null) {
+			comboAnios1 = new JComboBox();
+			comboAnios1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					anios1();
+				}
+			});
+			for(int a=2020;a<=2040;a++){
+				comboAnios1.addItem(a);
+			}
+		}
+		return comboAnios1;
+	}
+	protected void anios1() {
+		
+		if(comboDias1.getSelectedItem()!=null) {
+			int dia = (int) comboDias1.getSelectedItem();
+		if(añobisiesto((int)comboAnios1.getSelectedItem()) && comboMeses1.getSelectedItem().equals("FEBRERO")){
+			comboDias1.removeAllItems();
+			for(int a=1;a<=29;a++){
+				comboDias1.addItem(a);
+			}
+			if(dia>29) {
+				comboDias1.setSelectedItem(null);
+				JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+				
+			}
+			else {
+			comboDias1.setSelectedItem(dia);
+			}
+			
+		}
+		if(!añobisiesto((int)comboAnios1.getSelectedItem()) && comboMeses1.getSelectedItem().equals("FEBRERO")){
+			comboDias1.removeAllItems();
+			for(int a=1;a<=28;a++){
+				comboDias1.addItem(a);
+		}
+			if(comboMeses1.getSelectedItem().equals("FEBRERO")) {
+				if(dia>28) {
+					comboDias1.setSelectedItem(null);
+					JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+					
+				}
+				else {
+				comboDias1.setSelectedItem(dia);
+				}
+			}
+				
+		}
+		}
+	}
+
+	private JComboBox getComboBoxDias2() {
+		if (comboDias2 == null) {
+			comboDias2 = new JComboBox();
+			for(int a=1;a<=31;a++){
+				comboDias2.addItem(a);
+			}
+			comboDias2.setSelectedItem(null);
+		}
+		return comboDias2;
+	}
+	private JComboBox getComboBoxMeses2() {
+		if (comboMeses2 == null) {
+			comboMeses2 = new JComboBox();
+			comboMeses2 = new JComboBox();
+			comboMeses2.addItem("ENERO");
+			comboMeses2.addItem("FEBRERO");
+			comboMeses2.addItem("MARZO");
+			comboMeses2.addItem("ABRIL");
+			comboMeses2.addItem("MAYO");
+			comboMeses2.addItem("JUNIO");
+			comboMeses2.addItem("JULIO");
+			comboMeses2.addItem("AGOSTO");
+			comboMeses2.addItem("SEPTIEMBRE");
+			comboMeses2.addItem("OCTUBRE");
+			comboMeses2.addItem("NOVIEMBRE");
+			comboMeses2.addItem("DICIEMBRE");
+			comboMeses2.setSelectedItem(null);
+			comboMeses2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					meses2();
+				}
+			});
+			
+			
+		}
+		return comboMeses2;
+	}
+	private JComboBox getComboBoxAnios2() {
+		if (comboAnios2 == null) {
+			comboAnios2 = new JComboBox();
+			comboAnios2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					anios2();
+				}
+			});
+			for(int a=2020;a<=2040;a++){
+				comboAnios2.addItem(a);
+			}
+		}
+		return comboAnios2;
+	}
+	
+	protected void meses2() {
+		if(getComboBoxMeses2().getSelectedItem().equals("ABRIL") || getComboBoxMeses2().getSelectedItem().equals("JUNIO") ||
+				getComboBoxMeses2().getSelectedItem().equals("SEPTIEMBRE") || getComboBoxMeses2().getSelectedItem().equals("NOVIEMBRE")) {
+
+				
+				if(comboDias2.getSelectedItem()!=null) {
+					int dia = (int) comboDias2.getSelectedItem();
+					comboDias2.removeAllItems();
+					for(int a=1;a<=30;a++){
+						comboDias2.addItem(a);
+					}
+					if(dia==31) {
+						comboDias2.setSelectedItem(null);
+						JOptionPane.showMessageDialog(null, "Este mes no tiene 31 dias. Seleccione un día válido");
+						
+					}
+					else {
+
+						comboDias2.setSelectedItem(dia);
+					}
+				}
+				else {
+					comboDias2.removeAllItems();
+					for(int a=1;a<=30;a++){
+						comboDias2.addItem(a);
+					}
+					comboDias2.setSelectedItem(null);
+					}
+				}
+	
+		else if( getComboBoxMeses2().getSelectedItem().equals("FEBRERO")) {
+			
+			
+			if(añobisiesto((int)comboBoxAños.getSelectedItem())){
+				if(comboDias2.getSelectedItem()!=null) {
+					int dia = (int) comboDias2.getSelectedItem();
+					comboDias2.removeAllItems();
+					
+						for(int a=1;a<=29;a++){
+							comboDias2.addItem(a);
+						}
+					
+					if(dia>29) {
+						comboDias2.setSelectedItem(null);
+						JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+					}
+					else {
+						comboDias2.setSelectedItem(dia);
+					}
+				}
+				else {
+					comboDias2.removeAllItems();
+					
+					for(int a=1;a<=29;a++){
+						comboDias2.addItem(a);
+					}
+					comboDias2.setSelectedItem(null);
+				}
+				}
+			if(!añobisiesto((int)comboAnios2.getSelectedItem())) {
+				if(comboDias2.getSelectedItem()!=null) {
+					int dia = (int) comboDias2.getSelectedItem();
+					comboDias2.removeAllItems();
+					
+						for(int a=1;a<=28;a++){
+							comboDias2.addItem(a);
+						}
+					
+					if(dia>28) {
+						comboDias2.setSelectedItem(null);
+						JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+					}
+					else {
+						comboDias2.setSelectedItem(dia);
+					}
+				}
+				else {
+					comboDias2.removeAllItems();
+					
+					for(int a=1;a<=29;a++){
+						comboDias2.addItem(a);
+					}
+					comboDias2.setSelectedItem(null);
+				}
+			}
+		}
+				
+		else {
+			if(comboDias2.getSelectedItem()==null) {
+			
+			comboDias2.removeAllItems();
+			for(int a=1;a<=31;a++){
+				comboDias2.addItem(a);
+			}
+			comboDias2.setSelectedItem(null);
+			}
+			else {
+				int dia = (int) comboDias2.getSelectedItem();
+				comboDias2.removeAllItems();
+				for(int a=1;a<=31;a++){
+					comboDias2.addItem(a);
+				}
+				comboDias2.setSelectedItem(dia);
+				}
+			}
+		
+	}
+	
+	protected void anios2() {
+		
+		if(comboDias2.getSelectedItem()!=null) {
+			int dia = (int) comboDias2.getSelectedItem();
+		if(añobisiesto((int)comboAnios2.getSelectedItem()) && comboMeses2.getSelectedItem().equals("FEBRERO")){
+			comboDias2.removeAllItems();
+			for(int a=1;a<=29;a++){
+				comboDias2.addItem(a);
+			}
+			if(dia>29) {
+				comboDias2.setSelectedItem(null);
+				JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+				
+			}
+			else {
+			comboDias2.setSelectedItem(dia);
+			}
+			
+		}
+		if(!añobisiesto((int)comboAnios2.getSelectedItem()) && comboMeses2.getSelectedItem().equals("FEBRERO")){
+			comboDias2.removeAllItems();
+			for(int a=1;a<=28;a++){
+				comboDias2.addItem(a);
+		}
+			if(comboMeses2.getSelectedItem().equals("FEBRERO")) {
+				if(dia>28) {
+					comboDias2.setSelectedItem(null);
+					JOptionPane.showMessageDialog(null, "Este mes no tiene tantos días. Seleccione un día válido");
+					
+				}
+				else {
+				comboDias2.setSelectedItem(dia);
+				}
+			}
+				
+		}
+		}
 	}
 }
