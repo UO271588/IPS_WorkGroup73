@@ -164,9 +164,10 @@ public class RaceCrationFrame extends JFrame {
 	private JButton btnAdd_1;
 	private JPanel pnlValidate_1;
 	private JButton btnValidarPlazos;
-	private JLabel lblValCategory_1;
+	private JLabel lblValPlazos;
 	private JPanel pnlRemove_1;
 	private JButton btnRemove_1;
+	private JButton btnvalidarFechaCarrera;
 
 	/**
 	 * Launch the application.
@@ -189,7 +190,7 @@ public class RaceCrationFrame extends JFrame {
 	 */
 	public RaceCrationFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1075, 603);
+		setBounds(100, 100, 1324, 599);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -316,7 +317,7 @@ public class RaceCrationFrame extends JFrame {
 	}
 	private JLabel getLbltitPlazos() {
 		if (lbltitPlazos == null) {
-			lbltitPlazos = new JLabel("Plazos");
+			lbltitPlazos = new JLabel("Plazos inscripción");
 		}
 		return lbltitPlazos;
 	}
@@ -378,6 +379,7 @@ public class RaceCrationFrame extends JFrame {
 			pnlDato5.add(getComboBoxDias());
 			pnlDato5.add(getComboBoxMeses());
 			pnlDato5.add(getComboBoxAños());
+			pnlDato5.add(getBtnvalidarFechaCarrera());
 		}
 		return pnlDato5;
 	}
@@ -945,30 +947,56 @@ public class RaceCrationFrame extends JFrame {
 			btnCrear = new JButton("Crear");
 			btnCrear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(!validarNombre(getTextFieldName().getText())) {
-						JOptionPane.showMessageDialog(null, "El nombre de la carrera no puede estar vacío");
-					}
-					else if(!validarDistancia(getTextDistancia().getText())) {
-						JOptionPane.showMessageDialog(null, "El numero de kilometros no es válido");
-					}
-					else if(!validarTipo()) {
-						JOptionPane.showMessageDialog(null, "Seleccione un tipo");
-					}
-					else if(!validarPlazas()) {
-						JOptionPane.showMessageDialog(null, "Seleccione un numero de plazas o marquelo como sin definir");
-					}
-					else if(!validarFecha()) {
-						JOptionPane.showMessageDialog(null, "La fecha introducida tiene que ser posterior al día de hoy");
-					}
+					
+						if(validaciones())
+							createRace();
+						
 				}
-
 				
 			});
 		}
 		return btnCrear;
 	}
+	private boolean validaciones() {
+		if(!validarNombre(getTextFieldName().getText())) {
+			JOptionPane.showMessageDialog(null, "El nombre de la carrera no puede estar vacío");
+			return false;
+		}
+		else if(!validarDistancia(getTextDistancia().getText())) {
+			JOptionPane.showMessageDialog(null, "El numero de kilometros no es válido");
+			return false;
+		}
+		else if(!validarTipo()) {
+			JOptionPane.showMessageDialog(null, "Seleccione un tipo");
+			return false;
+		}
+		else if(!validarPlazas()) {
+			JOptionPane.showMessageDialog(null, "Seleccione un numero de plazas o marquelo como sin definir");
+			return false;
+		}
+		else if(getBtnvalidarFechaCarrera().getBackground()!=Color.green) {
+			JOptionPane.showMessageDialog(null, "Valide la fecha de la carrera");
+			return false;
+		}
+		else if(!lblValPlazos.getText().equals("Validado")) {
+			JOptionPane.showMessageDialog(null, "Valide los plazos de inscripcion en la carrera");
+			return false;
+		}
+		return true;
+	}
+	protected void createRace() {
+		if(controller.validateCategories(getPnlMascView(), getPnlFemView())) {
+			if(controller2.validatePlazos(pnlPlazosView)) {
+				System.out.println("Creando carrera");
+			}
+		}
+	}
+	
 	protected boolean validarFecha() {
 		LocalDate hoy = LocalDate.now();
+		if(comboBoxDias.getSelectedItem()==null || comboBoxMeses.getSelectedItem()==null || comboBoxAños==null) {
+			return false;
+		}
 		int day = comboBoxDias.getSelectedIndex()+1;
 		int mes = comboBoxMeses.getSelectedIndex()+1;
 		int year = (int)comboBoxAños.getSelectedItem();
@@ -1040,7 +1068,7 @@ public class RaceCrationFrame extends JFrame {
 		}
 		return lblNewLabel_1;
 	}
-	private JComboBox getComboBoxDias() {
+	public JComboBox getComboBoxDias() {
 		if (comboBoxDias == null) {
 			comboBoxDias = new JComboBox();
 			
@@ -1052,7 +1080,7 @@ public class RaceCrationFrame extends JFrame {
 		}
 		return comboBoxDias;
 	}
-	private JComboBox getComboBoxMeses() {
+	public JComboBox getComboBoxMeses() {
 		if (comboBoxMeses == null) {
 			comboBoxMeses = new JComboBox();
 			
@@ -1195,7 +1223,7 @@ public class RaceCrationFrame extends JFrame {
 			return true;
 		return false;
 	}
-	private JComboBox getComboBoxAños() {
+	public JComboBox getComboBoxAños() {
 		if (comboBoxAños == null) {
 			comboBoxAños = new JComboBox();
 			comboBoxAños.addActionListener(new ActionListener() {
@@ -1306,9 +1334,10 @@ public class RaceCrationFrame extends JFrame {
 			pnlPlazosHead = new JPanel();
 			pnlPlazosHead.setBorder(new LineBorder(new Color(0, 0, 0)));
 			pnlPlazosHead.setLayout(new GridLayout(0, 3, 0, 0));
-			pnlPlazosHead.add(getLblPlazosCantidad());
+			
 			pnlPlazosHead.add(getLblPlazosFechaInicio());
 			pnlPlazosHead.add(getLblPlazosFechaFinal());
+			pnlPlazosHead.add(getLblPlazosCantidad());
 		}
 		return pnlPlazosHead;
 	}
@@ -1345,9 +1374,10 @@ public class RaceCrationFrame extends JFrame {
 		if (row1 == null) {
 			row1 = new JPanel();
 			row1.setLayout(new GridLayout(0, 3, 0, 0));
-			row1.add(getTextFieldCantidad());
+			
 			row1.add(getPnlPlazosR1C2());
 			row1.add(getPanel_1_3());
+			row1.add(getTextFieldCantidad());
 		}
 		return row1;
 	}
@@ -1447,7 +1477,7 @@ public class RaceCrationFrame extends JFrame {
 		else if( getComboBoxMeses1().getSelectedItem().equals("FEBRERO")) {
 			
 			
-			if(añobisiesto((int)comboBoxAños.getSelectedItem())){
+			if(añobisiesto((int)getComboBoxAnios1().getSelectedItem())){
 				if(comboDias1.getSelectedItem()!=null) {
 					int dia = (int) comboDias1.getSelectedItem();
 					comboDias1.removeAllItems();
@@ -1808,7 +1838,7 @@ public class RaceCrationFrame extends JFrame {
 			pnlValidate_1 = new JPanel();
 			pnlValidate_1.setLayout(new GridLayout(2, 1, 0, 0));
 			pnlValidate_1.add(getBtnValidarPlazos());
-			pnlValidate_1.add(getLblValCategory_1());
+			pnlValidate_1.add(getLblValPlazos());
 		}
 		return pnlValidate_1;
 	}
@@ -1817,19 +1847,31 @@ public class RaceCrationFrame extends JFrame {
 			btnValidarPlazos = new JButton("Validar Plazos");
 			btnValidarPlazos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					controller2.validateCategories(pnlPlazosView);
+					if(btnvalidarFechaCarrera.getBackground()!=Color.green) {
+						lblValPlazos.setText("Valide fecha carrera");
+						lblValPlazos.setForeground(Color.RED);
+						btnvalidarFechaCarrera.setBackground(Color.red);
+					}
+				else if(controller2.validatePlazos(pnlPlazosView)) {
+						lblValPlazos.setText("Validado");
+						lblValPlazos.setForeground(Color.GREEN);
+					}
+					else {
+						lblValPlazos.setText("Incorrecto");
+						lblValPlazos.setForeground(Color.RED);
+					}
 				}
 			});
 		}
 		return btnValidarPlazos;
 	}
-	private JLabel getLblValCategory_1() {
-		if (lblValCategory_1 == null) {
-			lblValCategory_1 = new JLabel("Sin Validar");
-			lblValCategory_1.setHorizontalAlignment(SwingConstants.CENTER);
-			lblValCategory_1.setForeground(Color.BLACK);
+	private JLabel getLblValPlazos() {
+		if (lblValPlazos == null) {
+			lblValPlazos = new JLabel("Sin Validar");
+			lblValPlazos.setHorizontalAlignment(SwingConstants.CENTER);
+			lblValPlazos.setForeground(Color.BLACK);
 		}
-		return lblValCategory_1;
+		return lblValPlazos;
 	}
 	private JPanel getPnlRemove_1() {
 		if (pnlRemove_1 == null) {
@@ -1849,5 +1891,23 @@ public class RaceCrationFrame extends JFrame {
 			});
 		}
 		return btnRemove_1;
+	}
+	private JButton getBtnvalidarFechaCarrera() {
+		if (btnvalidarFechaCarrera == null) {
+			btnvalidarFechaCarrera = new JButton("Validar");
+			btnvalidarFechaCarrera.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!validarFecha()) {
+						btnvalidarFechaCarrera.setBackground(Color.red);
+						JOptionPane.showMessageDialog(null, "La fecha introducida tiene que ser posterior al día de hoy");
+						
+					}
+					else {
+						btnvalidarFechaCarrera.setBackground(Color.green);
+					}
+				}
+			});
+		}
+		return btnvalidarFechaCarrera;
 	}
 }
