@@ -184,6 +184,7 @@ public class InscriptionModel {
 		}
 	}
 
+
 	public String getSex(String email) {
 		String sql = "select sex " + "from PARTICIPANT  " + "where EMAIL = ?";
 		String sex = "";

@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import business.race.RaceDto;
 import controller.InscripcionController;
+import model.clasification.ClasificationAccess;
 import model.clasification.ClasificationDto;
 import model.inscription.InscriptionModel;
 import model.participant.ParticipantModel;
@@ -32,6 +33,7 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.beans.PropertyChangeListener;
+import java.sql.SQLException;
 import java.beans.PropertyChangeEvent;
 import java.awt.FlowLayout;
 
@@ -71,12 +73,14 @@ public class ClasificationsFrame extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public ClasificationsFrame() {
+	public ClasificationsFrame() throws SQLException {
 		setTitle("Clasificaciones");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 828, 588);
-		clasificaciones = new ArrayList<ClasificationDto>();
+		ClasificationAccess ca = new ClasificationAccess();
+		clasificaciones = ca.findAllByRace("3435476");
 		añadirClasificaciones();
 		contentPane = new JPanel();
 		setContentPane(contentPane);

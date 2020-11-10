@@ -17,7 +17,16 @@ public class ClasificationAccess {
 		Statement st = con.createStatement();
 		ResultSet rs = st.executeQuery("select * from CLASIFICATION where IDCOMPETITION = '" + idCompetition+ "'");
 		while (rs.next()) {
-			System.out.println(rs.getString(1) + rs.getString(2) + rs.getString(3) + rs.getString(4) + rs.getString(5));
+			ClasificationDto clasificacion= new ClasificationDto();
+			clasificacion.dni = rs.getString("DNI");
+			clasificacion.idcarrera = idCompetition;
+			clasificacion.sexo = rs.getString("SEXO");
+			clasificacion.posicion = "0";
+			clasificacion.tiempoInicio = rs.getString("INITIALTIME");
+			clasificacion.tiempoFinal = rs.getString("FINALTIME");
+			
+			
+			clasificacionAbsoluta.add(clasificacion);
 		}
 		return clasificacionAbsoluta;
 	}

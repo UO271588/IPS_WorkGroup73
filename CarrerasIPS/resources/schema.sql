@@ -8,6 +8,7 @@ drop table INSCRIPTION;
 drop table CATEGORY;
 drop table REL_CATEGORY_COMPETITION;
 drop table INSCRIPTION_DEADLINE;
+drop table CLASIFICATION;
 
 CREATE TABLE COMPETITION (IDCOMPETITION  VARCHAR(20) PRIMARY KEY     NOT NULL,
                 NAME           VARCHAR(20)    NOT NULL,                      
@@ -56,9 +57,9 @@ CREATE TABLE INSCRIPTION_DEADLINE (IDDEADLINE VARCHAR(20) NOT NULL,
 				PRIMARY KEY (IDDEADLINE,IDCOMPETITION));
 CREATE TABLE CLASIFICATION (IDCOMPETITION VARCHAR(20) NOT NULL,
                                 DNI VARCHAR(20) NOT NULL,
-                                INITIALTIME DATE,
-                                FINALTIME DATE,
-                                SEX VARCHAR(8) NOT NULL CHECK(SEX IN ('HOMBRE','MUJER'),
-                                PRIMARY KEY (IDCOMPETITION,IDPARTICIPANT),
+                                INITIALTIME VARCHAR(10),
+                                FINALTIME VARCHAR(10),
+                                SEX VARCHAR(8) NOT NULL CHECK(SEX IN ('HOMBRE','MUJER')),
+                                PRIMARY KEY (IDCOMPETITION,DNI),
                                 CONSTRAINT FK_COMP_CLAS FOREIGN KEY (IDCOMPETITION) REFERENCES COMPETITION(IDCOMPETITION),
                                 CONSTRAINT FK_PART_CLAS FOREIGN KEY (DNI) REFERENCES COMPETITION(DNI));
