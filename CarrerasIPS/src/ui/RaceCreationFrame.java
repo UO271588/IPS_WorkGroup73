@@ -27,7 +27,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
 
-public class RaceCrationFrame extends JFrame {
+public class RaceCreationFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel pnlTitulo;
@@ -73,7 +73,7 @@ public class RaceCrationFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RaceCrationFrame frame = new RaceCrationFrame();
+					RaceCreationFrame frame = new RaceCreationFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -85,7 +85,7 @@ public class RaceCrationFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RaceCrationFrame() {
+	public RaceCreationFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 656, 485);
 		contentPane = new JPanel();
