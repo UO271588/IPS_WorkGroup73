@@ -173,7 +173,7 @@ public class MainFrame extends JFrame {
 
 	protected void launchCrearCarreras() {
 		this.setVisible(false);
-		new RaceCrationFrame(this).setVisible(true);
+		new RaceCreationFrame(this).setVisible(true);
 		
 	}
 }
