@@ -57,13 +57,13 @@ public class InscriptionModel {
 
 	private void insert(int idCompeticion, String email) {
 		DbUtil du = new DbUtil();
-		String sql = "INSERT INTO inscripcion (DNI,IDCompetition,INSCRIPTIONDATE,CATEGORY,INSCRIPTIONSTATE) VALUES (?, ?, ?, ?,?)";
+		String sql = "INSERT INTO inscription (DNI,IDCompetition,INSCRIPTIONDATE,IDCATEGORY,INSCRIPTIONSTATE) VALUES (?, ?, ?, ?,?)";
 		du.executeUpdate(sql, getDni(email), idCompeticion, fecha_hoy, j.getCategoria(), j.getEstado());
 	}
 
 	// Cambiar a ParticipantModel
 	public static String getDni(String e) {
-		String sql = "select DNI from participante where email=?";
+		String sql = "select DNI from participant where email=?";
 		String dni = "";
 		Connection cn = null;
 		PreparedStatement pstmt = null;
@@ -124,7 +124,7 @@ public class InscriptionModel {
 	}
 
 	public int getCantidad(int id) {
-		String sql = "select InscriptionFee " + "from competition " + "where idcompetition=?";
+		String sql = "select Inscription_Fee " + "from competition " + "where idcompetition=?";
 		int cantidad = 0;
 		Connection cn = null;
 		PreparedStatement pstmt = null;
@@ -155,7 +155,7 @@ public class InscriptionModel {
 	}
 
 	public Date getBirthdate(String email) {
-		String sql = "select BIRTHDATE " + "from PARTICIPANTE " + "where EMAIL = ?";
+		String sql = "select BIRTHDATE " + "from PARTICIPANT " + "where EMAIL = ?";
 		String birthdate = "";
 		Connection cn = null;
 		PreparedStatement pstmt = null;
@@ -185,7 +185,7 @@ public class InscriptionModel {
 	}
 
 	public String getSex(String email) {
-		String sql = "select sex " + "from PARTICIPANTE  " + "where EMAIL = ?";
+		String sql = "select sex " + "from PARTICIPANT  " + "where EMAIL = ?";
 		String sex = "";
 		Connection cn = null;
 		PreparedStatement pstmt = null;
@@ -260,13 +260,13 @@ public class InscriptionModel {
 
 	public static void updateEstado(String estado, String dni, String idcompetition) {
 		Database db = new Database();
-		String sql = "UPDATE inscripcion SET INSCRIPTIONSTATE = ? WHERE dni = ? AND idcompetition = ? ";
+		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? WHERE dni = ? AND idcompetition = ? ";
 		System.out.println(estado + dni + idcompetition);
 		db.executeUpdate(sql, estado, dni, idcompetition);
 	}
 
 	public String getNombre_justificante(String email) {
-		String sql = "select NAME " + "from PARTICIPANTE  " + "where EMAIL = ?";
+		String sql = "select NAME " + "from PARTICIPANT  " + "where EMAIL = ?";
 		String nombre_justificante = "";
 		Connection cn = null;
 		PreparedStatement pstmt = null;
@@ -296,43 +296,43 @@ public class InscriptionModel {
 		}
 	}
 
-	public String getAforo(String id) {
-		String sql = "select aforo " + "from competition  " + "where IdCompetition = ?";
-		String aforo = "";
-		Connection cn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			cn = DbUtil.getConnection();
-			pstmt = cn.prepareStatement(sql);
-			pstmt.setString(1, id);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				aforo = rs.getString("aforo");
-			}
-
-			return aforo;
-		} catch (SQLException e) {
-			throw new UnexpectedException(e);
-		} finally {
-			try {
-				rs.close();
-				pstmt.close();
-				cn.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-	}
+//	public String getAforo(String id) {
+//		String sql = "select aforo " + "from competition  " + "where IdCompetition = ?";
+//		String aforo = "";
+//		Connection cn = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		try {
+//			cn = DbUtil.getConnection();
+//			pstmt = cn.prepareStatement(sql);
+//			pstmt.setString(1, id);
+//			rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				aforo = rs.getString("aforo");
+//			}
+//
+//			return aforo;
+//		} catch (SQLException e) {
+//			throw new UnexpectedException(e);
+//		} finally {
+//			try {
+//				rs.close();
+//				pstmt.close();
+//				cn.close();
+//			} catch (SQLException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//		}
+//	}
 
 	public Justificante getJustificante() {
 		return this.j;
 	}
 
 	public boolean existeEmail(String email) {
-		String sql = "select email from participante where email=?";
+		String sql = "select email from participant where email=?";
 		try {
 			if (DbUtil.existRowStringDB(sql, email))
 				return true;
@@ -368,7 +368,7 @@ public class InscriptionModel {
 	
 
 	public static boolean existeYaInscripcion(String e, String name) {
-			String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ="+e;
+			String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ='"+e + "'";
 			try {
 				if(DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
 					return true;

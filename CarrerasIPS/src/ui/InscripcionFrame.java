@@ -40,8 +40,8 @@ public class InscripcionFrame extends JFrame {
 	 * @param nombreCarrera
 	 */
 	public InscripcionFrame(RaceDto carrera) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 485, 303);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
