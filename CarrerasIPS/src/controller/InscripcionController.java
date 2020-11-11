@@ -4,10 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import model.inscription.InscriptionModel;
 import ui.InscripcionFrame;
+import ui.ReceiptFrame;
 import util.TimeUtil;
 
 public class InscripcionController {
@@ -52,15 +54,20 @@ public class InscripcionController {
 
 	private void imprimirFormulario() {
 		model.justificante(view.getTextFieldEmail().getText(), view.getTextFieldNombreCompeticion().getText());
-		System.out.println("----------------------------------------------------");
-		System.out.println("JUSTIFICANTE DE INSCRIPCION: ");
-		System.out.println("Nombre atleta: " + model.getJustificante().getNombre());
-		System.out.println("Competición: "+ model.getJustificante().getnombreCompeticion());
-		System.out.println("Categoria: "+ model.getJustificante().getCategoria());
-		System.out.println("Fecha inscripcion: " + TimeUtil.dateToIsoString(model.getJustificante().getFecha_inscripcion()));
-		System.out.println("Cantidad: "+ model.getJustificante().getCantidad());
-		System.out.println("Estado: " + model.getJustificante().getEstado());
-		System.out.println("----------------------------------------------------");
+		ReceiptFrame rf = new ReceiptFrame(model.getJustificante().getNombre(), model.getJustificante().getnombreCompeticion(),
+				model.getJustificante().getCategoria(),TimeUtil.dateToIsoString(model.getJustificante().getFecha_inscripcion()),
+				model.getJustificante().getCantidad(), model.getJustificante().getEstado());
+		rf.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		rf.setVisible(true);
+//		System.out.println("----------------------------------------------------");
+//		System.out.println("JUSTIFICANTE DE INSCRIPCION: ");
+//		System.out.println("Nombre atleta: " + );
+//		System.out.println("Competición: "+ );
+//		System.out.println("Categoria: "+ );
+//		System.out.println("Fecha inscripcion: " + );
+//		System.out.println("Cantidad: "+ );
+//		System.out.println("Estado: " + );
+//		System.out.println("----------------------------------------------------");
 	}
 	
 	public String getEmailFromView() {

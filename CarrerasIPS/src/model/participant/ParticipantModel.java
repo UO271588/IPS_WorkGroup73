@@ -92,7 +92,7 @@ public class ParticipantModel {
 	 */
 	public static ParticipantDto getBasicData(String dni) {
 		Database db = new Database();
-		String sql = "select name, surname, email from participante where dni = ?";
+		String sql = "select name, surname, email from participant where dni = ?";
 		
 		return db.executeQueryPojo(ParticipantDto.class, sql, dni).get(0);
 		
