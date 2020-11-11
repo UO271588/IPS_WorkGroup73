@@ -12,20 +12,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ui.RaceCrationFrame;
+import ui.RaceCreationFrame;
 
 public class RaceCreationController2 {
 
 	private static final int MAXAGE = 117;
 
-	private RaceCrationFrame view;
+	private RaceCreationFrame view;
 	private JComboBox comboDias1;
 	private JComboBox comboMeses1;
 	private JComboBox comboAnios1;
 	private JComboBox comboDias2;
 	private JComboBox comboMeses2;
 	private JComboBox comboAnios2;
-	public RaceCreationController2(RaceCrationFrame view) {
+	public RaceCreationController2(RaceCreationFrame view) {
 		super();
 		this.view = view;
 	}

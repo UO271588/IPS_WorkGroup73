@@ -18,16 +18,16 @@ import business.race.RaceDto;
 import dbAccess.CompetitionsAccess;
 import model.category.CategoryDto;
 import model.category.CategoryModel;
-import ui.RaceCrationFrame;
+import ui.RaceCreationFrame;
 import util.database.Database;
 
 public class RaceCreationController {
 	
 	private static final int MAXAGE = 117;
 
-	private RaceCrationFrame view;
+	private RaceCreationFrame view;
 
-	public RaceCreationController(RaceCrationFrame view) {
+	public RaceCreationController(RaceCreationFrame view) {
 		super();
 		this.view = view;
 	}
