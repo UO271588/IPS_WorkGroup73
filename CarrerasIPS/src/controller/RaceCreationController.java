@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,6 +19,8 @@ import business.race.RaceDto;
 import dbAccess.CompetitionsAccess;
 import model.category.CategoryDto;
 import model.category.CategoryModel;
+import model.deadline.DeadLineDto;
+import model.deadline.DeadLineModel;
 import ui.RaceCreationFrame;
 import util.database.Database;
 
@@ -125,17 +128,25 @@ public class RaceCreationController {
 
 	public void createRace() {
 		RaceDto race = new RaceDto();
-		race.aforoActual = 20;
-		race.aforoMax = 30;
-		race.distancia = 10;
-		race.fechaCarrera = new Date();
+		race.aforoActual = 0;
+		if(view.getRdSinDefinir().isSelected())
+			race.aforoMax = Integer.MAX_VALUE;
+		else			
+			race.aforoMax = Integer.parseInt(view.getTextDistancia().getText());
+		race.distancia = Integer.parseInt(view.getTextDistancia().getText());
+		race.fechaCarrera = parseDate(view.getComboBoxDias(), view.getComboBoxMeses(), view.getComboBoxAños());
 		race.fechaLimite = new Date();
 		race.id = UUID.randomUUID().toString();
-		race.nombre = "prueba";
-		race.precioInscripcion = 100;
-		race.tipo = "ASFALTO";
-		CompetitionsAccess.createRace(race);
+		race.nombre = view.getTextFieldName().getText();
+		race.precioInscripcion = 0;
+		if(view.getRdbtnAsfalto().isSelected())
+			race.tipo = "ASFALTO";
+		else {
+			race.tipo = "MONTANA";
+		}
 		createCategories(race.id);
+		race.fechaLimite = createDeadLines(race.id);
+		CompetitionsAccess.createRace(race);
 		
 		StringBuilder sb =  new StringBuilder();
 		sb.append("Carrera Creada");
@@ -145,6 +156,42 @@ public class RaceCreationController {
 		sb.append("\nFecha Competicion: " + race.fechaCarrera);
 		System.out.println(sb);
 		JOptionPane.showMessageDialog(null, sb.toString());
+		
+	}
+	
+	private Date createDeadLines(String id) {
+		JPanel pnl = view.getPnlPlazosView();
+		Date date = null;
+		for(Component comp : pnl.getComponents()) {
+			date =createDeadLine((JPanel)comp, id);
+		}
+		//retornamos el date del ultimo
+		return date;
+	}
+
+	private Date createDeadLine(JPanel comp, String id) {
+		DeadLineDto dto = new DeadLineDto();
+		dto.idDeadLine = UUID.randomUUID().toString();
+		JPanel pnlIni = (JPanel)comp.getComponent(0);
+		JPanel pnlFin = (JPanel)comp.getComponent(1);
+		
+		JComboBox cb1= (JComboBox)pnlIni.getComponent(0);
+		JComboBox cb2= (JComboBox)pnlIni.getComponent(1);
+		JComboBox cb3= (JComboBox)pnlIni.getComponent(2);
+		dto.setInitialDateAsDate(parseDate(cb1, cb2, cb3));
+		cb1= (JComboBox)pnlFin.getComponent(0);
+		cb2= (JComboBox)pnlFin.getComponent(1);
+		cb3= (JComboBox)pnlFin.getComponent(2);
+		dto.setFinalDateAsDate(parseDate(cb1, cb2, cb3));
+		dto.fee = Integer.parseInt(((JTextField)comp.getComponent(2)).getText());
+		dto.idCompetition = id;
+		DeadLineModel.addDeadLine(dto);
+		return dto.getFinalDateAsDate();
+	}
+
+	public Date parseDate(JComboBox cbd,JComboBox cbm, JComboBox cba) {
+		Date date = new Date( (int)cba.getSelectedItem() + 1900,cbm.getSelectedIndex(),cbd.getSelectedIndex());
+		return date;
 		
 	}
 

@@ -45,197 +45,6 @@ import java.awt.event.MouseEvent;
 public class RaceCreationFrame extends JFrame {
 	
 
-	
-/*
-	
-	
-	private JLabel getLblTitBasic() {
-		if (lblTitBasic == null) {
-			lblTitBasic = new JLabel("Datos Basicos");
-		}
-		return lblTitBasic;
-	}
-	private JPanel getPanel_7() {
-		if (pnlDatosBasic == null) {
-			pnlDatosBasic = new JPanel();
-			pnlDatosBasic.setLayout(new GridLayout(5, 0, 0, 0));
-			pnlDatosBasic.add(getPanel_8());
-			pnlDatosBasic.add(getPanel_2_1());
-			pnlDatosBasic.add(getPanel_1_2());
-			pnlDatosBasic.add(getPanel_4_1());
-			pnlDatosBasic.add(getPanel_3_1());
-		}
-		return pnlDatosBasic;
-	}
-	private JPanel getPanel_8() {
-		if (pnlDato1 == null) {
-			pnlDato1 = new JPanel();
-			pnlDato1.add(getLblNewLabel_1());
-			pnlDato1.add(getTextField());
-		}
-		return pnlDato1;
-	}
-	private JPanel getPanel_1_2() {
-		if (pnlDato3 == null) {
-			pnlDato3 = new JPanel();
-			pnlDato3.add(getLblNewLabel_3());
-			pnlDato3.add(getRdbtnNewRadioButton());
-			pnlDato3.add(getRdbtnNewRadioButton_1());
-		}
-		return pnlDato3;
-	}
-	private JPanel getPanel_2_1() {
-		if (pnlDato2 == null) {
-			pnlDato2 = new JPanel();
-			pnlDato2.add(getLblNewLabel_2());
-			pnlDato2.add(getTextField_1());
-		}
-		return pnlDato2;
-	}
-	private JPanel getPanel_3_1() {
-		if (pnlDato5 == null) {
-			pnlDato5 = new JPanel();
-			pnlDato5.add(getLblNewLabel_5());
-		}
-		return pnlDato5;
-	}
-	private JPanel getPanel_4_1() {
-		if (pnlDato4 == null) {
-			pnlDato4 = new JPanel();
-			pnlDato4.add(getLblNewLabel_4());
-			pnlDato4.add(getComboBox());
-		}
-		return pnlDato4;
-	}
-	private JLabel getLblNewLabel_1() {
-		if (lblNewLabel_1 == null) {
-			lblNewLabel_1 = new JLabel("New label");
-		}
-		return lblNewLabel_1;
-	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setColumns(10);
-		}
-		return textField;
-	}
-	private JLabel getLblNewLabel_2() {
-		if (lblNewLabel_2 == null) {
-			lblNewLabel_2 = new JLabel("New label");
-		}
-		return lblNewLabel_2;
-	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
-		}
-		return textField_1;
-	}
-	private JLabel getLblNewLabel_3() {
-		if (lblNewLabel_3 == null) {
-			lblNewLabel_3 = new JLabel("New label");
-		}
-		return lblNewLabel_3;
-	}
-	private JRadioButton getRdbtnNewRadioButton() {
-		if (rdbtnNewRadioButton == null) {
-			rdbtnNewRadioButton = new JRadioButton("mont");
-			buttonGroup.add(rdbtnNewRadioButton);
-		}
-		return rdbtnNewRadioButton;
-	}
-	private JRadioButton getRdbtnNewRadioButton_1() {
-		if (rdbtnNewRadioButton_1 == null) {
-			rdbtnNewRadioButton_1 = new JRadioButton("ruta");
-			buttonGroup.add(rdbtnNewRadioButton_1);
-		}
-		return rdbtnNewRadioButton_1;
-	}
-	private JLabel getLblNewLabel_4() {
-		if (lblNewLabel_4 == null) {
-			lblNewLabel_4 = new JLabel("New label");
-		}
-		return lblNewLabel_4;
-	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-		}
-		return comboBox;
-	}
-	private JLabel getLblNewLabel_5() {
-		if (lblNewLabel_5 == null) {
-			lblNewLabel_5 = new JLabel("New label");
-		}
-		return lblNewLabel_5;
-	}
-	//TODO
-	private JPanel getPanel_2_1_1() {
-		if (pnlMasR2C2 == null) {
-			pnlMasR2C2 = new JPanel();
-			pnlMasR2C2.setLayout(new GridLayout(0, 2, 0, 0));
-			pnlMasR2C2.add(getCbIni2M());
-			pnlMasR2C2.add(getCbFin2M());
-		}
-		return pnlMasR2C2;
-	}
-	private JPanel getPanel() {
-		if (panel == null) {
-			panel = new JPanel();
-			panel.setLayout(new GridLayout(0, 6, 0, 0));
-			panel.add(getPanel_4_2());
-			panel.add(getBtnCrear());
-			panel.add(getPnlBtn2());
-			panel.add(getPnlBtn3());
-			panel.add(getBtnVolver());
-		}
-		return panel;
-	}
-	private JButton getBtnCrear() {
-		if (btnCrear == null) {
-			btnCrear = new JButton("Crear");
-			btnCrear.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					createRace();
-				}
-			});
-		}
-		return btnCrear;
-	}
-	protected void createRace() {
-		if(controller.validateCategories(getPnlMascView(), getPnlFemView()))
-			controller.createRace();
-		
-	}
-	private JPanel getPnlBtn2() {
-		if (pnlBtn2 == null) {
-			pnlBtn2 = new JPanel();
-		}
-		return pnlBtn2;
-	}
-	private JPanel getPnlBtn3() {
-		if (pnlBtn3 == null) {
-			pnlBtn3 = new JPanel();
-		}
-		return pnlBtn3;
-	}
-	private JButton getBtnVolver() {
-		if (btnVolver == null) {
-			btnVolver = new JButton("Volver");
-		}
-		return btnVolver;
-	}
-	private JPanel getPanel_4_2() {
-		if (pnlBtn1 == null) {
-			pnlBtn1 = new JPanel();
-		}
-		return pnlBtn1;
-	}
-}
-public class RaceCreationFrame extends JFrame {
-*/
 	/**
 	 * 
 	 */
@@ -391,6 +200,9 @@ public class RaceCreationFrame extends JFrame {
 	private JPanel pnlBtn3;
 	private JButton btnVolver;
 	private JPanel pnlBtn1;
+	private JPanel panel_1;
+	private JPanel panel_2;
+	private JPanel panel_3;
 
 
 	/**
@@ -430,7 +242,7 @@ public class RaceCreationFrame extends JFrame {
 	
 	
 
-	protected RaceDto getDto(String text) throws SQLException {
+	private RaceDto getDto(String text) throws SQLException {
 		String sql = "SELECT name FROM competition where IDcompetition = ?";
 		Database db = new Database();
 		Connection c = db.getConnection();
@@ -496,9 +308,11 @@ public class RaceCreationFrame extends JFrame {
 	private JSplitPane getSpnCategorias() {
 		if (spnCategorias == null) {
 			spnCategorias = new JSplitPane();
-			spnCategorias.setDividerSize(4);
+			spnCategorias.setResizeWeight(0.5);
 			spnCategorias.setLeftComponent(getPnlMasc());
 			spnCategorias.setRightComponent(getPnlFem());
+			spnCategorias.setDividerLocation(0);
+			spnCategorias.setDividerLocation(0.5);
 		}
 		return spnCategorias;
 	}
@@ -630,7 +444,7 @@ public class RaceCreationFrame extends JFrame {
 		}
 		return lblNameRace;
 	}
-	private JTextField getTextFieldName() {
+	public JTextField getTextFieldName() {
 		if (textFieldName == null) {
 			textFieldName = new JTextField();
 			textFieldName.setColumns(10);
@@ -643,7 +457,7 @@ public class RaceCreationFrame extends JFrame {
 		}
 		return lblDistancia;
 	}
-	private JTextField getTextDistancia() {
+	public JTextField getTextDistancia() {
 		if (textDistancia == null) {
 			textDistancia = new JTextField();
 			textDistancia.setColumns(10);
@@ -659,14 +473,14 @@ public class RaceCreationFrame extends JFrame {
 		}
 		return lblTipo;
 	}
-	private JRadioButton getRdbtnMontania() {
+	public JRadioButton getRdbtnMontania() {
 		if (rdbtnMontania == null) {
 			rdbtnMontania = new JRadioButton("monta\u00F1a");
 			buttonGroup.add(rdbtnMontania);
 		}
 		return rdbtnMontania;
 	}
-	private JRadioButton getRdbtnAsfalto() {
+	public JRadioButton getRdbtnAsfalto() {
 		if (rdbtnAsfalto == null) {
 			rdbtnAsfalto = new JRadioButton("asfalto");
 			buttonGroup.add(rdbtnAsfalto);
@@ -1285,7 +1099,10 @@ public class RaceCreationFrame extends JFrame {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setLayout(new GridLayout(0, 6, 0, 0));
+			panel.add(getPanel_1());
 			panel.add(getBtnCrear());
+			panel.add(getPanel_2());
+			panel.add(getPanel_3());
 			panel.add(getBtnNewButton_1());
 		}
 		return panel;
@@ -1333,9 +1150,10 @@ public class RaceCreationFrame extends JFrame {
 		return true;
 	}
 	protected void createRace() {
+		
 		if(controller.validateCategories(getPnlMascView(), getPnlFemView())) {
 			if(controller2.validatePlazos(pnlPlazosView)) {
-				System.out.println("Creando carrera");
+				controller.createRace();
 			}
 		}
 	}
@@ -1406,7 +1224,13 @@ public class RaceCreationFrame extends JFrame {
 	
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("Cancelar");
+			btnNewButton_1 = new JButton("Volver");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+					parent.setVisible(true);
+				}
+			});
 		}
 		return btnNewButton_1;
 	}
@@ -1634,7 +1458,7 @@ public class RaceCreationFrame extends JFrame {
 		
 	}
 
-	private JTextField getTextField_1_1() {
+	public JTextField getTextField_1_1() {
 		if (textFieldPlazas == null) {
 			textFieldPlazas = new JTextField();
 			
@@ -1660,7 +1484,7 @@ public class RaceCreationFrame extends JFrame {
 			return false;
 		}
 	}
-	private JRadioButton getRdSinDefinir() {
+	public JRadioButton getRdSinDefinir() {
 		if (rdSinDefinir == null) {
 			rdSinDefinir = new JRadioButton("Sin definir");
 			rdSinDefinir.addActionListener(new ActionListener() {
@@ -1710,7 +1534,7 @@ public class RaceCreationFrame extends JFrame {
 		}
 		return lblPlazosFechaFinal;
 	}
-	private JPanel getPnlPlazosView() {
+	public JPanel getPnlPlazosView() {
 		if (pnlPlazosView == null) {
 			pnlPlazosView = new JPanel();
 			pnlPlazosView.setLayout(new GridLayout(8, 0, 0, 0));
@@ -2257,5 +2081,23 @@ public class RaceCreationFrame extends JFrame {
 			});
 		}
 		return btnvalidarFechaCarrera;
+	}
+	private JPanel getPanel_1() {
+		if (panel_1 == null) {
+			panel_1 = new JPanel();
+		}
+		return panel_1;
+	}
+	private JPanel getPanel_2() {
+		if (panel_2 == null) {
+			panel_2 = new JPanel();
+		}
+		return panel_2;
+	}
+	private JPanel getPanel_3() {
+		if (panel_3 == null) {
+			panel_3 = new JPanel();
+		}
+		return panel_3;
 	}
 }

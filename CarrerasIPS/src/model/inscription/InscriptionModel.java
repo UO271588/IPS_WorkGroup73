@@ -124,7 +124,7 @@ public class InscriptionModel {
 	}
 
 	public int getCantidad(int id) {
-		String sql = "select Inscription_Fee " + "from competition " + "where idcompetition=?";
+		String sql = "select d.fee from inscription_deadline d, inscription i where d.idcompetition=? and i.inscriptiondate>=d.initialdate and i.inscriptiondate<=d.finaldate";
 		int cantidad = 0;
 		Connection cn = null;
 		PreparedStatement pstmt = null;
@@ -132,11 +132,12 @@ public class InscriptionModel {
 		try {
 			cn = DbUtil.getConnection();
 			pstmt = cn.prepareStatement(sql);
-			pstmt.setInt(1, id);
+			pstmt.setString(1, id+"");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				cantidad = rs.getInt(1);
+				cantidad = rs.getInt("fee");
 			}
+			System.out.println(cantidad+"");
 
 			return cantidad;
 		} catch (SQLException e) {
@@ -297,36 +298,36 @@ public class InscriptionModel {
 		}
 	}
 
-//	public String getAforo(String id) {
-//		String sql = "select aforo " + "from competition  " + "where IdCompetition = ?";
-//		String aforo = "";
-//		Connection cn = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		try {
-//			cn = DbUtil.getConnection();
-//			pstmt = cn.prepareStatement(sql);
-//			pstmt.setString(1, id);
-//			rs = pstmt.executeQuery();
-//
-//			while (rs.next()) {
-//				aforo = rs.getString("aforo");
-//			}
-//
-//			return aforo;
-//		} catch (SQLException e) {
-//			throw new UnexpectedException(e);
-//		} finally {
-//			try {
-//				rs.close();
-//				pstmt.close();
-//				cn.close();
-//			} catch (SQLException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//		}
-//	}
+	//	public String getAforo(String id) {
+	//		String sql = "select aforo " + "from competition  " + "where IdCompetition = ?";
+	//		String aforo = "";
+	//		Connection cn = null;
+	//		PreparedStatement pstmt = null;
+	//		ResultSet rs = null;
+	//		try {
+	//			cn = DbUtil.getConnection();
+	//			pstmt = cn.prepareStatement(sql);
+	//			pstmt.setString(1, id);
+	//			rs = pstmt.executeQuery();
+	//
+	//			while (rs.next()) {
+	//				aforo = rs.getString("aforo");
+	//			}
+	//
+	//			return aforo;
+	//		} catch (SQLException e) {
+	//			throw new UnexpectedException(e);
+	//		} finally {
+	//			try {
+	//				rs.close();
+	//				pstmt.close();
+	//				cn.close();
+	//			} catch (SQLException e1) {
+	//				// TODO Auto-generated catch block
+	//				e1.printStackTrace();
+	//			}
+	//		}
+	//	}
 
 	public Justificante getJustificante() {
 		return this.j;
@@ -354,7 +355,7 @@ public class InscriptionModel {
 		return false;
 
 	}
-	
+
 	public static boolean comprobacionDniPorDni(String e) {
 		String sql = "select dni from INSCRIPTION where dni= ?";
 		try {
@@ -366,20 +367,20 @@ public class InscriptionModel {
 
 	}
 
-	
+
 
 	public static boolean existeYaInscripcion(String e, String name) {
-			String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ='"+e + "'";
-			try {
-				if(DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
-					return true;
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+		String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ='"+e + "'";
+		try {
+			if(DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
+				return true;
 			}
-			return false;
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
-	
+		return false;
+	}
+
 	public static boolean yaPagoOEstaPendiente(String e, String name) {
 		String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ="+ e + "and estado in ('PAGADO','PENDIENTE')" ;
 		try {
@@ -407,7 +408,7 @@ public class InscriptionModel {
 		return db.executeQueryPojo(InscriptionDto.class, sql, id);
 
 	}
-	
+
 	/**
 	 * Metodo que hace una consulta sobre todas las carreras a las que se ha inscrito un participante
 	 * devuelve una lista de competiciones.
