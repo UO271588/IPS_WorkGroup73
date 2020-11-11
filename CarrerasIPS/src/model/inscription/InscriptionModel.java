@@ -184,6 +184,7 @@ public class InscriptionModel {
 		}
 	}
 
+
 	public String getSex(String email) {
 		String sql = "select sex " + "from PARTICIPANT  " + "where EMAIL = ?";
 		String sex = "";
@@ -378,6 +379,18 @@ public class InscriptionModel {
 			}
 			return false;
 		}
+	
+	public static boolean yaPagoOEstaPendiente(String e, String name) {
+		String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ="+ e + "and estado in ('PAGADO','PENDIENTE')" ;
+		try {
+			if(DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
+				return true;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return false;
+	}
 
 	/**
 	 * obtiene una lista de IncriptionDto (con el nombre) con todas las

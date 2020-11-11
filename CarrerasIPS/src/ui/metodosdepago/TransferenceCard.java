@@ -1,10 +1,12 @@
-package ui;
+package ui.metodosdepago;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,11 +17,7 @@ import business.race.RaceDto;
 import model.inscription.InscriptionModel;
 import util.TimeUtil;
 
-import java.awt.event.ActionListener;
-import java.util.Date;
-import java.awt.event.ActionEvent;
-
-public class BankAccountFrame extends JDialog {
+public class TransferenceCard extends JPanel {
 
 	private final JPanel panelCentral;
 	private JTextField tfNumeroCuenta;
@@ -30,18 +28,17 @@ public class BankAccountFrame extends JDialog {
 	private String email;
 	
 	/**
-	 * Create the dialog.
+	 * Create the panel.
 	 */
-	public BankAccountFrame(JFrame padre, RaceDto carrera,String email) {
-		setTitle("Informacion para el abono");
-		this.padre = padre;
+	public TransferenceCard(JFrame frame, RaceDto carrera, String email) {
+		this.padre = frame;
 		this.carrera = carrera;
 		this.email = email;
 		panelCentral = new JPanel();
 		setBounds(100, 100, 450, 224);
-		getContentPane().setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 		panelCentral.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(panelCentral, BorderLayout.CENTER);
+		add(panelCentral, BorderLayout.CENTER);
 		panelCentral.setLayout(null);
 
 		tfNumeroCuenta = new JTextField();
@@ -82,7 +79,7 @@ public class BankAccountFrame extends JDialog {
 
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		add(buttonPane, BorderLayout.SOUTH);
 		
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
@@ -92,14 +89,13 @@ public class BankAccountFrame extends JDialog {
 		});
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
-		getRootPane().setDefaultButton(okButton);
+
 	}
-	
 	
 	public void accionBotonOk() {
 		String dni = InscriptionModel.getDni(email);
 		InscriptionModel.updateEstado("PENDIENTE", dni, carrera.id);
 		padre.dispose();
-		dispose();
 	}
+
 }
