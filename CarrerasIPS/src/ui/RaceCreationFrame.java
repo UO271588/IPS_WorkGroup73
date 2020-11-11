@@ -38,7 +38,7 @@ import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class RaceCrationFrame extends JFrame {
+public class RaceCreationFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel pnlTitulo;
@@ -152,7 +152,7 @@ public class RaceCrationFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RaceCrationFrame frame = new RaceCrationFrame( new MainFrame());
+					RaceCreationFrame frame = new RaceCreationFrame( new MainFrame());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -166,7 +166,7 @@ public class RaceCrationFrame extends JFrame {
 	 * @param parent 
 	 * @param actionListener 
 	 */
-	public RaceCrationFrame(JFrame parent) {
+	public RaceCreationFrame(JFrame parent) {
 		this.parent = parent;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		controller = new RaceCreationController(this);
