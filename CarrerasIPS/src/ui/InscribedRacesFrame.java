@@ -61,6 +61,7 @@ public class InscribedRacesFrame extends JFrame implements Indentificable {
 		//descomentar esta linea para que funcione la pestaña de desing
 		//initialize(null, null);
 	}
+	
 	@Override
 	public void initialize(ParticipantDtoPojo part, JFrame parent) {
 

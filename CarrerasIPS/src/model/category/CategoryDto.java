@@ -51,5 +51,4 @@ public class CategoryDto {
 	public void setFinal_Age(int final_Age) {
 		this.final_Age = final_Age;
 	}
-
 }
