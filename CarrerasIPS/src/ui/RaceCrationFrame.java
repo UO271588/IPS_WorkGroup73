@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import business.race.RaceDto;
-import model.RaceCreationController;
+import controller.RaceCreationController;
 import util.database.Database;
 
 import javax.swing.JLabel;
@@ -129,7 +129,6 @@ public class RaceCrationFrame extends JFrame {
 	private JButton btnValidarCateg;
 	private JLabel lblValCategory;
 	private JButton btnCrear;
-	private JButton btnNewButton_1;
 	private JPanel rowMasc3;
 	private JTextField txtVeteranoBM;
 	private JPanel pnlMasR2C2_1;
@@ -141,6 +140,10 @@ public class RaceCrationFrame extends JFrame {
 	private JComboBox cbIni3F;
 	private JComboBox cbFin3F;
 	private JFrame parent;
+	private JPanel pnlBtn2;
+	private JPanel pnlBtn3;
+	private JButton btnVolver;
+	private JPanel pnlBtn1;
 
 	/**
 	 * Launch the application.
@@ -857,8 +860,11 @@ public class RaceCrationFrame extends JFrame {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setLayout(new GridLayout(0, 6, 0, 0));
+			panel.add(getPanel_4_2());
 			panel.add(getBtnCrear());
-			panel.add(getBtnNewButton_1());
+			panel.add(getPnlBtn2());
+			panel.add(getPnlBtn3());
+			panel.add(getBtnVolver());
 		}
 		return panel;
 	}
@@ -903,13 +909,6 @@ public class RaceCrationFrame extends JFrame {
 		if(controller.validateCategories(getPnlMascView(), getPnlFemView()))
 			controller.createRace();
 		
-	}
-
-	private JButton getBtnNewButton_1() {
-		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("Cancelar");
-		}
-		return btnNewButton_1;
 	}
 	private JPanel getRowMasc3() {
 		if (rowMasc3 == null) {
@@ -1000,5 +999,29 @@ public class RaceCrationFrame extends JFrame {
 			cbFin3F.setPreferredSize(new Dimension(50, 0));
 		}
 		return cbFin3F;
+	}
+	private JPanel getPnlBtn2() {
+		if (pnlBtn2 == null) {
+			pnlBtn2 = new JPanel();
+		}
+		return pnlBtn2;
+	}
+	private JPanel getPnlBtn3() {
+		if (pnlBtn3 == null) {
+			pnlBtn3 = new JPanel();
+		}
+		return pnlBtn3;
+	}
+	private JButton getBtnVolver() {
+		if (btnVolver == null) {
+			btnVolver = new JButton("Volver");
+		}
+		return btnVolver;
+	}
+	private JPanel getPanel_4_2() {
+		if (pnlBtn1 == null) {
+			pnlBtn1 = new JPanel();
+		}
+		return pnlBtn1;
 	}
 }

@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -135,8 +135,16 @@ public class RaceCreationController {
 		race.precioInscripcion = 100;
 		race.tipo = "ASFALTO";
 		CompetitionsAccess.createRace(race);
-
 		createCategories(race.id);
+		
+		StringBuilder sb =  new StringBuilder();
+		sb.append("Carrera Creada");
+		sb.append("\nNombre: " + race.nombre);
+		sb.append("\nTipo: " + race.tipo);
+		sb.append("\nDistancia: " + race.distancia);
+		sb.append("\nFecha Competicion: " + race.fechaCarrera);
+		System.out.println(sb);
+		JOptionPane.showMessageDialog(null, sb.toString());
 		
 	}
 
