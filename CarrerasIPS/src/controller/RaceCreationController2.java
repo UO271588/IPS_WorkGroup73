@@ -51,7 +51,7 @@ public class RaceCreationController2 {
 		JPanel row = new JPanel();
 		row.setLayout(new GridLayout(0, 3, 0, 0));
 		JTextField text = new JTextField("");
-		row.add(text);
+		
 		JPanel fechaInicio = new JPanel();
 		fechaInicio.setLayout(new FlowLayout());
 		fechaInicio.add(getComboBoxDias1());
@@ -64,6 +64,7 @@ public class RaceCreationController2 {
 		fechaFinal.add(getComboBoxAnios2());
 		row.add(fechaInicio);
 		row.add(fechaFinal);
+		row.add(text);
 		return row;
 	}
 
@@ -267,7 +268,7 @@ public class RaceCreationController2 {
 
 	public void deleteCategoryRow(JPanel pnlPlazosView) {
 		if(pnlPlazosView.getComponents().length > 1) {
-			pnlPlazosView.remove(pnlPlazosView.getComponents().length -1);;
+			pnlPlazosView.remove(pnlPlazosView.getComponents().length -1);
 			pnlPlazosView.revalidate();
 			pnlPlazosView.repaint();
 		}
