@@ -2,7 +2,10 @@ package controller;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.util.Date;
+import java.util.UUID;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -11,7 +14,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import business.race.RaceDto;
+import dbAccess.CompetitionsAccess;
+import model.category.CategoryDto;
+import model.category.CategoryModel;
 import ui.RaceCrationFrame;
+import util.database.Database;
 
 public class RaceCreationController {
 	
@@ -103,6 +111,75 @@ public class RaceCreationController {
 			}
 		}
 		return true;	
+	}
+
+	public ComboBoxModel<Integer> createcbModelNum() {
+
+	
+		Integer[] numeros = new Integer[100];
+		for(int i = 0; i<numeros.length; i++) {
+			numeros[i] = i+18;
+		}
+		return new DefaultComboBoxModel<Integer>(numeros);
+	}
+
+	public void createRace() {
+		RaceDto race = new RaceDto();
+		race.aforoActual = 20;
+		race.aforoMax = 30;
+		race.distancia = 10;
+		race.fechaCarrera = new Date();
+		race.fechaLimite = new Date();
+		race.id = UUID.randomUUID().toString();
+		race.nombre = "prueba";
+		race.precioInscripcion = 100;
+		race.tipo = "ASFALTO";
+		CompetitionsAccess.createRace(race);
+		createCategories(race.id);
+		
+		StringBuilder sb =  new StringBuilder();
+		sb.append("Carrera Creada");
+		sb.append("\nNombre: " + race.nombre);
+		sb.append("\nTipo: " + race.tipo);
+		sb.append("\nDistancia: " + race.distancia);
+		sb.append("\nFecha Competicion: " + race.fechaCarrera);
+		System.out.println(sb);
+		JOptionPane.showMessageDialog(null, sb.toString());
+		
+	}
+
+	private void createCategories(String raceId) {
+		createCategoriesFrom(view.getPnlFemView(), true, raceId);
+		createCategoriesFrom(view.getPnlMascView(), false, raceId);
+		
+	}
+
+	private void createCategoriesFrom(JPanel pnl, boolean isMale, String raceId) {
+		CategoryDto category;
+		for(int i = 0; i<pnl.getComponentCount(); i++) {
+			category = createCategory((JPanel)pnl.getComponent(i));
+			if(isMale)
+				category.setSexMale();
+			else
+				category.setSexFemale();
+			category.idCompetition = raceId;
+			category.idCategory = UUID.randomUUID().toString();
+			CategoryModel.addCategory(category);
+		}
+		
+	}
+
+	private CategoryDto createCategory(JPanel component) {
+		CategoryDto category= new CategoryDto();
+		JTextField text = (JTextField) component.getComponent(0);
+		category.name = text.getText();
+		JPanel pnl = (JPanel) component.getComponent(1);
+		category.inital_Age = (int) ((JComboBox)pnl.getComponent(0)).getSelectedItem();
+		category.final_Age = (int) ((JComboBox)pnl.getComponent(1)).getSelectedItem();		
+		if(category.final_Age == MAXAGE) {
+			category.final_Age = Integer.MAX_VALUE;
+		}
+		return category;
 	}
 
 }

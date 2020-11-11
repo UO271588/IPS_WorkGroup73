@@ -492,7 +492,7 @@ public class RaceCrationFrame extends JFrame {
 		}
 		return pnlMascHead;
 	}
-	private JPanel getPnlMascView() {
+	public JPanel getPnlMascView() {
 		if (pnlMascView == null) {
 			pnlMascView = new JPanel();
 			pnlMascView.setLayout(new GridLayout(8, 0, 0, 0));
@@ -777,7 +777,7 @@ public class RaceCrationFrame extends JFrame {
 		}
 		return lblFemFin;
 	}
-	private JPanel getPnlFemView() {
+	public JPanel getPnlFemView() {
 		if (pnlFemView == null) {
 			pnlFemView = new JPanel();
 			pnlFemView.setLayout(new GridLayout(8, 0, 0, 0));
