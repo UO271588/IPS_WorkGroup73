@@ -1,11 +1,9 @@
 package model.inscription;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -124,7 +122,7 @@ public class InscriptionModel {
 	}
 
 	public int getCantidad(int id) {
-		String sql = "select Inscription_Fee " + "from competition " + "where idcompetition=?";
+		String sql = "select d.fee from inscription_deadline d, inscription i where d.idcompetition=? and i.inscriptiondate>=d.initialdate and i.inscriptiondate<=d.finaldate";
 		int cantidad = 0;
 		Connection cn = null;
 		PreparedStatement pstmt = null;
@@ -132,11 +130,12 @@ public class InscriptionModel {
 		try {
 			cn = DbUtil.getConnection();
 			pstmt = cn.prepareStatement(sql);
-			pstmt.setInt(1, id);
+			pstmt.setString(1, id+"");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				cantidad = rs.getInt(1);
+				cantidad = rs.getInt("fee");
 			}
+			System.out.println(cantidad+"");
 
 			return cantidad;
 		} catch (SQLException e) {
