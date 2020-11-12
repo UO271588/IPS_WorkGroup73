@@ -20,7 +20,7 @@ public class ClasificationAccess {
 			ClasificationDto clasificacion= new ClasificationDto();
 			clasificacion.dni = rs.getString("DNI");
 			clasificacion.idcarrera = idCompetition;
-			clasificacion.sexo = rs.getString("SEXO");
+			clasificacion.sexo = rs.getString("SEX");
 			clasificacion.posicion = "0";
 			clasificacion.tiempoInicio = rs.getString("INITIALTIME");
 			clasificacion.tiempoFinal = rs.getString("FINALTIME");

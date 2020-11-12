@@ -80,13 +80,13 @@ public class InscripcionFrame extends JFrame {
 			btnPagar = new JButton("PAGAR");
 			btnPagar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (InscriptionModel.existeYaInscripcion(InscriptionModel.getDni(textFieldEmail.getText()),
+					if(InscriptionModel.yaPagoOEstaPendiente(InscriptionModel.getDni(textFieldEmail.getText()),carrera.nombre)){
+						JOptionPane.showMessageDialog(null, "Ya se ha pagado");
+					}else if (InscriptionModel.existeYaInscripcion(InscriptionModel.getDni(textFieldEmail.getText()),
 							carrera.nombre)) {
 						comprobarCampos();
 						TransactionFrame tf = new TransactionFrame(carrera, textFieldEmail.getText());
 						tf.setVisible(true);
-					}else if(InscriptionModel.yaPagoOEstaPendiente(InscriptionModel.getDni(textFieldEmail.getText()),carrera.nombre)){
-						JOptionPane.showMessageDialog(null, "Ya se ha pagado");
 					}else {
 						JOptionPane.showMessageDialog(null, "No estas inscrito en la competicion");
 					}

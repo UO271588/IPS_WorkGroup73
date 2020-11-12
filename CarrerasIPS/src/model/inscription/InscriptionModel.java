@@ -23,7 +23,7 @@ import util.database.Database;
 public class InscriptionModel {
 
 	Justificante j = new Justificante();
-	String fecha_hoy;
+	static String fecha_hoy;
 	Date date_hoy = new Date();
 	Calendar cal_hoy = Calendar.getInstance();
 	Calendar cal_birthdate;
@@ -338,7 +338,7 @@ public class InscriptionModel {
 
 	public static void updateEstado(String estado, String dni, String idcompetition) {
 		Database db = new Database();
-		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? WHERE dni = ? AND idcompetition = ? ";
+		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? , INSCRIPTIONDATE = '"+fecha_hoy+"'WHERE dni = ? AND idcompetition = ? ";
 		
 		db.executeUpdate(sql, estado, dni, idcompetition);
 	}
@@ -458,7 +458,7 @@ public class InscriptionModel {
 	}
 
 	public static boolean yaPagoOEstaPendiente(String e, String name) {
-		String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ="+ e + "and estado in ('PAGADO','PENDIENTE')" ;
+		String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ='"+ e + "' and INSCRIPTIONSTATE in ('PAGADO','PENDIENTE')" ;
 		try {
 			if(DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
 				return true;

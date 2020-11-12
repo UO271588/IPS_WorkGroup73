@@ -8,13 +8,17 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.RaceCreationController;
+import model.clasification.ClasificationAccess;
+import model.clasification.ClasificationDto;
 import util.database.Main;
 
 import javax.swing.JSplitPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 
@@ -34,6 +38,7 @@ public class MainFrame extends JFrame {
 	private JLabel label_3;
 	private JLabel label_4;
 	private JLabel label_5;
+	private JButton btnClasificaciones;
 
 	/**
 	 * Launch the application.
@@ -74,6 +79,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(getBtnNewButton_1());
 		contentPane.add(getBtnNewButton_1_1());
 		contentPane.add(getLabel_4());
+		contentPane.add(getBtnClasificaciones());
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
@@ -222,5 +228,29 @@ public class MainFrame extends JFrame {
 			label_5 = new JLabel("");
 		}
 		return label_5;
+	}
+	
+	private JButton getBtnClasificaciones() {
+		if (btnClasificaciones == null) {
+			btnClasificaciones = new JButton("Clasificaciones");
+			btnClasificaciones.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String id = JOptionPane.showInputDialog("Introduzca el Identificador de la Carrera:");
+					ClasificationAccess ca = new ClasificationAccess();
+					try {
+						List<ClasificationDto> clasificaciones = ca.findAllByRace(id);
+						if(clasificaciones.isEmpty()) {
+							JOptionPane.showMessageDialog(null, "No se encuentra ninguna clasificacion para la carrera introducida","Clasificaciones no encontradas",JOptionPane.ERROR_MESSAGE);
+						}else {
+							new ClasificationsFrame(clasificaciones).setVisible(true);
+						}
+					} catch (SQLException e1) {
+						JOptionPane.showConfirmDialog(null, "Se ha produccido un erros con la base de datos","Error de acceso BBDD",JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
+					}
+				}
+			});
+		}
+		return btnClasificaciones;
 	}
 }

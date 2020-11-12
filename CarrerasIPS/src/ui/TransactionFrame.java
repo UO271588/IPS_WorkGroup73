@@ -201,7 +201,7 @@ public class TransactionFrame extends JFrame {
 	
 	private JPanel getPanelCreditCard() {
 		if (panelCreditCard == null) {
-			panelCreditCard = new PanelCreditCard(this,panelPestañas);
+			panelCreditCard = new PanelCreditCard(this,panelPestañas,carrera,email);
 		}
 		return panelCreditCard;
 	}

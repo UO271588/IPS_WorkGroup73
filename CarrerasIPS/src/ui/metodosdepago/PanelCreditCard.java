@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.sqlite.util.StringUtils;
+
 import business.race.RaceDto;
 import model.inscription.InscriptionModel;
 import java.awt.BorderLayout;
@@ -36,11 +38,13 @@ public class PanelCreditCard extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelCreditCard(JFrame frame, JPanel cardPanel) {
+	public PanelCreditCard(JFrame frame, JPanel cardPanel, RaceDto carrera, String email) {
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(0, 0));
 		this.padre = frame;
 		this.cardPanel = cardPanel;
+		this.carrera = carrera;
+		this.email = email;
 		add(getPanelCentral(), BorderLayout.CENTER);
 		add(getPanelBotones(), BorderLayout.SOUTH);
 	}
@@ -62,7 +66,8 @@ public class PanelCreditCard extends JPanel {
 			btnCancelar = new JButton("Cancelar\r\n");
 			btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					((CardLayout)cardPanel.getLayout()).show(cardPanel,"principal");;
+					((CardLayout) cardPanel.getLayout()).show(cardPanel, "principal");
+					;
 				}
 			});
 		}
@@ -73,7 +78,6 @@ public class PanelCreditCard extends JPanel {
 		if (txtNtarjeta == null) {
 			txtNtarjeta = new JTextField();
 			txtNtarjeta.setBounds(32, 66, 242, 20);
-			txtNtarjeta.setText("\r\n");
 			txtNtarjeta.setColumns(10);
 		}
 		return txtNtarjeta;
@@ -122,26 +126,39 @@ public class PanelCreditCard extends JPanel {
 	}
 
 	public void accionBotonOk() {
+		String numero = getTxtNtarjeta().getText();
+		String cvv = getTxtCvv().getText();
 		if (getTxtNtarjeta().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this, "El campo Nº de Tarjeta no es valido o esta vacio", "Error",
+			JOptionPane.showMessageDialog(this, "El campo Nº de Tarjeta esta vacio", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		} else if (getTxtFechacaducidad().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this, "El campo Fecha de Caducidad no es valido o esta vacio", "Error",
+			JOptionPane.showMessageDialog(this, "El campo Fecha de Caducidad esta vacio", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		} else if (getTxtCvv().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this, "El campo CVV no es valido o esta vacio", "Error",
-					JOptionPane.ERROR_MESSAGE);
-		} else {
+			JOptionPane.showMessageDialog(this, "El campo CVV esta vacio", "Error", JOptionPane.ERROR_MESSAGE);
+		} else if(!isNumeric(getTxtNtarjeta().getText())){
+			JOptionPane.showMessageDialog(this, "El campo Nº de Tarjeta no es un numero", "Error", JOptionPane.ERROR_MESSAGE);
+		} else if(!isNumeric(getTxtCvv().getText())){
+			JOptionPane.showMessageDialog(this, "El campo CVV no es un numero", "Error", JOptionPane.ERROR_MESSAGE);
+		}else {
 			String dni = InscriptionModel.getDni(email);
 			if (dni != null) {
-				if (InscriptionModel.existeYaInscripcion(dni, carrera.id)) {
-					InscriptionModel.updateEstado("PAGADO", dni, carrera.id);
-					padre.dispose();
-				} else {
-					JOptionPane.showMessageDialog(this, "El usuario con ese email no esta registrado en la carrera",
-							"Error", JOptionPane.ERROR_MESSAGE);
-				}
+				InscriptionModel.updateEstado("PAGADO", dni, carrera.id);
+				padre.dispose();
+			} else {
+				JOptionPane.showMessageDialog(this, "El usuario con ese email no esta registrado en la carrera",
+						"Error", JOptionPane.ERROR_MESSAGE);
 			}
+		}
+
+	}
+	
+	private static boolean isNumeric(String cadena){
+		try {
+			Integer.parseInt(cadena);
+			return true;
+		} catch (NumberFormatException nfe){
+			return false;
 		}
 	}
 
@@ -158,6 +175,7 @@ public class PanelCreditCard extends JPanel {
 		}
 		return panelCentral;
 	}
+
 	private JPanel getPanelBotones() {
 		if (panelBotones == null) {
 			panelBotones = new JPanel();
