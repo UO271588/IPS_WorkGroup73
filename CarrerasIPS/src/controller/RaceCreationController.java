@@ -2,18 +2,17 @@ package controller;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.UUID;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import business.race.RaceDto;
 import dbAccess.CompetitionsAccess;
@@ -22,7 +21,7 @@ import model.category.CategoryModel;
 import model.deadline.DeadLineDto;
 import model.deadline.DeadLineModel;
 import ui.RaceCreationFrame;
-import util.database.Database;
+import util.TimeUtil;
 
 public class RaceCreationController {
 	
@@ -132,13 +131,13 @@ public class RaceCreationController {
 		if(view.getRdSinDefinir().isSelected())
 			race.aforoMax = Integer.MAX_VALUE;
 		else			
-			race.aforoMax = Integer.parseInt(view.getTextDistancia().getText());
-		race.distancia = Integer.parseInt(view.getTextDistancia().getText());
+			race.aforoMax = Integer.parseInt(view.getTextFieldPlazas().getText());
+		race.distancia = Double.parseDouble(view.getTextDistancia().getText());
 		race.fechaCarrera = parseDate(view.getComboBoxDias(), view.getComboBoxMeses(), view.getComboBoxAños());
 		race.fechaLimite = new Date();
 		race.id = UUID.randomUUID().toString();
 		race.nombre = view.getTextFieldName().getText();
-		race.precioInscripcion = 0;
+		race.precioInscripcion = 0.0;
 		if(view.getRdbtnAsfalto().isSelected())
 			race.tipo = "ASFALTO";
 		else {
@@ -153,7 +152,7 @@ public class RaceCreationController {
 		sb.append("\nNombre: " + race.nombre);
 		sb.append("\nTipo: " + race.tipo);
 		sb.append("\nDistancia: " + race.distancia);
-		sb.append("\nFecha Competicion: " + race.fechaCarrera);
+		sb.append("\nFecha Competicion: " + TimeUtil.dateToIsoString(race.fechaCarrera));
 		System.out.println(sb);
 		JOptionPane.showMessageDialog(null, sb.toString());
 		
@@ -183,15 +182,19 @@ public class RaceCreationController {
 		cb2= (JComboBox)pnlFin.getComponent(1);
 		cb3= (JComboBox)pnlFin.getComponent(2);
 		dto.setFinalDateAsDate(parseDate(cb1, cb2, cb3));
-		dto.fee = Integer.parseInt(((JTextField)comp.getComponent(2)).getText());
+		dto.fee = Double.parseDouble(((JTextField)comp.getComponent(2)).getText());
 		dto.idCompetition = id;
 		DeadLineModel.addDeadLine(dto);
 		return dto.getFinalDateAsDate();
 	}
 
 	public Date parseDate(JComboBox cbd,JComboBox cbm, JComboBox cba) {
-		Date date = new Date( (int)cba.getSelectedItem() + 1900,cbm.getSelectedIndex(),cbd.getSelectedIndex());
+		 LocalDate local = LocalDate.of((int)cba.getSelectedItem(), cbm.getSelectedIndex()+1, (int)cbd.getSelectedItem());
+		 ZoneId defaultZoneId = ZoneId.systemDefault();
+		 Date date = Date.from(local.atStartOfDay(defaultZoneId).toInstant());
+		//Date date = new Date( ((int)cba.getSelectedItem())+1900,cbm.getSelectedIndex(),(int)cbd.getSelectedItem());
 		return date;
+		
 		
 	}
 

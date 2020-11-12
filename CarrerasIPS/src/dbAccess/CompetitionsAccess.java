@@ -26,8 +26,7 @@ public class CompetitionsAccess {
 			pst.setString(1, carrera.id);
 			pst.setString(2, carrera.nombre);
 			pst.setString(3, carrera.tipo);
-			pst.setInt(4, carrera.distancia);
-			pst.setInt(5, carrera.precioInscripcion);
+			pst.setDouble(5, carrera.precioInscripcion);
 			pst.setString(6, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setString(7,  TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setInt(8, carrera.aforoMax);
@@ -58,8 +57,8 @@ public class CompetitionsAccess {
 			pst = c.prepareStatement(SQL);
 			pst.setString(1, carrera.nombre);
 			pst.setString(2, carrera.tipo);
-			pst.setInt(3, carrera.distancia);
-			pst.setInt(4, carrera.precioInscripcion);
+			pst.setDouble(3, carrera.distancia);
+			pst.setDouble(4, carrera.precioInscripcion);
 			pst.setString(5, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setString(6, TimeUtil.DateToSQL(carrera.fechaLimite));
 			pst.setInt(7, carrera.aforoMax);
@@ -99,8 +98,8 @@ public class CompetitionsAccess {
 				carrera.id = rs.getString("IDCOMPETITION");
 				carrera.nombre = rs.getString("NAME");
 				carrera.tipo = rs.getString("COMPETITION_TYPE");
-				carrera.distancia = rs.getInt("DISTANCE");
-				carrera.precioInscripcion = rs.getInt("INSCRIPTION_FEE");
+				carrera.distancia = rs.getDouble("DISTANCE");
+				carrera.precioInscripcion = rs.getDouble("INSCRIPTION_FEE");
 				carrera.fechaLimite = TimeUtil.isoStringToDate(rs.getString("INSCRIPTION_DATE_END"));
 				carrera.fechaCarrera = TimeUtil.isoStringToDate(rs.getString("COMPETITION_DATE"));
 				carrera.aforoMax = rs.getInt("SLOTS");

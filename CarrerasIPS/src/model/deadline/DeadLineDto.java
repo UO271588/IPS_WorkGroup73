@@ -10,7 +10,7 @@ public class DeadLineDto {
 	public String idCompetition;
 	public String initialDate;
 	public String finalDate;
-	public int fee;
+	public double fee;
 	
 	
 	
@@ -51,7 +51,7 @@ public class DeadLineDto {
 	public void setFinalDate(String finalDate) {
 		this.finalDate = finalDate;
 	}
-	public int getFee() {
+	public double getFee() {
 		return fee;
 	}
 	public void setFee(int fee) {

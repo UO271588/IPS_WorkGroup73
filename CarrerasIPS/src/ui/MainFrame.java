@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
 
 public class MainFrame extends JFrame {
 
@@ -27,6 +28,12 @@ public class MainFrame extends JFrame {
 	private JButton btnNewButton_2;
 	private JButton btnApuntados;
 	private JButton btnCrearCarreras;
+	private JLabel label;
+	private JLabel label_1;
+	private JLabel label_2;
+	private JLabel label_3;
+	private JLabel label_4;
+	private JLabel label_5;
 
 	/**
 	 * Launch the application.
@@ -53,14 +60,20 @@ public class MainFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
+		contentPane.add(getBtnNewButton_2());
+		contentPane.add(getLabel_1());
+		contentPane.add(getBtnCrearCarreras());
+		contentPane.add(getLabel_2());
 		contentPane.add(getBtnNewButton());
+		contentPane.add(getLabel_5());
 		contentPane.add(getBtnAministradorDeCarreras());
+		contentPane.add(getLabel_3());
+		contentPane.add(getBtnApuntados());
+		contentPane.add(getLabel());
 		contentPane.add(getBtnNewButton_1());
 		contentPane.add(getBtnNewButton_1_1());
-		contentPane.add(getBtnNewButton_2());
-		contentPane.add(getBtnApuntados());
-		contentPane.add(getBtnCrearCarreras());
+		contentPane.add(getLabel_4());
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
@@ -70,7 +83,6 @@ public class MainFrame extends JFrame {
 					launchParticipant();
 				}
 			});
-			btnNewButton.setBounds(394, 92, 139, 40);
 		}
 		return btnNewButton;
 	}
@@ -89,7 +101,6 @@ public class MainFrame extends JFrame {
 					launchAdministrator();
 				}
 			});
-			btnAministradorDeCarreras.setBounds(63, 165, 139, 38);
 		}
 		return btnAministradorDeCarreras;
 	}
@@ -112,7 +123,6 @@ public class MainFrame extends JFrame {
 					}
 				}
 			});
-			btnNewButton_1.setBounds(63, 292, 175, 53);
 		}
 		return btnNewButton_1;
 	}
@@ -129,7 +139,6 @@ public class MainFrame extends JFrame {
 					}
 				}
 			});
-			btnNewButton_1_1.setBounds(358, 292, 175, 53);
 		}
 		return btnNewButton_1_1;
 	}
@@ -142,7 +151,6 @@ public class MainFrame extends JFrame {
 					new RegisterFrame().setVisible(true);
 				}
 			});
-			btnNewButton_2.setBounds(266, 11, 124, 30);
 		}
 		return btnNewButton_2;
 	}
@@ -154,7 +162,6 @@ public class MainFrame extends JFrame {
 					new IdentificationFrame(new InscribedRacesFrame()).setVisible(true);;
 				}
 			});
-			btnApuntados.setBounds(394, 165, 139, 40);
 		}
 		return btnApuntados;
 	}
@@ -166,7 +173,6 @@ public class MainFrame extends JFrame {
 					launchCrearCarreras();
 				}
 			});
-			btnCrearCarreras.setBounds(63, 92, 139, 38);
 		}
 		return btnCrearCarreras;
 	}
@@ -175,5 +181,41 @@ public class MainFrame extends JFrame {
 		this.setVisible(false);
 		new RaceCreationFrame(this).setVisible(true);
 		
+	}
+	private JLabel getLabel() {
+		if (label == null) {
+			label = new JLabel("");
+		}
+		return label;
+	}
+	private JLabel getLabel_1() {
+		if (label_1 == null) {
+			label_1 = new JLabel("");
+		}
+		return label_1;
+	}
+	private JLabel getLabel_2() {
+		if (label_2 == null) {
+			label_2 = new JLabel("");
+		}
+		return label_2;
+	}
+	private JLabel getLabel_3() {
+		if (label_3 == null) {
+			label_3 = new JLabel("");
+		}
+		return label_3;
+	}
+	private JLabel getLabel_4() {
+		if (label_4 == null) {
+			label_4 = new JLabel("");
+		}
+		return label_4;
+	}
+	private JLabel getLabel_5() {
+		if (label_5 == null) {
+			label_5 = new JLabel("");
+		}
+		return label_5;
 	}
 }

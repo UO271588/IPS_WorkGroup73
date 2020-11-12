@@ -433,7 +433,7 @@ public class RaceCreationFrame extends JFrame {
 		if (pnlDato4 == null) {
 			pnlDato4 = new JPanel();
 			pnlDato4.add(getLblNewLabel_4());
-			pnlDato4.add(getTextField_1_1());
+			pnlDato4.add(getTextFieldPlazas());
 			pnlDato4.add(getRdSinDefinir());
 		}
 		return pnlDato4;
@@ -1458,7 +1458,7 @@ public class RaceCreationFrame extends JFrame {
 		
 	}
 
-	public JTextField getTextField_1_1() {
+	public JTextField getTextFieldPlazas() {
 		if (textFieldPlazas == null) {
 			textFieldPlazas = new JTextField();
 			

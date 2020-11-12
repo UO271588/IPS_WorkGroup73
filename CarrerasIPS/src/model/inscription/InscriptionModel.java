@@ -50,15 +50,17 @@ public class InscriptionModel {
 		j.setFecha_inscripcion(date_hoy);
 		j.setEstado("PRE-INSCRITO");
 		j.setCategoria(categoria(email));
-
-		insert(idCompeticion, email);
+		String idCategory = getIdCategory(email);
+		insert(idCompeticion, email,idCategory);
 
 	}
 
-	private void insert(int idCompeticion, String email) {
+	
+
+	private void insert(int idCompeticion, String email,String idCategory) {
 		DbUtil du = new DbUtil();
-		String sql = "INSERT INTO inscription (DNI,IDCompetition,INSCRIPTIONDATE,IDCATEGORY,INSCRIPTIONSTATE) VALUES (?, ?, ?, ?,?)";
-		du.executeUpdate(sql, getDni(email), idCompeticion, fecha_hoy, j.getCategoria(), j.getEstado());
+		String sql = "INSERT INTO inscription (DNI,IDCompetition,INSCRIPTIONDATE,IDCATEGORY,CATEGORY,INSCRIPTIONSTATE) VALUES (?, ?, ?, ?,?)";
+		du.executeUpdate(sql, getDni(email), idCompeticion, fecha_hoy, idCategory,j.getCategoria(), j.getEstado());
 	}
 
 	// Cambiar a ParticipantModel
@@ -215,48 +217,51 @@ public class InscriptionModel {
 			}
 		}
 	}
-
+	private String getIdCategory(String email) {
+			return null;
+		}
 	public String categoria(String email) {
-		int años = cal_hoy.get(Calendar.YEAR) - cal_birthdate.get(Calendar.YEAR);
-
-		String categoria = "";
-		if (años >= 18 && años <= 34) {
-			if (getSex(email).equals("HOMBRE")) {
-				categoria = "Senior Masculino";
-			}
-			if (getSex(email).equals("MUJER")) {
-				categoria = "Senior Femenino";
-
-			}
-		}
-
-		if (años >= 35 && años <= 49) {
-			if (getSex(email).equals("HOMBRE")) {
-				categoria = "Veterano A Masculino";
-			}
-
-		}
-
-		if (años >= 35 && años <= 54) {
-			if (getSex(email).equals("MUJER")) {
-				categoria = "Veterano A Femenino";
-			}
-		}
-
-		if (años >= 50) {
-			if (getSex(email).equals("HOMBRE")) {
-				categoria = "Veterano B Masculino";
-			}
-
-		}
-
-		if (años >= 55) {
-			if (getSex(email).equals("MUJER")) {
-				categoria = "Veterano B Femenino";
-			}
-		}
-
-		return categoria;
+//		int años = cal_hoy.get(Calendar.YEAR) - cal_birthdate.get(Calendar.YEAR);
+//
+//		String categoria = "";
+//		if (años >= 18 && años <= 34) {
+//			if (getSex(email).equals("HOMBRE")) {
+//				categoria = "Senior Masculino";
+//			}
+//			if (getSex(email).equals("MUJER")) {
+//				categoria = "Senior Femenino";
+//
+//			}
+//		}
+//
+//		if (años >= 35 && años <= 49) {
+//			if (getSex(email).equals("HOMBRE")) {
+//				categoria = "Veterano A Masculino";
+//			}
+//
+//		}
+//
+//		if (años >= 35 && años <= 54) {
+//			if (getSex(email).equals("MUJER")) {
+//				categoria = "Veterano A Femenino";
+//			}
+//		}
+//
+//		if (años >= 50) {
+//			if (getSex(email).equals("HOMBRE")) {
+//				categoria = "Veterano B Masculino";
+//			}
+//
+//		}
+//
+//		if (años >= 55) {
+//			if (getSex(email).equals("MUJER")) {
+//				categoria = "Veterano B Femenino";
+//			}
+//		}
+//
+//		return categoria;
+		return null;
 
 	}
 

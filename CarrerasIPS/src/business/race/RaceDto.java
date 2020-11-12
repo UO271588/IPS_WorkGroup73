@@ -6,8 +6,8 @@ public class RaceDto implements Comparable<RaceDto> {
 	public String id;
 	public String nombre;
 	public String tipo;
-	public int distancia;
-	public int precioInscripcion;
+	public Double distancia;
+	public Double precioInscripcion;
 	public Date fechaLimite;
 	public Date fechaCarrera;
 	public int aforoMax;
