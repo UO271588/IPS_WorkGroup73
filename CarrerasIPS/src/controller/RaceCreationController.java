@@ -137,7 +137,7 @@ public class RaceCreationController {
 		race.fechaLimite = new Date();
 		race.id = UUID.randomUUID().toString();
 		race.nombre = view.getTextFieldName().getText();
-		race.precioInscripcion = 0.0;
+		race.precioInscripcion = 0;
 		if(view.getRdbtnAsfalto().isSelected())
 			race.tipo = "ASFALTO";
 		else {

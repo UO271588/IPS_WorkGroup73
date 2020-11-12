@@ -40,7 +40,7 @@ public class InscribedRacesController {
 		System.out.println(dni);
 		formatPnlNorth(part);
 		loadRows(lista);
-
+		view.getLblTitle().repaint();
 	}
 
 	private void loadRows(List<InscriptionDto> list) {
