@@ -30,21 +30,7 @@ public class IdentificationFrame extends JFrame {
 	private JLabel lblTitle;
 	private Indentificable nextFrame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IdentificationFrame frame = new IdentificationFrame(new InscribedRacesFrame());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**Esta es una ventana pensada para usarse cuando se necesita identificacion
 	 * Se le tiene que pasar un JFrame que implemente la interfaz identificable

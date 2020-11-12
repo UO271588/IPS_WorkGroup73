@@ -25,8 +25,9 @@ import util.interfaces.Indentificable;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
-public class InscribedRacesFrame extends JFrame implements Indentificable {
+public class InscribedRacesFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel pnlSouth;
@@ -46,6 +47,9 @@ public class InscribedRacesFrame extends JFrame implements Indentificable {
 	private JLabel lblName;
 	private JFrame parentFrame;
 	private ParticipantDtoPojo participant;
+	private JLabel lblNewLabel;
+	private JTextField txtMail;
+	private JButton btnBuscar;
 
 	/**
 	 * Launch the application.
@@ -54,20 +58,12 @@ public class InscribedRacesFrame extends JFrame implements Indentificable {
 
 	
 	
-	/**
-	 * Create the frame.
-	 */
-	public InscribedRacesFrame() {
-		//descomentar esta linea para que funcione la pestaña de desing
-		//initialize(null, null);
-	}
-	
-	@Override
-	public void initialize(ParticipantDtoPojo part, JFrame parent) {
 
+	
+	public  InscribedRacesFrame(JFrame parent) {
+		ParticipantDtoPojo part;
 		this.parentFrame = parent;
 		this.setVisible(true);
-		this.participant = part;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 751, 467);
 		contentPane = new JPanel();
@@ -78,10 +74,47 @@ public class InscribedRacesFrame extends JFrame implements Indentificable {
 		contentPane.add(getPnlSouth(), BorderLayout.SOUTH);
 		contentPane.add(getPnlNorth(), BorderLayout.NORTH);
 		controller = new InscribedRacesController(this); 
-		controller.initialize(part.dni);
+	}
+	
+
+
+	protected void exit() {
+		parentFrame.setVisible(true);
+		this.dispose();
+		
+		
+	}
+
+
+	protected void readEmail() {
+		controller.identificateAndLoad(getTxtMail().getText());
+		
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	public ParticipantDtoPojo getParticipant() {
+		return participant;
+	}
+
+
+	public void setParticipant(ParticipantDtoPojo participant) {
+		this.participant = participant;
+	}
 
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
@@ -100,6 +133,9 @@ public class InscribedRacesFrame extends JFrame implements Indentificable {
 			pnlSouth.setBorder(new EmptyBorder(5, 0, 0, 0));
 			pnlSouth.setLayout(new GridLayout(0, 4, 0, 0));
 			pnlSouth.add(getBtnVolver());
+			pnlSouth.add(getLblNewLabel());
+			pnlSouth.add(getTxtMail());
+			pnlSouth.add(getBtnBuscar());
 		}
 		return pnlSouth;
 	}
@@ -108,19 +144,13 @@ public class InscribedRacesFrame extends JFrame implements Indentificable {
 			btnNewButton = new JButton("Atras");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					exit();
 				}
 			});
 		}
 		return btnNewButton;
 	}
-	protected void exit() {
-		parentFrame.setVisible(true);
-		this.dispose();
-		
-		
-	}
-
 
 
 	private JPanel getPnlNorth() {
@@ -211,18 +241,41 @@ public class InscribedRacesFrame extends JFrame implements Indentificable {
 	}
 	public JLabel getLblMail() {
 		if (lblMail == null) {
-			lblMail = new JLabel("Ejemplo@Correo");
+			lblMail = new JLabel("");
 		}
 		return lblMail;
 	}
 	public JLabel getLblName() {
 		if (lblName == null) {
-			lblName = new JLabel("Taso Rodriguez Meana");
+			lblName = new JLabel("");
 		}
 		return lblName;
 	}
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("Introduce Email:");
+			lblNewLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		}
+		return lblNewLabel;
+	}
+	private JTextField getTxtMail() {
+		if (txtMail == null) {
+			txtMail = new JTextField();
+			txtMail.setColumns(10);
+		}
+		return txtMail;
+	}
+	private JButton getBtnBuscar() {
+		if (btnBuscar == null) {
+			btnBuscar = new JButton("Buscar");
+			btnBuscar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					readEmail();
+				}
+			});
+		}
+		return btnBuscar;
+	}
 
 
-
-	
 }

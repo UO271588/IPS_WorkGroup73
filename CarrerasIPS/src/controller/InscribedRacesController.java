@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -18,6 +19,7 @@ import business.race.RaceDto;
 import model.inscription.InscriptionDto;
 import model.inscription.InscriptionModel;
 import model.participant.ParticipantDto;
+import model.participant.ParticipantDtoPojo;
 import model.participant.ParticipantModel;
 import ui.InscribedRacesFrame;
 import util.TimeUtil;
@@ -44,6 +46,8 @@ public class InscribedRacesController {
 	private void loadRows(List<InscriptionDto> list) {
 		int rows = 1;
 		JPanel panel = view.getPnlViewportCenter();
+		panel.removeAll();
+		panel.repaint();
 		for(InscriptionDto dto : list) {
 
 			panel.setLayout(new GridLayout(rows++, 0, 0, 0));
@@ -53,6 +57,17 @@ public class InscribedRacesController {
 			panel.add(createRow(dto));
 		}
 		
+	}
+	
+	public void identificateAndLoad(String mail) {
+		if(!ParticipantModel.checkMail(mail)) {			
+			ParticipantDtoPojo dto =  ParticipantModel.getByEmail(mail);
+			this.view.setParticipant(dto);
+			initialize(dto.dni);
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "El mail introducido no corresponde con ningun usuario");
+		}
 	}
 
 	private Component createRow(InscriptionDto dto) {

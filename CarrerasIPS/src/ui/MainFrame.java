@@ -159,12 +159,17 @@ public class MainFrame extends JFrame {
 			btnApuntados = new JButton("Car. Apuntadas");
 			btnApuntados.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new IdentificationFrame(new InscribedRacesFrame()).setVisible(true);;
+					launchCarrerasApuntadas();
 				}
 			});
 		}
 		return btnApuntados;
 	}
+	protected void launchCarrerasApuntadas() {
+		new InscribedRacesFrame(this);
+		
+	}
+
 	private JButton getBtnCrearCarreras() {
 		if (btnCrearCarreras == null) {
 			btnCrearCarreras = new JButton("Crear Carreras");
