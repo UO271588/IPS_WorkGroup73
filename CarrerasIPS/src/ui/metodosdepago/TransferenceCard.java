@@ -19,6 +19,10 @@ import util.TimeUtil;
 
 public class TransferenceCard extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel panelCentral;
 	private JTextField tfNumeroCuenta;
 	private JTextField textField;
@@ -30,6 +34,7 @@ public class TransferenceCard extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	@SuppressWarnings("deprecation")
 	public TransferenceCard(JFrame frame, RaceDto carrera, String email) {
 		this.padre = frame;
 		this.carrera = carrera;

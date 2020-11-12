@@ -183,7 +183,7 @@ public class TransactionFrame extends JFrame {
 			panelPestañas.setLayout(new CardLayout(0, 0));
 			panelPestañas.add(getPanelPrincipal(), "principal");
 			panelPestañas.add(getPanelCreditCard(), "creditcard");
-			panelPestañas.add(getTransferenceCard(), "transference");
+			panelPestañas.add(new TransferenceCard(this,carrera,email), "transference");
 		}
 		return panelPestañas;
 	}

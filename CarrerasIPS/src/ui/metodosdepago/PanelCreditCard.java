@@ -62,7 +62,8 @@ public class PanelCreditCard extends JPanel {
 			btnCancelar = new JButton("Cancelar\r\n");
 			btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					((CardLayout)cardPanel.getLayout()).show(cardPanel,"principal");;
+					((CardLayout) cardPanel.getLayout()).show(cardPanel, "principal");
+					;
 				}
 			});
 		}
@@ -123,15 +124,29 @@ public class PanelCreditCard extends JPanel {
 
 	public void accionBotonOk() {
 		if (getTxtNtarjeta().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this, "El campo Nº de Tarjeta no es valido o esta vacio", "Error",
+			JOptionPane.showMessageDialog(this, "El campo Nº de Tarjeta esta vacio", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		} else if (getTxtFechacaducidad().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this, "El campo Fecha de Caducidad no es valido o esta vacio", "Error",
+			JOptionPane.showMessageDialog(this, "El campo Fecha de Caducidad esta vacio", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		} else if (getTxtCvv().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this, "El campo CVV no es valido o esta vacio", "Error",
+			JOptionPane.showMessageDialog(this, "El campo CVV esta vacio", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		} else {
+
+			try {
+				Integer.parseInt(getTxtNtarjeta().getText());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, "El campo Nº de Tarjeta no es valido", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			try {
+				Integer.parseInt(getTxtCvv().getText());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, "El campo CVV no es valido", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 			String dni = InscriptionModel.getDni(email);
 			if (dni != null) {
 				if (InscriptionModel.existeYaInscripcion(dni, carrera.id)) {
@@ -158,6 +173,7 @@ public class PanelCreditCard extends JPanel {
 		}
 		return panelCentral;
 	}
+
 	private JPanel getPanelBotones() {
 		if (panelBotones == null) {
 			panelBotones = new JPanel();

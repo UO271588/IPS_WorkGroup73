@@ -56,32 +56,14 @@ public class ClasificationsFrame extends JFrame {
 	private JButton btnCancelar;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClasificationsFrame frame = new ClasificationsFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public ClasificationsFrame() throws SQLException {
+	public ClasificationsFrame(List<ClasificationDto> clasificaciones2){
 		setTitle("Clasificaciones");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 828, 588);
-		ClasificationAccess ca = new ClasificationAccess();
-		clasificaciones = ca.findAllByRace("3435476");
-		añadirClasificaciones();
+		this.clasificaciones = clasificaciones2;
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -89,33 +71,6 @@ public class ClasificationsFrame extends JFrame {
 		contentPane.add(getPaneCentral(), BorderLayout.CENTER);
 		contentPane.add(getPanel(), BorderLayout.NORTH);
 		contentPane.add(getPanelBotones(), BorderLayout.SOUTH);
-	}
-	
-	private void añadirClasificaciones() {
-		ClasificationDto clasificacion = new ClasificationDto();
-		clasificacion.dni = "2352352D";
-		clasificacion.idcarrera = "3435476";
-		clasificacion.sexo = "HOMBRE";
-		clasificacion.posicion = "1";
-		clasificacion.tiempoInicio = "17:45:48";
-		clasificacion.tiempoFinal = "18:40:13";
-		clasificaciones.add(clasificacion);
-		ClasificationDto clasificacion1 = new ClasificationDto();
-		clasificacion1.dni = "2352352352F";
-		clasificacion1.idcarrera = "3435476";
-		clasificacion1.sexo = "HOMBRE";
-		clasificacion1.posicion = "1";
-		clasificacion1.tiempoInicio = "17:45:49";
-		clasificacion1.tiempoFinal = "18:55:45";
-		clasificaciones.add(clasificacion1);
-		ClasificationDto clasificacion2 = new ClasificationDto();
-		clasificacion2.dni = "73472383B";
-		clasificacion2.idcarrera = "3435476";
-		clasificacion2.sexo = "MUJER";
-		clasificacion2.posicion = "1";
-		clasificacion2.tiempoInicio = "17:45:47";
-		clasificacion2.tiempoFinal = "18:30:15";
-		clasificaciones.add(clasificacion2);
 	}
 
 	private JPanel getPanel() {
@@ -153,9 +108,10 @@ public class ClasificationsFrame extends JFrame {
 					crearPanelesCarrera(clasificaciones,seleccion);
 				}
 			});
-			
-			cbClasificacion.setFont(new Font("Tahoma", Font.BOLD, 14));
 			cbClasificacion.setModel(new DefaultComboBoxModel<String>(new String[] {"HOMBRE", "MUJER", "ABSOLUTA"}));
+			cbClasificacion.setSelectedIndex(2);
+			cbClasificacion.setFont(new Font("Tahoma", Font.BOLD, 14));
+			
 			
 		}
 		return cbClasificacion;
