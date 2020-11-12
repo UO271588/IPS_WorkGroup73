@@ -1,11 +1,12 @@
 package model.inscription;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +41,7 @@ public class InscriptionModel {
 
 	public void justificante(String email, String name) {
 
-		int idCompeticion = getIdCompeticion(name);
+		String idCompeticion = getIdCompeticion(name);
 		cal_birthdate = Calendar.getInstance();
 		cal_birthdate.setTime(getBirthdate(email));
 
@@ -49,17 +50,17 @@ public class InscriptionModel {
 		j.setCantidad(getCantidad(idCompeticion));
 		j.setFecha_inscripcion(date_hoy);
 		j.setEstado("PRE-INSCRITO");
-		j.setCategoria(categoria(email));
-		String idCategory = getIdCategory(email);
+		j.setCategoria(categoria(email,name));
+		String idCategory = getIdCategory(email,name);
 		insert(idCompeticion, email,idCategory);
 
 	}
 
 	
 
-	private void insert(int idCompeticion, String email,String idCategory) {
+	private void insert(String idCompeticion, String email, String idCategory) {
 		DbUtil du = new DbUtil();
-		String sql = "INSERT INTO inscription (DNI,IDCompetition,INSCRIPTIONDATE,IDCATEGORY,CATEGORY,INSCRIPTIONSTATE) VALUES (?, ?, ?, ?,?)";
+		String sql = "INSERT INTO inscription (DNI,IDCompetition,INSCRIPTIONDATE,IDCATEGORY,CATEGORY,INSCRIPTIONSTATE) VALUES (?, ?, ?, ?,?,?)";
 		du.executeUpdate(sql, getDni(email), idCompeticion, fecha_hoy, idCategory,j.getCategoria(), j.getEstado());
 	}
 
@@ -94,9 +95,9 @@ public class InscriptionModel {
 
 	}
 
-	public static int getIdCompeticion(String name) {
+	public static String getIdCompeticion(String name) {
 		String sql = "select idcompetition " + "from competition\r\n" + "where name = ?";
-		int idCompeticion = 0;
+		String idCompeticion = "";
 		Connection cn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -107,7 +108,7 @@ public class InscriptionModel {
 			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				idCompeticion = rs.getInt(1);
+				idCompeticion = rs.getString(1);
 
 			}
 			return idCompeticion;
@@ -125,7 +126,7 @@ public class InscriptionModel {
 		}
 	}
 
-	public int getCantidad(int id) {
+	public int getCantidad(String idCompeticion) {
 		String sql = "select d.fee from inscription_deadline d, inscription i where d.idcompetition=? and i.inscriptiondate>=d.initialdate and i.inscriptiondate<=d.finaldate";
 		int cantidad = 0;
 		Connection cn = null;
@@ -134,12 +135,12 @@ public class InscriptionModel {
 		try {
 			cn = DbUtil.getConnection();
 			pstmt = cn.prepareStatement(sql);
-			pstmt.setString(1, id+"");
+			pstmt.setString(1, idCompeticion);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				cantidad = rs.getInt("fee");
 			}
-			System.out.println(cantidad+"");
+			
 
 			return cantidad;
 		} catch (SQLException e) {
@@ -217,10 +218,80 @@ public class InscriptionModel {
 			}
 		}
 	}
-	private String getIdCategory(String email) {
-			return null;
+	private String getIdCategory(String email, String name) {
+			String sql= "select idcategory from category where name=? and idCompetition=?";
+			String idC= getIdCompeticion(name);
+			String categoria = categoria(email,name);
+			String idCategory="";
+			Connection cn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try {
+				cn = DbUtil.getConnection();
+				pstmt = cn.prepareStatement(sql);
+				pstmt.setString(1, categoria);
+				pstmt.setString(2, idC);
+				
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					idCategory = rs.getString(1);
+				}
+
+				return idCategory;
+			} catch (SQLException e) {
+				throw new UnexpectedException(e);
+			} finally {
+				try {
+					rs.close();
+					pstmt.close();
+					cn.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 		}
-	public String categoria(String email) {
+	public String categoria(String email,String name) {
+		ZoneId defaultZoneId = ZoneId.systemDefault();
+		 LocalDate hoy = LocalDate.now();   
+		 LocalDate nacimiento = getBirthdate(email).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		 int edad = (int) ChronoUnit.YEARS.between(nacimiento, hoy); 
+		 String categoria="";
+		 String sql = "select name from category where idcompetition=? and initial_age<=? and final_age>=? and sex = ?";
+		 String sex = getSex(email);
+		 String idC= getIdCompeticion(name);
+		  Connection cn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try {
+				cn = DbUtil.getConnection();
+				pstmt = cn.prepareStatement(sql);
+				pstmt.setString(1, idC+"");
+				pstmt.setInt(2, edad);
+				pstmt.setInt(3, edad);
+				pstmt.setString(4, sex);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					categoria = rs.getString(1);
+				}
+
+				return categoria;
+			} catch (SQLException e) {
+				throw new UnexpectedException(e);
+			} finally {
+				try {
+					rs.close();
+					pstmt.close();
+					cn.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+	
+			
+	}
+//		System.out.print(edad);
 //		int años = cal_hoy.get(Calendar.YEAR) - cal_birthdate.get(Calendar.YEAR);
 //
 //		String categoria = "";
@@ -261,14 +332,14 @@ public class InscriptionModel {
 //		}
 //
 //		return categoria;
-		return null;
+		
 
-	}
+	
 
 	public static void updateEstado(String estado, String dni, String idcompetition) {
 		Database db = new Database();
 		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? WHERE dni = ? AND idcompetition = ? ";
-		System.out.println(estado + dni + idcompetition);
+		
 		db.executeUpdate(sql, estado, dni, idcompetition);
 	}
 
