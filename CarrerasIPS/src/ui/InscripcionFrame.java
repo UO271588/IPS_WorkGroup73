@@ -169,6 +169,7 @@ public class InscripcionFrame extends JFrame {
 					JFrame jf = ((RacesFrame) parent).getAnterior();
 					parent.dispose();
 					jf.setVisible(true);
+					dispose();
 					
 				}
 			});
