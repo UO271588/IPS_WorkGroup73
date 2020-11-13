@@ -126,9 +126,9 @@ public class InscriptionModel {
 		}
 	}
 
-	public int getCantidad(String idCompeticion) {
+	public double getCantidad(String idCompeticion) {
 		String sql = "select d.fee from inscription_deadline d, inscription i where d.idcompetition=? and i.inscriptiondate>=d.initialdate and i.inscriptiondate<=d.finaldate";
-		int cantidad = 0;
+		double cantidad = 0;
 		Connection cn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -138,7 +138,7 @@ public class InscriptionModel {
 			pstmt.setString(1, idCompeticion);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				cantidad = rs.getInt("fee");
+				cantidad = rs.getDouble("fee");
 			}
 			
 

@@ -1113,8 +1113,11 @@ public class RaceCreationFrame extends JFrame {
 			btnCrear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-						if(validaciones())
+						if(validaciones()) {
 							createRace();
+						dispose();
+						parent.setVisible(true);
+						}
 						
 				}
 				

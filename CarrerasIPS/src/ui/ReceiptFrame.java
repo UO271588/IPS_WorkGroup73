@@ -29,7 +29,7 @@ public class ReceiptFrame extends JDialog {
 
 
 	public ReceiptFrame(String nombre, String nombreCompeticion, String categoria, String dateToIsoString,
-			int cantidad, String estado) {
+			double cantidad, String estado) {
 		setBounds(100, 100, 493, 393);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

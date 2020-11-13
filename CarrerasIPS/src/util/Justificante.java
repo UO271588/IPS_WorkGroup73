@@ -8,7 +8,7 @@ public class Justificante {
 	private String nombreCompeticion;
 	private String categoria;
 	private Date fecha_inscripcion;
-	private int cantidad;
+	private double cantidad;
 	private String estado;
 	
 	public String getNombre() {
@@ -35,10 +35,10 @@ public class Justificante {
 	public void setFecha_inscripcion(Date fecha_inscripcion) {
 		this.fecha_inscripcion = fecha_inscripcion;
 	}
-	public int getCantidad() {
+	public double getCantidad() {
 		return cantidad;
 	}
-	public void setCantidad(int cantidad) {
+	public void setCantidad(double cantidad) {
 		this.cantidad = cantidad;
 	}
 	public String getEstado() {
