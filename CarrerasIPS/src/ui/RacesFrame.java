@@ -52,29 +52,18 @@ public class RacesFrame extends JFrame {
 	private JLabel lblCuota;
 	private JLabel lblFechaInscripcion;
 	private JLabel lblFechaCarrera;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JFrame parent;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RacesFrame frame = new RacesFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public RacesFrame() {
+	public RacesFrame(JFrame parent) {
+		this.parent=parent;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 763, 406);
+		setBounds(100, 100, 763, 445);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -92,7 +81,7 @@ public class RacesFrame extends JFrame {
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(10, 51, 727, 304);
+		scrollPane.setBounds(10, 51, 765, 304);
 		contentPane.add(scrollPane);
 
 		JPanel panelCentral = new JPanel();
@@ -116,6 +105,7 @@ public class RacesFrame extends JFrame {
 			}
 		});
 		panel.setLayout(new GridLayout(carreras.size(), 1, 0, 0));
+		contentPane.add(getBtnNewButton_1());
 		if (carreras.size() < 10) {
 			panel.setLayout(new GridLayout(10, 0, 0, 0));
 		}
@@ -166,14 +156,44 @@ public Date getFechaInicioCarrera(String idcompetition) {
 			cn = DbUtil.getConnection();
 			pstmt = cn.prepareStatement(sql);
 			pstmt.setString(1, idcompetition);
-			System.out.println(idcompetition);
+			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				fecha = rs.getString(1);
-				System.out.println(fecha);
+				
 			}
 
 			return TimeUtil.isoStringToDate(fecha);
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+	public int getAforoActual(String id) {
+		String sql = "select count(*) from inscription where idcompetition=?";
+		int aforo = 0;
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				aforo = rs.getInt(1);
+			}
+			
+
+			return aforo;
 		} catch (SQLException e) {
 			throw new UnexpectedException(e);
 		} finally {
@@ -191,6 +211,7 @@ public Date getFechaInicioCarrera(String idcompetition) {
 		for (RaceDto carrera : carreras) {
 			if (carrera.fechaCarrera.compareTo(Calendar.getInstance().getTime()) > 0
 					&& carrera.fechaLimite.compareTo(Calendar.getInstance().getTime()) > 0) {
+				int aforoActual = getAforoActual(carrera.id);
 				Date inicio= getFechaInicioCarrera(carrera.id);
 				if(inicio.compareTo(Calendar.getInstance().getTime())<=0) {
 				JPanel panelCarrera = new JPanel();
@@ -243,7 +264,9 @@ public Date getFechaInicioCarrera(String idcompetition) {
 				btnRegistro.setText("Registrarse");
 				panelCarrera.add(btnRegistro);
 				btnRegistro.setHorizontalAlignment(JTextField.CENTER);
-				if (carrera.aforoActual >= carrera.aforoMax) {
+				System.out.print("aforo actual: "+ aforoActual);
+				System.out.print("aforo maximo: "+ carrera.aforoMax);
+				if (aforoActual >= carrera.aforoMax) {
 					btnRegistro.setEnabled(false);
 				} else {
 					btnRegistro.setEnabled(true);
@@ -253,10 +276,13 @@ public Date getFechaInicioCarrera(String idcompetition) {
 						EventQueue.invokeLater(new Runnable() {
 							public void run() {
 								try {
+									
+									
 									InscriptionModel im = new InscriptionModel(carrera);
 									InscripcionFrame iv = new InscripcionFrame(carrera);
 									InscripcionController ic = new InscripcionController(im, iv);
 									iv.setVisible(true);
+									dispose();
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
@@ -269,6 +295,13 @@ public Date getFechaInicioCarrera(String idcompetition) {
 			}
 			}
 		}
+	}
+	
+	public void close() {
+		parent.setVisible(true);
+		this.dispose();
+		
+		
 	}
 
 	private JPanel getPnlNorth() {
@@ -346,5 +379,19 @@ public Date getFechaInicioCarrera(String idcompetition) {
 			lblFechaCarrera.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
 		return lblFechaCarrera;
+	}
+	private JButton getBtnNewButton_1() {
+		if (btnNewButton_1 == null) {
+			btnNewButton_1 = new JButton("ATR\u00C1S");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					close();
+				}
+				
+			});
+			btnNewButton_1.setBounds(24, 377, 85, 21);
+			
+		}
+		return btnNewButton_1;
 	}
 }

@@ -93,7 +93,7 @@ public class MainFrame extends JFrame {
 		return btnNewButton;
 	}
 	protected void launchParticipant() {
-		new RacesFrame().setVisible(true);
+		new RacesFrame(this).setVisible(true);
 		this.setVisible(false);
 		
 	}
