@@ -2003,6 +2003,8 @@ public class RaceCreationFrame extends JFrame {
 			btnAdd_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller2.addPlazosRow(getPnlPlazosView());
+					lblValPlazos.setText("Incorrecto");
+					lblValPlazos.setForeground(Color.RED);
 				}
 			});
 		}

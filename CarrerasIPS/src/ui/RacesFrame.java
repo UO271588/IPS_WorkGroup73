@@ -1,13 +1,16 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.ZoneId;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,10 +31,10 @@ import javax.swing.border.LineBorder;
 import business.race.RaceDto;
 import controller.InscripcionController;
 import dbAccess.CompetitionsAccess;
-
 import model.inscription.InscriptionModel;
+import util.DbUtil;
 import util.TimeUtil;
-import java.awt.BorderLayout;
+import util.UnexpectedException;
 
 public class RacesFrame extends JFrame {
 
@@ -120,11 +123,76 @@ public class RacesFrame extends JFrame {
 		crearPanelesCarrera(carreras);
 
 	}
+	public double getCantidad(String idCompeticion) {
+		String sql = "select d.fee from inscription_deadline d, inscription i where d.idcompetition=? and i.inscriptiondate>=d.initialdate and i.inscriptiondate<=d.finaldate";
+		double cantidad = 0;
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, idCompeticion);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				cantidad = rs.getDouble("fee");
+			}
+			
 
+			return cantidad;
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+	}
+	
+public Date getFechaInicioCarrera(String idcompetition) {
+		
+		String sql = "select min(initialdate) from inscription_deadline where idcompetition=?";
+		String fecha = "";
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, idcompetition);
+			System.out.println(idcompetition);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				fecha = rs.getString(1);
+				System.out.println(fecha);
+			}
+
+			return TimeUtil.isoStringToDate(fecha);
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
 	public void crearPanelesCarrera(List<RaceDto> carreras) {
 		for (RaceDto carrera : carreras) {
 			if (carrera.fechaCarrera.compareTo(Calendar.getInstance().getTime()) > 0
 					&& carrera.fechaLimite.compareTo(Calendar.getInstance().getTime()) > 0) {
+				Date inicio= getFechaInicioCarrera(carrera.id);
+				if(inicio.compareTo(Calendar.getInstance().getTime())<=0) {
 				JPanel panelCarrera = new JPanel();
 				panelCarrera.setLayout(new GridLayout(0,7,0,0));
 				JTextField txtNombre = new JTextField();
@@ -154,7 +222,7 @@ public class RacesFrame extends JFrame {
 				txtDistancia.setHorizontalAlignment(JTextField.CENTER);
 
 				// Creacion textField cuota inscripcion
-				txtCuota.setText(Double.toString(carrera.precioInscripcion) + "€");
+				txtCuota.setText(getCantidad(carrera.id) + "€");
 				panelCarrera.add(txtCuota);
 //			txtCuota.setColumns(6);
 				txtCuota.setHorizontalAlignment(JTextField.CENTER);
@@ -198,6 +266,7 @@ public class RacesFrame extends JFrame {
 				});
 
 				panel.add(panelCarrera);
+			}
 			}
 		}
 	}
@@ -261,7 +330,7 @@ public class RacesFrame extends JFrame {
 
 	private JLabel getLblFechaInscripcion() {
 		if (lblFechaInscripcion == null) {
-			lblFechaInscripcion = new JLabel("Fecha Inscripcion");
+			lblFechaInscripcion = new JLabel("Fecha Fin Inscripcion");
 			lblFechaInscripcion.setBorder(new LineBorder(new Color(0, 0, 0)));
 			lblFechaInscripcion.setHorizontalAlignment(SwingConstants.CENTER);
 			lblFechaInscripcion.setFont(new Font("Tahoma", Font.PLAIN, 13));
