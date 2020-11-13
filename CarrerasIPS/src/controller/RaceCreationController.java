@@ -199,8 +199,8 @@ public class RaceCreationController {
 	}
 
 	private void createCategories(String raceId) {
-		createCategoriesFrom(view.getPnlFemView(), true, raceId);
-		createCategoriesFrom(view.getPnlMascView(), false, raceId);
+		createCategoriesFrom(view.getPnlFemView(), false, raceId);
+		createCategoriesFrom(view.getPnlMascView(), true, raceId);
 		
 	}
 

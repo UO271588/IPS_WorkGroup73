@@ -36,8 +36,13 @@ public class InscripcionController {
 					if(model.existeEmail(view.getTextFieldEmail().getText())) {
 						if(InscriptionModel.existeYaInscripcion(InscriptionModel.getDni(getEmailFromView()),
 								getNombreCompeticionView())==false) {
-							imprimirFormulario();
-							view.getBtnPagar().setEnabled(true);
+							if(model.categoria(view.getTextFieldEmail().getText(), view.getTextFieldNombreCompeticion().getText()).isBlank()) {
+								JOptionPane.showMessageDialog(null, "No hay ninguna categoria para la edad del participante");
+							}
+							else {
+								imprimirFormulario();
+								view.getBtnPagar().setEnabled(true);
+							}
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Ya estas insctito en esta competicion");
@@ -53,6 +58,7 @@ public class InscripcionController {
 	}
 
 	private void imprimirFormulario() {
+		
 		model.justificante(view.getTextFieldEmail().getText(), view.getTextFieldNombreCompeticion().getText());
 		ReceiptFrame rf = new ReceiptFrame(model.getJustificante().getNombre(), model.getJustificante().getnombreCompeticion(),
 				model.getJustificante().getCategoria(),TimeUtil.dateToIsoString(model.getJustificante().getFecha_inscripcion()),

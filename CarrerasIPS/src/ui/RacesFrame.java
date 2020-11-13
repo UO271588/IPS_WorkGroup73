@@ -279,10 +279,10 @@ public Date getFechaInicioCarrera(String idcompetition) {
 									
 									
 									InscriptionModel im = new InscriptionModel(carrera);
-									InscripcionFrame iv = new InscripcionFrame(carrera);
+									InscripcionFrame iv = new InscripcionFrame(carrera, getVentana());
 									InscripcionController ic = new InscripcionController(im, iv);
 									iv.setVisible(true);
-									dispose();
+									
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
@@ -296,12 +296,19 @@ public Date getFechaInicioCarrera(String idcompetition) {
 			}
 		}
 	}
-	
+	public JFrame getVentana() {
+		return this;
+	}
 	public void close() {
 		parent.setVisible(true);
 		this.dispose();
 		
 		
+	}
+	
+	public JFrame getAnterior() {
+
+		return this.parent;
 	}
 
 	private JPanel getPnlNorth() {

@@ -33,14 +33,17 @@ public class InscripcionFrame extends JFrame {
 	private String nombreCarrera;
 	private RaceDto carrera;
 	private JButton btnPagar;
+	private JButton btnNewButton;
+	private JFrame parent;
 
 	/**
 	 * Create the frame.
 	 * 
 	 * @param nombreCarrera
 	 */
-	public InscripcionFrame(RaceDto carrera) {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	public InscripcionFrame(RaceDto carrera, JFrame parent) {
+		this.parent = parent;
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 485, 303);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -57,6 +60,7 @@ public class InscripcionFrame extends JFrame {
 		this.carrera = carrera;
 		textFieldNombreCompeticion.setText(nombreCarrera);
 		contentPane.add(getBtnPagar());
+		contentPane.add(getBtnNewButton());
 	}
 
 	public JLabel getLblFichaInscripcionAtleta() {
@@ -156,5 +160,20 @@ public class InscripcionFrame extends JFrame {
 		}
 
 		return true;
+	}
+	private JButton getBtnNewButton() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("ATR\u00C1S");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFrame jf = ((RacesFrame) parent).getAnterior();
+					parent.dispose();
+					jf.setVisible(true);
+					
+				}
+			});
+			btnNewButton.setBounds(20, 235, 85, 21);
+		}
+		return btnNewButton;
 	}
 }
