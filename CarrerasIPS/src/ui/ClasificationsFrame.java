@@ -44,9 +44,10 @@ public class ClasificationsFrame extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
-	public ClasificationsFrame(List<ClasificationDto> clasificaciones2){
+	public ClasificationsFrame(List<ClasificationDto> clasificaciones2) {
 		setTitle("Clasificaciones");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 828, 588);
@@ -92,14 +93,13 @@ public class ClasificationsFrame extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					int indice = cbClasificacion.getSelectedIndex();
 					String seleccion = cbClasificacion.getItemAt(indice);
-					crearPanelesCarrera(clasificaciones,seleccion);
+					crearPanelesCarrera(clasificaciones, seleccion);
 				}
 			});
-			cbClasificacion.setModel(new DefaultComboBoxModel<String>(new String[] {"HOMBRE", "MUJER", "ABSOLUTA"}));
+			cbClasificacion.setModel(new DefaultComboBoxModel<String>(new String[] { "HOMBRE", "MUJER", "ABSOLUTA" }));
 			cbClasificacion.setSelectedIndex(2);
 			cbClasificacion.setFont(new Font("Tahoma", Font.BOLD, 14));
-			
-			
+
 		}
 		return cbClasificacion;
 	}
@@ -169,37 +169,44 @@ public class ClasificationsFrame extends JFrame {
 		}
 		return txtTiempo;
 	}
-	
+
 	public class ComparatorClasificaciones implements Comparator<ClasificationDto> {
 
 		@Override
 		public int compare(ClasificationDto o1, ClasificationDto o2) {
 			String[] tiempoInicialO1 = o1.tiempoInicio.split(":");
 			String[] tiempoFinalO1 = o1.tiempoFinal.split(":");
-
 			int segundosInicialesO1 = Integer.parseInt(tiempoInicialO1[0]) * 3600
 					+ Integer.parseInt(tiempoInicialO1[1]) * 60 + Integer.parseInt(tiempoInicialO1[2]);
-			int segundosFinalesO1= Integer.parseInt(tiempoFinalO1[0]) * 3600 + Integer.parseInt(tiempoFinalO1[1]) * 60
+			int segundosFinalesO1 = Integer.parseInt(tiempoFinalO1[0]) * 3600 + Integer.parseInt(tiempoFinalO1[1]) * 60
 					+ Integer.parseInt(tiempoFinalO1[2]);
 
 			int segundosTotalesO1 = segundosFinalesO1 - segundosInicialesO1;
-			
+
 			String[] tiempoInicialO2 = o2.tiempoInicio.split(":");
 			String[] tiempoFinalO2 = o2.tiempoFinal.split(":");
 
 			int segundosInicialesO2 = Integer.parseInt(tiempoInicialO2[0]) * 3600
 					+ Integer.parseInt(tiempoInicialO2[1]) * 60 + Integer.parseInt(tiempoInicialO2[2]);
-			int segundosFinalesO2= Integer.parseInt(tiempoFinalO2[0]) * 3600 + Integer.parseInt(tiempoFinalO2[1]) * 60
+			int segundosFinalesO2 = Integer.parseInt(tiempoFinalO2[0]) * 3600 + Integer.parseInt(tiempoFinalO2[1]) * 60
 					+ Integer.parseInt(tiempoFinalO2[2]);
 
 			int segundosTotalesO2 = segundosFinalesO2 - segundosInicialesO2;
-			
-			return segundosTotalesO1-segundosTotalesO2;		
-		}		
-	} 
+
+			if (segundosTotalesO1 <= 0) {
+				return 1;
+			} else if (segundosTotalesO2 <= 0) {
+				return -1;
+			} else if (segundosTotalesO1 - segundosTotalesO2 == 0) {
+				return -1;
+			} else {
+				return segundosTotalesO1 - segundosTotalesO2;
+			}
+		}
+	}
 
 	public void crearPanelesCarrera(List<ClasificationDto> clasificaciones, String sexo) {
-		
+
 		clasificaciones.sort(new ComparatorClasificaciones());
 
 		paneParticipantes.setLayout(new GridLayout(Math.max(10, clasificaciones.size()), 1, 0, 0));
@@ -207,7 +214,7 @@ public class ClasificationsFrame extends JFrame {
 
 		int posicion = 1;
 		for (ClasificationDto clasificacion : clasificaciones) {
-			if(sexo.equals("ABSOLUTA")) {
+			if (sexo.equals("ABSOLUTA")) {
 				JPanel panelClasificacion = new JPanel();
 				panelClasificacion.setLayout(new GridLayout(1, 4, 0, 0));
 				JTextField txtNombre = new JTextField();
@@ -216,7 +223,7 @@ public class ClasificationsFrame extends JFrame {
 				JTextField txtTiempo = new JTextField();
 
 				// Creacion textField poscion
-				txtPosicion.setText(posicion+"");
+				txtPosicion.setText(posicion + "");
 				panelClasificacion.add(txtPosicion);
 				txtPosicion.setColumns(10);
 				txtPosicion.setHorizontalAlignment(JTextField.CENTER);
@@ -236,30 +243,32 @@ public class ClasificationsFrame extends JFrame {
 				// Creacion textField tiempo
 				String[] tiempoInicial = clasificacion.tiempoInicio.split(":");
 				String[] tiempoFinal = clasificacion.tiempoFinal.split(":");
-
 				int segundosIniciales = Integer.parseInt(tiempoInicial[0]) * 3600
 						+ Integer.parseInt(tiempoInicial[1]) * 60 + Integer.parseInt(tiempoInicial[2]);
 				int segundosFinales = Integer.parseInt(tiempoFinal[0]) * 3600 + Integer.parseInt(tiempoFinal[1]) * 60
 						+ Integer.parseInt(tiempoFinal[2]);
+				if (segundosIniciales != 0 && segundosFinales != 0) {
+					int segundosTotales = segundosFinales - segundosIniciales;
 
-				int segundosTotales = segundosFinales - segundosIniciales;
+					int horas = segundosTotales / 3600;
+					int minutos = (segundosTotales - 3600 * horas) / 60;
+					int segundos = (segundosTotales - 3600 * horas) - (minutos * 60);
 
-				int horas = segundosTotales / 3600;
-				int minutos = (segundosTotales - 3600 * horas) / 60;
-				int segundos = (segundosTotales - 3600 * horas) - (minutos * 60);
-
-				String tiempo = horas + ":" + minutos + ":" + segundos;
-				txtTiempo.setText(tiempo);
+					String tiempo = horas + ":" + minutos + ":" + segundos;
+					txtTiempo.setText(tiempo);
+				} else {
+					txtTiempo.setText("---");
+				}
 				panelClasificacion.add(txtTiempo);
 				txtTiempo.setColumns(10);
 				txtTiempo.setHorizontalAlignment(JTextField.CENTER);
 
 				paneParticipantes.add(panelClasificacion);
 				paneParticipantes.repaint();
-				this.setSize(this.getWidth()+1,this.getHeight()+1);
-				this.setSize(this.getWidth()-1,this.getHeight()-1);
+				this.setSize(this.getWidth() + 1, this.getHeight() + 1);
+				this.setSize(this.getWidth() - 1, this.getHeight() - 1);
 				posicion++;
-			}else if (clasificacion.sexo.equals(sexo)) {
+			} else if (clasificacion.sexo.equals(sexo)) {
 				JPanel panelClasificacion = new JPanel();
 				panelClasificacion.setLayout(new GridLayout(1, 4, 0, 0));
 				JTextField txtNombre = new JTextField();
@@ -268,7 +277,7 @@ public class ClasificationsFrame extends JFrame {
 				JTextField txtTiempo = new JTextField();
 
 				// Creacion textField poscion
-				txtPosicion.setText(posicion+"");
+				txtPosicion.setText(posicion + "");
 				panelClasificacion.add(txtPosicion);
 				txtPosicion.setColumns(10);
 				txtPosicion.setHorizontalAlignment(JTextField.CENTER);
@@ -294,26 +303,31 @@ public class ClasificationsFrame extends JFrame {
 				int segundosFinales = Integer.parseInt(tiempoFinal[0]) * 3600 + Integer.parseInt(tiempoFinal[1]) * 60
 						+ Integer.parseInt(tiempoFinal[2]);
 
-				int segundosTotales = segundosFinales - segundosIniciales;
+				if (segundosIniciales != 0 && segundosFinales != 0) {
+					int segundosTotales = segundosFinales - segundosIniciales;
 
-				int horas = segundosTotales / 3600;
-				int minutos = (segundosTotales - 3600 * horas) / 60;
-				int segundos = (segundosTotales - 3600 * horas) - (minutos * 60);
+					int horas = segundosTotales / 3600;
+					int minutos = (segundosTotales - 3600 * horas) / 60;
+					int segundos = (segundosTotales - 3600 * horas) - (minutos * 60);
 
-				String tiempo = horas + ":" + minutos + ":" + segundos;
-				txtTiempo.setText(tiempo);
+					String tiempo = horas + ":" + minutos + ":" + segundos;
+					txtTiempo.setText(tiempo);
+				} else {
+					txtTiempo.setText("---");
+				}
 				panelClasificacion.add(txtTiempo);
 				txtTiempo.setColumns(10);
 				txtTiempo.setHorizontalAlignment(JTextField.CENTER);
 
 				paneParticipantes.add(panelClasificacion);
 				paneParticipantes.repaint();
-				this.setSize(this.getWidth()+1,this.getHeight()+1);
-				this.setSize(this.getWidth()-1,this.getHeight()-1);
-				posicion ++;
+				this.setSize(this.getWidth() + 1, this.getHeight() + 1);
+				this.setSize(this.getWidth() - 1, this.getHeight() - 1);
+				posicion++;
 			}
 		}
 	}
+
 	private JPanel getPanelBotones() {
 		if (panelBotones == null) {
 			panelBotones = new JPanel();
@@ -324,6 +338,7 @@ public class ClasificationsFrame extends JFrame {
 		}
 		return panelBotones;
 	}
+
 	private JButton getBtnAceptar() {
 		if (btnAceptar == null) {
 			btnAceptar = new JButton("Aceptar\r\n");
@@ -335,11 +350,11 @@ public class ClasificationsFrame extends JFrame {
 		}
 		return btnAceptar;
 	}
-	
-	private void cerrarVentana () {
+
+	private void cerrarVentana() {
 		this.dispose();
 	}
-	
+
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");

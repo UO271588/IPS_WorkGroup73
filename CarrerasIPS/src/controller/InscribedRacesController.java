@@ -48,24 +48,25 @@ public class InscribedRacesController {
 		JPanel panel = view.getPnlViewportCenter();
 		panel.removeAll();
 		panel.repaint();
-		for(InscriptionDto dto : list) {
+		for (InscriptionDto dto : list) {
 
 			panel.setLayout(new GridLayout(rows++, 0, 0, 0));
-			if(rows <10) {	//para que las filas no sean demasiado grandes y siga quedando bien
+			if (rows < 10) { // para que las filas no sean demasiado grandes y siga quedando bien
 				panel.setLayout(new GridLayout(10, 0, 0, 0));
 			}
 			panel.add(createRow(dto));
 		}
-		
+		panel.revalidate();
+		panel.repaint();
+
 	}
-	
+
 	public void identificateAndLoad(String mail) {
-		if(!ParticipantModel.checkMail(mail)) {			
-			ParticipantDtoPojo dto =  ParticipantModel.getByEmail(mail);
+		if (!ParticipantModel.checkMail(mail)) {
+			ParticipantDtoPojo dto = ParticipantModel.getByEmail(mail);
 			this.view.setParticipant(dto);
 			initialize(dto.dni);
-		}
-		else {
+		} else {
 			JOptionPane.showMessageDialog(null, "El mail introducido no corresponde con ningun usuario");
 		}
 	}
@@ -80,15 +81,14 @@ public class InscribedRacesController {
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(lbl);
-		
+
 		lbl = new JLabel();
-		lbl.setText("" +dto.getInscriptionState());
+		lbl.setText("" + dto.getInscriptionState());
 		lbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(lbl);
-		
-		
+
 		lbl = new JLabel();
 		lbl.setText(dto.inscriptionDate);
 		lbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -103,7 +103,6 @@ public class InscribedRacesController {
 		view.getLblName().setText(part.name + " " + part.surname);
 		view.getLblMail().setText(part.email);
 		view.getLblTitle().setBorder(new EmptyBorder(0, 0, 0, view.getPnlData().getWidth()));
-
 
 	}
 

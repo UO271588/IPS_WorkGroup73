@@ -136,6 +136,7 @@ public class PanelCreditCard extends JPanel {
 	public void accionBotonOk() {
 		String numero = getTxtNtarjeta().getText();
 		String cvv = getTxtCvv().getText();
+		String fecha = getTxtFechacaducidad().getText();
 		if (getTxtNtarjeta().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "El campo Nº de Tarjeta esta vacio", "Error",
 					JOptionPane.ERROR_MESSAGE);
@@ -146,7 +147,9 @@ public class PanelCreditCard extends JPanel {
 			JOptionPane.showMessageDialog(this, "El campo CVV esta vacio", "Error", JOptionPane.ERROR_MESSAGE);
 		} else if(!isNumeric(getTxtNtarjeta().getText())){
 			JOptionPane.showMessageDialog(this, "El campo Nº de Tarjeta no es un numero", "Error", JOptionPane.ERROR_MESSAGE);
-		} else if(!isNumeric(getTxtCvv().getText())){
+		}else if(fecha.split("-").length != 3 || !isNumeric(fecha.split("-")[0]) || !isNumeric(fecha.split("-")[1]) || !isNumeric(fecha.split("-")[2])){
+			JOptionPane.showMessageDialog(this, "El campo Fecha Caducidad no es valido", "Error", JOptionPane.ERROR_MESSAGE);
+		}else if(!isNumeric(getTxtCvv().getText())){
 			JOptionPane.showMessageDialog(this, "El campo CVV no es un numero", "Error", JOptionPane.ERROR_MESSAGE);
 		}else {
 			String dni = InscriptionModel.getDni(email);
