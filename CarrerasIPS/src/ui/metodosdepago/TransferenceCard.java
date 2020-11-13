@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -15,7 +19,9 @@ import javax.swing.border.EmptyBorder;
 
 import business.race.RaceDto;
 import model.inscription.InscriptionModel;
+import util.DbUtil;
 import util.TimeUtil;
+import util.UnexpectedException;
 
 public class TransferenceCard extends JPanel {
 
@@ -61,7 +67,7 @@ public class TransferenceCard extends JPanel {
 		textField.setBounds(129, 64, 86, 20);
 		panelCentral.add(textField);
 		textField.setColumns(10);
-		textField.setText(carrera.precioInscripcion+"€");
+		textField.setText(getCantidad(carrera.id)+"€");
 
 		JLabel lblFechalimite = new JLabel("Fecha limite:");
 		lblFechalimite.setBounds(28, 98, 92, 14);
@@ -97,5 +103,36 @@ public class TransferenceCard extends JPanel {
 		InscriptionModel.updateEstado("PENDIENTE", dni, carrera.id);
 		padre.dispose();
 	}
+	
+	public double getCantidad(String idCompeticion) {
+		String sql = "select d.fee from inscription_deadline d, inscription i where d.idcompetition=? and i.inscriptiondate>=d.initialdate and i.inscriptiondate<=d.finaldate";
+		double cantidad = 0;
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, idCompeticion);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				cantidad = rs.getDouble("fee");
+			}
+			
 
+			return cantidad;
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+	}
 }

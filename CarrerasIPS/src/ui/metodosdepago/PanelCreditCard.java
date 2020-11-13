@@ -2,6 +2,10 @@ package ui.metodosdepago;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +19,10 @@ import org.sqlite.util.StringUtils;
 
 import business.race.RaceDto;
 import model.inscription.InscriptionModel;
+import ui.ReciboTarjeta;
+import util.DbUtil;
+import util.UnexpectedException;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
@@ -144,6 +152,7 @@ public class PanelCreditCard extends JPanel {
 			String dni = InscriptionModel.getDni(email);
 			if (dni != null) {
 				InscriptionModel.updateEstado("PAGADO", dni, carrera.id);
+				new ReciboTarjeta(carrera,email,getCantidad(carrera.id)).setVisible(true);
 				padre.dispose();
 			} else {
 				JOptionPane.showMessageDialog(this, "El usuario con ese email no esta registrado en la carrera",
@@ -185,5 +194,37 @@ public class PanelCreditCard extends JPanel {
 			panelBotones.add(getBtnCancelar());
 		}
 		return panelBotones;
+	}
+	
+	public double getCantidad(String idCompeticion) {
+		String sql = "select d.fee from inscription_deadline d, inscription i where d.idcompetition=? and i.inscriptiondate>=d.initialdate and i.inscriptiondate<=d.finaldate";
+		double cantidad = 0;
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, idCompeticion);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				cantidad = rs.getDouble("fee");
+			}
+			
+
+			return cantidad;
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
 	}
 }
