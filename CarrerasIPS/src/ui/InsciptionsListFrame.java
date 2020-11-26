@@ -40,6 +40,7 @@ public class InsciptionsListFrame extends JFrame {
 	private JLabel lblEstado;
 	private InscriptionListController controller;
 	private JFrame parent;
+	private JLabel lblClasifications;
 
 	/**
 	 * Launch the application.
@@ -64,8 +65,9 @@ public class InsciptionsListFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public InsciptionsListFrame(JFrame parent) {
+		setTitle("Administrador: Carreras");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 751, 467);
+		setBounds(100, 100, 934, 495);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,7 +86,7 @@ public class InsciptionsListFrame extends JFrame {
 			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			scrollPane.setViewportView(getPnlViewport());
 			JViewport view = new JViewport();
-			view.add(getPnlRow());
+			view.add(getpnlViewportNorth());
 			scrollPane.setColumnHeader(view);
 		}
 		return scrollPane;
@@ -140,17 +142,18 @@ public class InsciptionsListFrame extends JFrame {
 		}
 		return pnlViewport;
 	}
-	private JPanel getPnlRow() {
+	public JPanel getpnlViewportNorth() {
 		if (pnlViewportNorth == null) {
 			pnlViewportNorth = new JPanel();
 			pnlViewportNorth.setAutoscrolls(true);
 			pnlViewportNorth.setBorder(new EmptyBorder(1, 0, 1, 0));
-			pnlViewportNorth.setLayout(new GridLayout(0, 5, 0, 0));
+			pnlViewportNorth.setLayout(new GridLayout(0, 6, 0, 0));
 			pnlViewportNorth.add(getLblDni());
 			pnlViewportNorth.add(getLblNombre());
 			pnlViewportNorth.add(getLblCategoria());
 			pnlViewportNorth.add(getLblFecha());
 			pnlViewportNorth.add(getLblEstado());
+			pnlViewportNorth.add(getLblClasifications());
 		}
 		return pnlViewportNorth;
 	}
@@ -209,4 +212,13 @@ public class InsciptionsListFrame extends JFrame {
 		return lblEstado;
 	}
 	
+	public JLabel getLblClasifications() {
+		if (lblClasifications == null) {
+			lblClasifications = new JLabel("Clasificación");
+			lblClasifications.setHorizontalAlignment(SwingConstants.CENTER);
+			lblClasifications.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lblClasifications.setBorder(new LineBorder(new Color(0, 0, 0)));
+		}
+		return lblClasifications;
+	}
 }

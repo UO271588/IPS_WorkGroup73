@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.DbUtil;
+import util.database.Database;
 
 public class ClasificationAccess {
 
@@ -24,11 +25,19 @@ public class ClasificationAccess {
 			clasificacion.posicion = "0";
 			clasificacion.tiempoInicio = rs.getString("INITIALTIME");
 			clasificacion.tiempoFinal = rs.getString("FINALTIME");
-			
+			clasificacion.categoryname = rs.getString("CATEGORYNAME");
 			
 			clasificacionAbsoluta.add(clasificacion);
 		}
 		return clasificacionAbsoluta;
+	}
+	
+	public static boolean isThereAnyClasification(String idCompetition) {
+		try {
+			return DbUtil.existRowStringDB("select * from CLASIFICATION where IDCOMPETITION = ?", idCompetition);
+		} catch (SQLException e) {
+			throw new RuntimeException("error en consulta : " + "select * from CLASIFICATION where IDCOMPETITION = '" + idCompetition+ "'");
+		}
 	}
 
 }

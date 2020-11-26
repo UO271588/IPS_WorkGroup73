@@ -7,4 +7,5 @@ public class ClasificationDto {
 	public String sexo;
 	public String tiempoInicio;
 	public String tiempoFinal;	
+	public String categoryname;
 }

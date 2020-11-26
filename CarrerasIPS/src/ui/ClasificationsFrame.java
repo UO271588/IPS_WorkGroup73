@@ -21,13 +21,16 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import controller.ClasificationController;
 import model.clasification.ClasificationDto;
 import model.participant.ParticipantModel;
+import javax.swing.JSplitPane;
+import javax.swing.JLabel;
 
 public class ClasificationsFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JPanel panel;
+	private JPanel panelSeleccion;
 	private JScrollPane scrollPane;
 	private JPanel paneParticipantes;
 	private JComboBox<String> cbClasificacion;
@@ -39,8 +42,20 @@ public class ClasificationsFrame extends JFrame {
 	private JTextField txtTiempo;
 	private List<ClasificationDto> clasificaciones = new ArrayList<ClasificationDto>();
 	private JPanel panelBotones;
-	private JButton btnAceptar;
+	private JButton btnVolver;
 	private JButton btnCancelar;
+	private ClasificationController controller;
+	private JSplitPane splitPane;
+	private JPanel panel_1;
+	private JPanel panel;
+	private JLabel lblBasicos;
+	private JPanel pnlCB1;
+	private JPanel pnlSelcNort;
+	private JLabel lblFiltro;
+	private JPanel pnlSelecCenter;
+	private JLabel lblCategorias;
+	private JPanel pnlCbCat;
+	private JComboBox<String> cbCategory;
 
 	/**
 	 * Create the frame.
@@ -56,18 +71,21 @@ public class ClasificationsFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.add(getPaneCentral(), BorderLayout.CENTER);
-		contentPane.add(getPanel(), BorderLayout.NORTH);
 		contentPane.add(getPanelBotones(), BorderLayout.SOUTH);
+		contentPane.add(getSplitPane(), BorderLayout.CENTER);
+		controller = new ClasificationController(clasificaciones, this);
+		controller.loadClasifications();
 	}
 
-	private JPanel getPanel() {
-		if (panel == null) {
-			panel = new JPanel();
-			panel.setLayout(new BorderLayout(0, 0));
-			panel.add(getCbClasificacion());
+	private JPanel getPanelSeleccion() {
+		if (panelSeleccion == null) {
+			panelSeleccion = new JPanel();
+			panelSeleccion.setBorder(new EmptyBorder(7, 7, 7, 7));
+			panelSeleccion.setLayout(new BorderLayout(0, 0));
+			panelSeleccion.add(getPnlSelcNort(), BorderLayout.NORTH);
+			panelSeleccion.add(getPnlSelecCenter(), BorderLayout.CENTER);
 		}
-		return panel;
+		return panelSeleccion;
 	}
 
 	private JScrollPane getScrollPane() {
@@ -333,37 +351,112 @@ public class ClasificationsFrame extends JFrame {
 			panelBotones = new JPanel();
 			FlowLayout flowLayout = (FlowLayout) panelBotones.getLayout();
 			flowLayout.setAlignment(FlowLayout.RIGHT);
-			panelBotones.add(getBtnAceptar());
-			panelBotones.add(getBtnCancelar());
+			panelBotones.add(getBtnVolver());
 		}
 		return panelBotones;
 	}
 
-	private JButton getBtnAceptar() {
-		if (btnAceptar == null) {
-			btnAceptar = new JButton("Aceptar\r\n");
-			btnAceptar.addActionListener(new ActionListener() {
+	private JButton getBtnVolver() {
+		if (btnVolver == null) {
+			btnVolver = new JButton("Volver");
+			btnVolver.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cerrarVentana();
 				}
 			});
 		}
-		return btnAceptar;
+		return btnVolver;
 	}
 
 	private void cerrarVentana() {
 		this.dispose();
 	}
 
-	private JButton getBtnCancelar() {
-		if (btnCancelar == null) {
-			btnCancelar = new JButton("Cancelar");
-			btnCancelar.addActionListener(new ActionListener() {
+	private JSplitPane getSplitPane() {
+		if (splitPane == null) {
+			splitPane = new JSplitPane();
+			splitPane.setDividerSize(2);
+			splitPane.setRightComponent(getPaneCentral());
+			splitPane.setLeftComponent(getPanelSeleccion());
+		}
+		return splitPane;
+	}
+
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1, 0, 0));
+			panel.add(getLblBasicos());
+			panel.add(getPnlCB1());
+			panel.add(getLblCategorias());
+			panel.add(getPnlCbCat());
+		}
+		return panel;
+	}
+	private JLabel getLblBasicos() {
+		if (lblBasicos == null) {
+			lblBasicos = new JLabel("Basicos:");
+			lblBasicos.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblBasicos;
+	}
+	private JPanel getPnlCB1() {
+		if (pnlCB1 == null) {
+			pnlCB1 = new JPanel();
+			pnlCB1.add(getCbClasificacion());
+		}
+		return pnlCB1;
+	}
+	private JPanel getPnlSelcNort() {
+		if (pnlSelcNort == null) {
+			pnlSelcNort = new JPanel();
+			pnlSelcNort.add(getLblFiltro());
+		}
+		return pnlSelcNort;
+	}
+	private JLabel getLblFiltro() {
+		if (lblFiltro == null) {
+			lblFiltro = new JLabel("Filtros");
+			lblFiltro.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		}
+		return lblFiltro;
+	}
+	private JPanel getPnlSelecCenter() {
+		if (pnlSelecCenter == null) {
+			pnlSelecCenter = new JPanel();
+			pnlSelecCenter.add(getPanel());
+		}
+		return pnlSelecCenter;
+	}
+	private JLabel getLblCategorias() {
+		if (lblCategorias == null) {
+			lblCategorias = new JLabel("Categorias:");
+			lblCategorias.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblCategorias;
+	}
+	private JPanel getPnlCbCat() {
+		if (pnlCbCat == null) {
+			pnlCbCat = new JPanel();
+			pnlCbCat.add(getCbCategory());
+		}
+		return pnlCbCat;
+	}
+	public JComboBox<String> getCbCategory() {
+		if (cbCategory == null) {
+			cbCategory = new JComboBox<String>();
+			cbCategory.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					cerrarVentana();
+					clasificaciones.sort(new ComparatorClasificaciones());
+					System.out.println("hola");
+
+					paneParticipantes.setLayout(new GridLayout(Math.max(10, clasificaciones.size()), 1, 0, 0));
+					paneParticipantes.removeAll();
+					controller.loadRows((String)getCbCategory().getSelectedItem(), paneParticipantes);
 				}
 			});
+			cbCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
 		}
-		return btnCancelar;
+		return cbCategory;
 	}
 }
