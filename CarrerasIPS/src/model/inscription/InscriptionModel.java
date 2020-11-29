@@ -30,7 +30,7 @@ public class InscriptionModel {
 	String nombreCarrera;
 
 	public InscriptionModel(RaceDto carrera) {
-		fecha_hoy = TimeUtil.dateToIsoString(date_hoy);
+		fecha_hoy = TimeUtil.dateToIsoString(new Date());
 		cal_hoy.setTime(date_hoy);
 		this.nombreCarrera = carrera.nombre;
 
@@ -136,6 +136,40 @@ public class InscriptionModel {
 			cn = DbUtil.getConnection();
 			pstmt = cn.prepareStatement(sql);
 			pstmt.setString(1, idCompeticion);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				cantidad = rs.getDouble("fee");
+			}
+			
+
+			return cantidad;
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+	}
+	
+	public double getDineroAPagar(String idCompeticion, String fecha) {
+		String sql = "select d.fee from inscription_deadline d where d.idcompetition=? and ?>=d.initialdate and ?<=d.finaldate";
+		double cantidad = 0;
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, idCompeticion);
+			pstmt.setString(2, fecha);
+			pstmt.setString(3, fecha);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				cantidad = rs.getDouble("fee");
@@ -338,7 +372,14 @@ public class InscriptionModel {
 
 	public static void updateEstado(String estado, String dni, String idcompetition) {
 		Database db = new Database();
-		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? , INSCRIPTIONDATE = '"+fecha_hoy+"'WHERE dni = ? AND idcompetition = ? ";
+		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? , INSCRIPTIONDATE = '"+TimeUtil.dateToIsoString(new java.util.Date())+"' WHERE dni = ? AND idcompetition = ? ";
+		
+		db.executeUpdate(sql, estado, dni, idcompetition);
+	}
+	
+	public static void updateEstado(String estado, String dni, String idcompetition,String fecha,String anotacion) {
+		Database db = new Database();
+		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? , INSCRIPTIONDATE = '"+fecha+"' , ANOTATIONS = '"+anotacion+"' WHERE dni = ? AND idcompetition = ? ";
 		
 		db.executeUpdate(sql, estado, dni, idcompetition);
 	}
