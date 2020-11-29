@@ -1,12 +1,18 @@
 package controller;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 import model.category.CategoryDto;
 import model.clasification.ClasificationDto;
@@ -36,13 +42,16 @@ public class ClasificationController {
 	}
 
 	public void loadClasifications() {
+		categorias.add(0, "HOMBRE");
+		categorias.add(0, "MUJER");
+		categorias.add(0, "ABSOLUTA");
 		view.getCbCategory().setModel(new DefaultComboBoxModel<String>((String[]) categorias.toArray(new String[1])));
 		
 		
 	}
 
-	int posicion = 0;
 	public void loadRows(String category, JPanel paneParticipantes) {
+		int posicion = 0;
 		for(ClasificationDto clasificacion : clasificaciones) {
 			if(!clasificacion.categoryname.equals(category)) {
 				continue;
@@ -50,29 +59,51 @@ public class ClasificationController {
 			System.out.println("Bien");
 			posicion++;
 			JPanel panelClasificacion = new JPanel();
-			panelClasificacion.setLayout(new GridLayout(1, 4, 0, 0));
-			JTextField txtNombre = new JTextField();
-			JTextField txtSexo = new JTextField();
-			JTextField txtPosicion = new JTextField();
-			JTextField txtTiempo = new JTextField();
-
+			panelClasificacion.setLayout(new GridLayout(1, 5, 1, 2));
+			panelClasificacion.setBackground(Color.white);
+			JLabel txtDorsal = new JLabel();
+			JLabel txtCategory = new JLabel();
+			JLabel txtNombre = new JLabel();
+			JLabel txtSexo = new JLabel();
+			JLabel txtPosicion = new JLabel();
+			JLabel txtTiempo = new JLabel();
+			JPanel pnlNum = new JPanel();
+			pnlNum.setBackground(Color.white);
+			txtDorsal.setBorder(new LineBorder(new Color(0, 0, 0)));
+			txtCategory.setBorder(new LineBorder(new Color(0, 0, 0)));
+			txtNombre.setBorder(new LineBorder(new Color(0, 0, 0)));
+			txtSexo.setBorder(new LineBorder(new Color(0, 0, 0)));
+			txtPosicion.setBorder(new LineBorder(new Color(0, 0, 0)));
+			txtTiempo.setBorder(new LineBorder(new Color(0, 0, 0)));
+			
+			pnlNum.setLayout(new GridLayout(1, 2, 1, 0));
+			
+			
+			panelClasificacion.add(pnlNum);
 			// Creacion textField poscion
 			txtPosicion.setText(posicion + "");
-			panelClasificacion.add(txtPosicion);
-			txtPosicion.setColumns(10);
 			txtPosicion.setHorizontalAlignment(JTextField.CENTER);
+			pnlNum.add(txtPosicion);
 
+			// Creacion textField Dorsal
+			txtDorsal.setText(clasificacion.dorsal);
+			txtDorsal.setHorizontalAlignment(JTextField.CENTER);
+			pnlNum.add(txtDorsal);
+			
 			// Creacion textField sexo
 			txtSexo.setText(clasificacion.sexo);
 			panelClasificacion.add(txtSexo);
-			txtSexo.setColumns(10);
 			txtSexo.setHorizontalAlignment(JTextField.CENTER);
 
 			// Creacion textField nombre participante
 			txtNombre.setText(ParticipantModel.getBasicData(clasificacion.dni).name);
 			panelClasificacion.add(txtNombre);
-			txtNombre.setColumns(10);
 			txtNombre.setHorizontalAlignment(JTextField.CENTER);
+			
+			// Creacion textField Dorsal
+			txtCategory.setText(clasificacion.categoryname);
+			panelClasificacion.add(txtCategory);
+			txtCategory.setHorizontalAlignment(JTextField.CENTER);
 
 			// Creacion textField tiempo
 			String[] tiempoInicial = clasificacion.tiempoInicio.split(":");
@@ -91,10 +122,15 @@ public class ClasificationController {
 				String tiempo = horas + ":" + minutos + ":" + segundos;
 				txtTiempo.setText(tiempo);
 			} else {
-				txtTiempo.setText("---");
+				if(clasificacion.tiempoInicio.equals("00:00:00") ) {
+					txtTiempo.setText("dns");
+				}
+				else {
+					txtTiempo.setText("dnf");
+					
+				}
 			}
 			panelClasificacion.add(txtTiempo);
-			txtTiempo.setColumns(10);
 			txtTiempo.setHorizontalAlignment(JTextField.CENTER);
 			
 			paneParticipantes.add(panelClasificacion);
@@ -102,6 +138,39 @@ public class ClasificationController {
 			paneParticipantes.revalidate();
 		}
 		
+	}
+
+	public void loadAll(JPanel paneParticipantes) {
+		paneParticipantes.removeAll();
+		paneParticipantes.add(createLableFor("ABSOLUTA"));
+		view.crearPanelesCarrera(clasificaciones, "ABSOLUTA");
+		paneParticipantes.add(createLableFor("MUJER"));
+		view.crearPanelesCarrera(clasificaciones, "MUJER");
+		paneParticipantes.add(createLableFor("HOMBRE"));
+		view.crearPanelesCarrera(clasificaciones, "HOMBRE");
+		loadAllCategories(paneParticipantes);
+		paneParticipantes.setLayout(new GridLayout(Math.max(10, paneParticipantes.getComponentCount()), 0));
+		
+	}
+	
+	private void loadAllCategories(JPanel paneParticipantes) {
+		int excep = 0;
+		for(String categoria : categorias) {
+			if(excep++ < 3) {
+				continue;
+			}
+			paneParticipantes.add(createLableFor(categoria));
+			loadRows(categoria, paneParticipantes);
+		}
+		
+	}
+
+	protected Component createLableFor(String string) {
+		JLabel label = new JLabel(string);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Tahoma", Font.BOLD, 14));
+		label.setBackground(Color.LIGHT_GRAY);
+		return label;
 	}
 
 }

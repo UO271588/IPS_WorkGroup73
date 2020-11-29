@@ -39,5 +39,26 @@ public class ClasificationAccess {
 			throw new RuntimeException("error en consulta : " + "select * from CLASIFICATION where IDCOMPETITION = '" + idCompetition+ "'");
 		}
 	}
+	
+	public List<ClasificationDto> findAllByIdRace(String idCompetition) throws SQLException {
+		List<ClasificationDto> clasificacionAbsoluta = new ArrayList<>();
+		Connection con = DbUtil.getConnection();
+		Statement st = con.createStatement();
+		ResultSet rs = st.executeQuery("select * from CLASIFICATION where IDCOMPETITION = '" + idCompetition+ "'");
+		while (rs.next()) {
+			ClasificationDto clasificacion= new ClasificationDto();
+			clasificacion.dni = rs.getString("DNI");
+			clasificacion.idcarrera = idCompetition;
+			clasificacion.sexo = rs.getString("SEX");
+			clasificacion.posicion = "0";
+			clasificacion.tiempoInicio = rs.getString("INITIALTIME");
+			clasificacion.tiempoFinal = rs.getString("FINALTIME");
+			clasificacion.categoryname = rs.getString("CATEGORYNAME");
+			clasificacion.dorsal = rs.getString("DORSAL");
+			
+			clasificacionAbsoluta.add(clasificacion);
+		}
+		return clasificacionAbsoluta;
+	}
 
 }

@@ -8,4 +8,5 @@ public class ClasificationDto {
 	public String tiempoInicio;
 	public String tiempoFinal;	
 	public String categoryname;
+	public String dorsal;
 }

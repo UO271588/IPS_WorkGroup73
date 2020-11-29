@@ -26,20 +26,21 @@ import model.clasification.ClasificationDto;
 import model.participant.ParticipantModel;
 import javax.swing.JSplitPane;
 import javax.swing.JLabel;
+import java.awt.Color;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 
 public class ClasificationsFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panelSeleccion;
 	private JScrollPane scrollPane;
-	private JPanel paneParticipantes;
 	private JComboBox<String> cbClasificacion;
 	private JPanel paneCentral;
 	private JPanel paneInformacion;
-	private JTextField txtPosicion;
-	private JTextField txtSexo;
-	private JTextField txtNombre;
-	private JTextField txtTiempo;
+	private JLabel txtSexo;
+	private JLabel txtNombre;
+	private JLabel txtTiempo;
 	private List<ClasificationDto> clasificaciones = new ArrayList<ClasificationDto>();
 	private JPanel panelBotones;
 	private JButton btnVolver;
@@ -48,14 +49,19 @@ public class ClasificationsFrame extends JFrame {
 	private JSplitPane splitPane;
 	private JPanel panel_1;
 	private JPanel panel;
-	private JLabel lblBasicos;
-	private JPanel pnlCB1;
 	private JPanel pnlSelcNort;
 	private JLabel lblFiltro;
 	private JPanel pnlSelecCenter;
 	private JLabel lblCategorias;
 	private JPanel pnlCbCat;
 	private JComboBox<String> cbCategory;
+	private JPanel paneParticipantes;
+	private JPanel pnlTodos;
+	private JButton btnNewButton;
+	private JLabel lblCategoria;
+	private JPanel pnlNum;
+	private JLabel lblPos;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Create the frame.
@@ -65,7 +71,7 @@ public class ClasificationsFrame extends JFrame {
 	public ClasificationsFrame(List<ClasificationDto> clasificaciones2) {
 		setTitle("Clasificaciones");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 828, 588);
+		setBounds(100, 100, 984, 647);
 		this.clasificaciones = clasificaciones2;
 		contentPane = new JPanel();
 		setContentPane(contentPane);
@@ -92,26 +98,33 @@ public class ClasificationsFrame extends JFrame {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setViewportView(getPaneParticipantes());
+			//scrollPane.setRowHeaderView(getPaneInformacion());
 		}
 		return scrollPane;
 	}
 
-	private JPanel getPaneParticipantes() {
-		if (paneParticipantes == null) {
-			paneParticipantes = new JPanel();
-			paneParticipantes.setLayout(new GridLayout(1, 0, 0, 0));
-		}
-		return paneParticipantes;
-	}
-
-	private JComboBox<String> getCbClasificacion() {
+	public JComboBox<String> getCbCategory() {
 		if (cbClasificacion == null) {
 			cbClasificacion = new JComboBox<String>();
 			cbClasificacion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int indice = cbClasificacion.getSelectedIndex();
-					String seleccion = cbClasificacion.getItemAt(indice);
-					crearPanelesCarrera(clasificaciones, seleccion);
+					if(indice < 3) {
+						String seleccion = cbClasificacion.getItemAt(indice);
+						clasificaciones.sort(new ComparatorClasificaciones());
+
+						paneParticipantes.setLayout(new GridLayout(Math.max(10, clasificaciones.size()), 1, 0, 0));
+						paneParticipantes.removeAll();
+						crearPanelesCarrera(clasificaciones, seleccion);
+					}
+					else {
+						clasificaciones.sort(new ComparatorClasificaciones());
+
+						paneParticipantes.setLayout(new GridLayout(Math.max(10, clasificaciones.size()), 1, 0, 0));
+						paneParticipantes.removeAll();
+						controller.loadRows((String)getCbCategory().getSelectedItem(), paneParticipantes);
+						
+					}
 				}
 			});
 			cbClasificacion.setModel(new DefaultComboBoxModel<String>(new String[] { "HOMBRE", "MUJER", "ABSOLUTA" }));
@@ -135,55 +148,46 @@ public class ClasificationsFrame extends JFrame {
 	private JPanel getPaneInformacion() {
 		if (paneInformacion == null) {
 			paneInformacion = new JPanel();
-			paneInformacion.setLayout(new GridLayout(1, 0, 0, 0));
-			paneInformacion.add(getTxtPosicion());
+			paneInformacion.setBorder(new EmptyBorder(6, 0, 6, 0));
+			paneInformacion.setLayout(new GridLayout(0, 5, 0, 0));
+			paneInformacion.add(getPnlNum());
 			paneInformacion.add(getTxtSexo());
 			paneInformacion.add(getTxtNombre());
+			paneInformacion.add(getLblCategoria());
 			paneInformacion.add(getTxtTiempo());
 		}
 		return paneInformacion;
 	}
 
-	private JTextField getTxtPosicion() {
-		if (txtPosicion == null) {
-			txtPosicion = new JTextField();
-			txtPosicion.setHorizontalAlignment(SwingConstants.CENTER);
-			txtPosicion.setFont(new Font("Tahoma", Font.BOLD, 14));
-			txtPosicion.setText("Posicion");
-			txtPosicion.setColumns(10);
-		}
-		return txtPosicion;
-	}
-
-	private JTextField getTxtSexo() {
+	private JLabel getTxtSexo() {
 		if (txtSexo == null) {
-			txtSexo = new JTextField();
+			txtSexo = new JLabel();
+			txtSexo.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			txtSexo.setHorizontalAlignment(SwingConstants.CENTER);
 			txtSexo.setFont(new Font("Tahoma", Font.BOLD, 14));
 			txtSexo.setText("Sexo");
-			txtSexo.setColumns(10);
 		}
 		return txtSexo;
 	}
 
-	private JTextField getTxtNombre() {
+	private JLabel getTxtNombre() {
 		if (txtNombre == null) {
-			txtNombre = new JTextField();
+			txtNombre = new JLabel();
+			txtNombre.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			txtNombre.setHorizontalAlignment(SwingConstants.CENTER);
 			txtNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
 			txtNombre.setText("Nombre");
-			txtNombre.setColumns(10);
 		}
 		return txtNombre;
 	}
 
-	private JTextField getTxtTiempo() {
+	private JLabel getTxtTiempo() {
 		if (txtTiempo == null) {
-			txtTiempo = new JTextField();
+			txtTiempo = new JLabel();
+			txtTiempo.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			txtTiempo.setHorizontalAlignment(SwingConstants.CENTER);
 			txtTiempo.setFont(new Font("Tahoma", Font.BOLD, 14));
 			txtTiempo.setText("Tiempo");
-			txtTiempo.setColumns(10);
 		}
 		return txtTiempo;
 	}
@@ -225,38 +229,57 @@ public class ClasificationsFrame extends JFrame {
 
 	public void crearPanelesCarrera(List<ClasificationDto> clasificaciones, String sexo) {
 
-		clasificaciones.sort(new ComparatorClasificaciones());
-
-		paneParticipantes.setLayout(new GridLayout(Math.max(10, clasificaciones.size()), 1, 0, 0));
-		paneParticipantes.removeAll();
+		
 
 		int posicion = 1;
 		for (ClasificationDto clasificacion : clasificaciones) {
 			if (sexo.equals("ABSOLUTA")) {
 				JPanel panelClasificacion = new JPanel();
-				panelClasificacion.setLayout(new GridLayout(1, 4, 0, 0));
-				JTextField txtNombre = new JTextField();
-				JTextField txtSexo = new JTextField();
-				JTextField txtPosicion = new JTextField();
-				JTextField txtTiempo = new JTextField();
-
+				panelClasificacion.setLayout(new GridLayout(1, 5, 1, 2));
+				panelClasificacion.setBackground(Color.white);
+				JLabel txtDorsal = new JLabel();
+				JLabel txtCategory = new JLabel();
+				JLabel txtNombre = new JLabel();
+				JLabel txtSexo = new JLabel();
+				JLabel txtPosicion = new JLabel();
+				JLabel txtTiempo = new JLabel();
+				JPanel pnlNum = new JPanel();
+				pnlNum.setBackground(Color.white);
+				txtDorsal.setBorder(new LineBorder(new Color(0, 0, 0)));
+				txtCategory.setBorder(new LineBorder(new Color(0, 0, 0)));
+				txtNombre.setBorder(new LineBorder(new Color(0, 0, 0)));
+				txtSexo.setBorder(new LineBorder(new Color(0, 0, 0)));
+				txtPosicion.setBorder(new LineBorder(new Color(0, 0, 0)));
+				txtTiempo.setBorder(new LineBorder(new Color(0, 0, 0)));
+				
+				pnlNum.setLayout(new GridLayout(1, 2, 1, 0));
+				
+				
+				panelClasificacion.add(pnlNum);
 				// Creacion textField poscion
 				txtPosicion.setText(posicion + "");
-				panelClasificacion.add(txtPosicion);
-				txtPosicion.setColumns(10);
 				txtPosicion.setHorizontalAlignment(JTextField.CENTER);
+				pnlNum.add(txtPosicion);
 
+				// Creacion textField Dorsal
+				txtDorsal.setText(clasificacion.dorsal);
+				txtDorsal.setHorizontalAlignment(JTextField.CENTER);
+				pnlNum.add(txtDorsal);
+				
 				// Creacion textField sexo
 				txtSexo.setText(clasificacion.sexo);
 				panelClasificacion.add(txtSexo);
-				txtSexo.setColumns(10);
 				txtSexo.setHorizontalAlignment(JTextField.CENTER);
 
 				// Creacion textField nombre participante
 				txtNombre.setText(ParticipantModel.getBasicData(clasificacion.dni).name);
 				panelClasificacion.add(txtNombre);
-				txtNombre.setColumns(10);
 				txtNombre.setHorizontalAlignment(JTextField.CENTER);
+				
+				// Creacion textField Dorsal
+				txtCategory.setText(clasificacion.categoryname);
+				panelClasificacion.add(txtCategory);
+				txtCategory.setHorizontalAlignment(JTextField.CENTER);
 
 				// Creacion textField tiempo
 				String[] tiempoInicial = clasificacion.tiempoInicio.split(":");
@@ -275,10 +298,15 @@ public class ClasificationsFrame extends JFrame {
 					String tiempo = horas + ":" + minutos + ":" + segundos;
 					txtTiempo.setText(tiempo);
 				} else {
-					txtTiempo.setText("---");
+					if(clasificacion.tiempoInicio.equals("00:00:00") ) {
+						txtTiempo.setText("dns");
+					}
+					else {
+						txtTiempo.setText("dnf");
+						
+					}
 				}
 				panelClasificacion.add(txtTiempo);
-				txtTiempo.setColumns(10);
 				txtTiempo.setHorizontalAlignment(JTextField.CENTER);
 
 				paneParticipantes.add(panelClasificacion);
@@ -288,29 +316,51 @@ public class ClasificationsFrame extends JFrame {
 				posicion++;
 			} else if (clasificacion.sexo.equals(sexo)) {
 				JPanel panelClasificacion = new JPanel();
-				panelClasificacion.setLayout(new GridLayout(1, 4, 0, 0));
-				JTextField txtNombre = new JTextField();
-				JTextField txtSexo = new JTextField();
-				JTextField txtPosicion = new JTextField();
-				JTextField txtTiempo = new JTextField();
-
+				panelClasificacion.setLayout(new GridLayout(1, 5, 1, 2));
+				panelClasificacion.setBackground(Color.white);
+				JLabel txtDorsal = new JLabel();
+				JLabel txtCategory = new JLabel();
+				JLabel txtNombre = new JLabel();
+				JLabel txtSexo = new JLabel();
+				JLabel txtPosicion = new JLabel();
+				JLabel txtTiempo = new JLabel();
+				JPanel pnlNum = new JPanel();
+				pnlNum.setBackground(Color.white);
+				txtDorsal.setBorder(new LineBorder(new Color(0, 0, 0)));
+				txtCategory.setBorder(new LineBorder(new Color(0, 0, 0)));
+				txtNombre.setBorder(new LineBorder(new Color(0, 0, 0)));
+				txtSexo.setBorder(new LineBorder(new Color(0, 0, 0)));
+				txtPosicion.setBorder(new LineBorder(new Color(0, 0, 0)));
+				txtTiempo.setBorder(new LineBorder(new Color(0, 0, 0)));
+				
+				pnlNum.setLayout(new GridLayout(1, 2, 1, 0));
+				
+				
+				panelClasificacion.add(pnlNum);
 				// Creacion textField poscion
 				txtPosicion.setText(posicion + "");
-				panelClasificacion.add(txtPosicion);
-				txtPosicion.setColumns(10);
 				txtPosicion.setHorizontalAlignment(JTextField.CENTER);
+				pnlNum.add(txtPosicion);
 
+				// Creacion textField Dorsal
+				txtDorsal.setText(clasificacion.dorsal);
+				txtDorsal.setHorizontalAlignment(JTextField.CENTER);
+				pnlNum.add(txtDorsal);
+				
 				// Creacion textField sexo
 				txtSexo.setText(clasificacion.sexo);
 				panelClasificacion.add(txtSexo);
-				txtSexo.setColumns(10);
 				txtSexo.setHorizontalAlignment(JTextField.CENTER);
 
 				// Creacion textField nombre participante
 				txtNombre.setText(ParticipantModel.getBasicData(clasificacion.dni).name);
 				panelClasificacion.add(txtNombre);
-				txtNombre.setColumns(10);
 				txtNombre.setHorizontalAlignment(JTextField.CENTER);
+				
+				// Creacion textField Dorsal
+				txtCategory.setText(clasificacion.categoryname);
+				panelClasificacion.add(txtCategory);
+				txtCategory.setHorizontalAlignment(JTextField.CENTER);
 
 				// Creacion textField tiempo
 				String[] tiempoInicial = clasificacion.tiempoInicio.split(":");
@@ -331,10 +381,15 @@ public class ClasificationsFrame extends JFrame {
 					String tiempo = horas + ":" + minutos + ":" + segundos;
 					txtTiempo.setText(tiempo);
 				} else {
-					txtTiempo.setText("---");
+					if(clasificacion.tiempoInicio.equals("00:00:00") ) {
+						txtTiempo.setText("dns");
+					}
+					else {
+						txtTiempo.setText("dnf");
+						
+					}
 				}
 				panelClasificacion.add(txtTiempo);
-				txtTiempo.setColumns(10);
 				txtTiempo.setHorizontalAlignment(JTextField.CENTER);
 
 				paneParticipantes.add(panelClasificacion);
@@ -386,26 +441,10 @@ public class ClasificationsFrame extends JFrame {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setLayout(new GridLayout(0, 1, 0, 0));
-			panel.add(getLblBasicos());
-			panel.add(getPnlCB1());
 			panel.add(getLblCategorias());
 			panel.add(getPnlCbCat());
 		}
 		return panel;
-	}
-	private JLabel getLblBasicos() {
-		if (lblBasicos == null) {
-			lblBasicos = new JLabel("Basicos:");
-			lblBasicos.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblBasicos;
-	}
-	private JPanel getPnlCB1() {
-		if (pnlCB1 == null) {
-			pnlCB1 = new JPanel();
-			pnlCB1.add(getCbClasificacion());
-		}
-		return pnlCB1;
 	}
 	private JPanel getPnlSelcNort() {
 		if (pnlSelcNort == null) {
@@ -424,7 +463,9 @@ public class ClasificationsFrame extends JFrame {
 	private JPanel getPnlSelecCenter() {
 		if (pnlSelecCenter == null) {
 			pnlSelecCenter = new JPanel();
+			pnlSelecCenter.setLayout(new GridLayout(6, 2, 0, 0));
 			pnlSelecCenter.add(getPanel());
+			pnlSelecCenter.add(getPnlTodos());
 		}
 		return pnlSelecCenter;
 	}
@@ -442,21 +483,72 @@ public class ClasificationsFrame extends JFrame {
 		}
 		return pnlCbCat;
 	}
-	public JComboBox<String> getCbCategory() {
-		if (cbCategory == null) {
-			cbCategory = new JComboBox<String>();
-			cbCategory.addActionListener(new ActionListener() {
+	private JPanel getPaneParticipantes() {
+		if (paneParticipantes == null) {
+			paneParticipantes = new JPanel();
+			paneParticipantes.setLayout(new BorderLayout(0, 0));
+		}
+		
+		return paneParticipantes;
+	}
+	private JPanel getPnlTodos() {
+		if (pnlTodos == null) {
+			pnlTodos = new JPanel();
+			pnlTodos.setBorder(new EmptyBorder(0, 5, 0, 5));
+			pnlTodos.setLayout(new GridLayout(3, 3, 0, 0));
+			pnlTodos.add(getBtnNewButton());
+		}
+		return pnlTodos;
+	}
+	private JButton getBtnNewButton() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("Mostrar Todas");
+			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					clasificaciones.sort(new ComparatorClasificaciones());
-					System.out.println("hola");
-
-					paneParticipantes.setLayout(new GridLayout(Math.max(10, clasificaciones.size()), 1, 0, 0));
-					paneParticipantes.removeAll();
-					controller.loadRows((String)getCbCategory().getSelectedItem(), paneParticipantes);
+					controller.loadAll(paneParticipantes);
+					//paneParticipantes.setLayout(new GridLayout(Math.max(10, clasificaciones.size()), 1, 0, 0));
+					
+					
 				}
 			});
-			cbCategory.setFont(new Font("Tahoma", Font.BOLD, 14));
 		}
-		return cbCategory;
+		return btnNewButton;
+	}
+	private JLabel getLblCategoria() {
+		if (lblCategoria == null) {
+			lblCategoria = new JLabel();
+			lblCategoria.setText("Categoria");
+			lblCategoria.setHorizontalAlignment(SwingConstants.CENTER);
+			lblCategoria.setFont(new Font("Tahoma", Font.BOLD, 14));
+			lblCategoria.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		}
+		return lblCategoria;
+	}
+	private JPanel getPnlNum() {
+		if (pnlNum == null) {
+			pnlNum = new JPanel();
+			pnlNum.setLayout(new GridLayout(0, 2, 0, 0));
+			pnlNum.add(getLblPos());
+			pnlNum.add(getLblNewLabel());
+		}
+		return pnlNum;
+	}
+	private JLabel getLblPos() {
+		if (lblPos == null) {
+			lblPos = new JLabel("Posicion");
+			lblPos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+			lblPos.setFont(new Font("Tahoma", Font.BOLD, 14));
+			lblPos.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblPos;
+	}
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("Dorsal");
+			lblNewLabel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		}
+		return lblNewLabel;
 	}
 }
