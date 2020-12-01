@@ -26,6 +26,9 @@ import util.interfaces.Indentificable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class InscribedRacesFrame extends JFrame {
 
@@ -48,8 +51,11 @@ public class InscribedRacesFrame extends JFrame {
 	private JFrame parentFrame;
 	private ParticipantDtoPojo participant;
 	private JLabel lblNewLabel;
-	private JTextField txtMail;
 	private JButton btnBuscar;
+	private JPanel panel;
+	private JPanel panel_1;
+	private JTextField textMail;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Launch the application.
@@ -61,6 +67,7 @@ public class InscribedRacesFrame extends JFrame {
 
 	
 	public  InscribedRacesFrame(JFrame parent) {
+		setTitle("Lista de Carreras Inscritas");
 		ParticipantDtoPojo part;
 		this.parentFrame = parent;
 		this.setVisible(true);
@@ -87,7 +94,7 @@ public class InscribedRacesFrame extends JFrame {
 
 
 	protected void readEmail() {
-		controller.identificateAndLoad(getTxtMail().getText());
+		controller.identificateAndLoad(getTextMail().getText());
 		
 	}
 	
@@ -133,8 +140,6 @@ public class InscribedRacesFrame extends JFrame {
 			pnlSouth.setBorder(new EmptyBorder(5, 0, 0, 0));
 			pnlSouth.setLayout(new GridLayout(0, 4, 0, 0));
 			pnlSouth.add(getBtnVolver());
-			pnlSouth.add(getLblNewLabel());
-			pnlSouth.add(getTxtMail());
 			pnlSouth.add(getBtnBuscar());
 		}
 		return pnlSouth;
@@ -156,9 +161,29 @@ public class InscribedRacesFrame extends JFrame {
 	private JPanel getPnlNorth() {
 		if (pnlNorth == null) {
 			pnlNorth = new JPanel();
-			pnlNorth.setLayout(new BorderLayout(0, 0));
-			pnlNorth.add(getLblTitle());
-			pnlNorth.add(getPnlData(), BorderLayout.WEST);
+			GridBagLayout gbl_pnlNorth = new GridBagLayout();
+			gbl_pnlNorth.columnWidths = new int[]{241, 241, 241, 0};
+			gbl_pnlNorth.rowHeights = new int[]{33, 0};
+			gbl_pnlNorth.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+			gbl_pnlNorth.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+			pnlNorth.setLayout(gbl_pnlNorth);
+			GridBagConstraints gbc_panel = new GridBagConstraints();
+			gbc_panel.fill = GridBagConstraints.BOTH;
+			gbc_panel.insets = new Insets(0, 0, 0, 5);
+			gbc_panel.gridx = 0;
+			gbc_panel.gridy = 0;
+			pnlNorth.add(getPanel(), gbc_panel);
+			GridBagConstraints gbc_lblTitle = new GridBagConstraints();
+			gbc_lblTitle.fill = GridBagConstraints.BOTH;
+			gbc_lblTitle.insets = new Insets(0, 0, 0, 5);
+			gbc_lblTitle.gridx = 1;
+			gbc_lblTitle.gridy = 0;
+			pnlNorth.add(getLblTitle(), gbc_lblTitle);
+			GridBagConstraints gbc_pnlData = new GridBagConstraints();
+			gbc_pnlData.fill = GridBagConstraints.BOTH;
+			gbc_pnlData.gridx = 2;
+			gbc_pnlData.gridy = 0;
+			pnlNorth.add(getPnlData(), gbc_pnlData);
 		}
 		return pnlNorth;
 	}
@@ -254,16 +279,9 @@ public class InscribedRacesFrame extends JFrame {
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Introduce Email:");
-			lblNewLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+			lblNewLabel.setBorder(new EmptyBorder(0, 15, 0, 0));
 		}
 		return lblNewLabel;
-	}
-	private JTextField getTxtMail() {
-		if (txtMail == null) {
-			txtMail = new JTextField();
-			txtMail.setColumns(10);
-		}
-		return txtMail;
 	}
 	private JButton getBtnBuscar() {
 		if (btnBuscar == null) {
@@ -276,6 +294,34 @@ public class InscribedRacesFrame extends JFrame {
 		}
 		return btnBuscar;
 	}
-
-
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setLayout(new GridLayout(2, 1, 0, 0));
+			panel.add(getLblNewLabel());
+			panel.add(getPanel_1());
+		}
+		return panel;
+	}
+	private JPanel getPanel_1() {
+		if (panel_1 == null) {
+			panel_1 = new JPanel();
+			panel_1.add(getTextMail());
+			panel_1.add(getBtnNewButton_1());
+		}
+		return panel_1;
+	}
+	private JTextField getTextMail() {
+		if (textMail == null) {
+			textMail = new JTextField();
+			textMail.setColumns(12);
+		}
+		return textMail;
+	}
+	private JButton getBtnNewButton_1() {
+		if (btnNewButton_1 == null) {
+			btnNewButton_1 = new JButton("Buscar");
+		}
+		return btnNewButton_1;
+	}
 }

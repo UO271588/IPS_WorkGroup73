@@ -134,6 +134,43 @@ public class CompetitionsAccess {
 		
 				
 	}
+	
+	/**
+	 * Comprueba si hay espacio en una carrera
+	 * @param idCompetition
+	 */
+	public static boolean checkSlots(String idCompetition) {
+		boolean result = false;
+		String SQL = "SELECT COUNT(*) < slots "
+				+ "FROM competition as c, inscription as i "
+				+ "WHERE i.IDCOMPETITION =  c.IDCOMPETITION  and i.IDCOMPETITION = ? "
+				+ "GROUP BY i.IDCOMPETITION ";
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		Connection c  = null;
+		try {
+			c= DriverManager.getConnection("jdbc:sqlite:test.db");
+
+			pst = c.prepareStatement(SQL);
+			pst.setString(1, idCompetition);
+			rs = pst.executeQuery();
+			result = rs.getBoolean(1);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				pst.close();
+				c.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 
 	
 

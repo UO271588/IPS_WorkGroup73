@@ -15,7 +15,7 @@ public class ParticipantDtoPojo {
 	public String email;
 
 
-	public String birthday;
+	public String birthDate;
 	public boolean sexMale;	//true es hombre, false es mujer
 	
 
@@ -27,7 +27,7 @@ public class ParticipantDtoPojo {
 		this.surname = surname;
 		this.dni = dni;
 		this.email = mail;
-		this.birthday = birthday;
+		this.birthDate = birthday;
 		this.sexMale = sexMale;
 	}
 
@@ -47,8 +47,8 @@ public class ParticipantDtoPojo {
 		this.email = mail;
 	}
 
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
+	public void setBirthDate(String birthday) {
+		this.birthDate = birthday;
 	}
 
 	public void setSexMale(boolean sexMale) {
@@ -83,14 +83,14 @@ public class ParticipantDtoPojo {
 
 
 	public String getBirthday() {
-		return birthday;
+		return birthDate;
 	}
 	
 	public Date getBirthdayAsDate() {
-		return TimeUtil.isoStringToDate(birthday);
+		return TimeUtil.isoStringToDate(birthDate);
 	}
 	public void setBirthdayAsDate(Date date) {
-		this.birthday = TimeUtil.dateToIsoString(date);
+		this.birthDate = TimeUtil.dateToIsoString(date);
 	}
 
 

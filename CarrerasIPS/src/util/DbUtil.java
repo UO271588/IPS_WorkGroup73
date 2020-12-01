@@ -1,5 +1,6 @@
 package util;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -70,6 +71,8 @@ public class DbUtil {
 	}
 	
 	
+	
+	
 	/**
 	 * Ejecuta una query sql con los parametros especificados mapeando el resultet en una lista de arrays de objetos;
 	 * Utiliza apache commons-dbutils para relizar el mapeo y el manejo del resto de aspectos de jdbc
@@ -107,4 +110,6 @@ public class DbUtil {
 			DbUtils.closeQuietly(conn);
 		}
 	}
+	
+	
 }

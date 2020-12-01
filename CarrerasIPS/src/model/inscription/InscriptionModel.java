@@ -7,9 +7,11 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 
@@ -28,6 +30,7 @@ public class InscriptionModel {
 	Calendar cal_hoy = Calendar.getInstance();
 	Calendar cal_birthdate;
 	String nombreCarrera;
+	Integer dorsal;
 
 	public InscriptionModel(RaceDto carrera) {
 		fecha_hoy = TimeUtil.dateToIsoString(date_hoy);
@@ -44,25 +47,69 @@ public class InscriptionModel {
 		String idCompeticion = getIdCompeticion(name);
 		cal_birthdate = Calendar.getInstance();
 		cal_birthdate.setTime(getBirthdate(email));
+		dorsal = calcularDorsal(idCompeticion);
 
 		j.setNombre(getNombre_justificante(email));
 		j.setnombreCompeticion(name);
 		j.setCantidad(getCantidad(idCompeticion));
 		j.setFecha_inscripcion(date_hoy);
 		j.setEstado("PRE-INSCRITO");
-		j.setCategoria(categoria(email,name));
-		String idCategory = getIdCategory(email,name);
-		insert(idCompeticion, email,idCategory);
+		j.setCategoria(categoria(email, name));
+		j.setDorsal(dorsal);
+
+		String idCategory = getIdCategory(email, name);
+		insert(idCompeticion, email, idCategory);
 
 	}
 
-	
+	private int calcularDorsal(String competition) {
+		String sql = "select SECUENCIAL, RESERVADOS,SLOTS  from COMPETITION where IDCOMPETITION=?";
+		boolean secuencial = false;
+		Integer reservados = null;
+		Integer slots = 0;
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, competition);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				secuencial = Boolean.parseBoolean(rs.getString(1));
+				reservados = (Integer)rs.getObject(2);
+				slots = rs.getInt(3);
+			}
+		} catch (SQLException ex) {
+			throw new UnexpectedException(ex);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+
+		}		
+
+		if (secuencial) {
+			return getNextDorsalSecuencial(competition,reservados);
+		} else {
+			return getDorsalAleatorio(competition,reservados,slots);
+		}
+	}
 
 	private void insert(String idCompeticion, String email, String idCategory) {
 		DbUtil du = new DbUtil();
-		String sql = "INSERT INTO inscription (DNI,IDCompetition,INSCRIPTIONDATE,IDCATEGORY,CATEGORY,INSCRIPTIONSTATE) VALUES (?, ?, ?, ?,?,?)";
-		du.executeUpdate(sql, getDni(email), idCompeticion, fecha_hoy, idCategory,j.getCategoria(), j.getEstado());
+		String sql = "INSERT INTO inscription (DNI,IDCompetition,INSCRIPTIONDATE,IDCATEGORY,CATEGORY,INSCRIPTIONSTATE,DORSAL) VALUES (?, ?, ?, ?,?,?,?)";
+		du.executeUpdate(sql, getDni(email), idCompeticion, fecha_hoy, idCategory, j.getCategoria(), j.getEstado(),
+				j.getDorsal());
 	}
+	
+
+	
+	
 
 	// Cambiar a ParticipantModel
 	public static String getDni(String e) {
@@ -91,6 +138,76 @@ public class InscriptionModel {
 				e1.printStackTrace();
 			}
 
+		}
+	}
+
+	public static Integer getNextDorsalSecuencial(String idCompetition,int reservados) {
+		String sql = "select max(dorsal) from inscription where idcompetition=?";
+		Integer dorsal = null;
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, idCompetition);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				dorsal = rs.getInt(1);
+			}
+			if(dorsal+1>reservados) {
+				return dorsal + 1;
+			}else {
+				return reservados;
+			}
+			
+		} catch (SQLException ex) {
+			throw new UnexpectedException(ex);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+
+		}
+	}
+
+	public static Integer getDorsalAleatorio(String idCompetition,int reservados,int slots) {
+		String sql = "select dorsal from inscription where idcompetition=?";
+		List<Integer> dorsales = new ArrayList<Integer>();
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, idCompetition);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				dorsales.add(rs.getInt(1));
+			}
+		} catch (SQLException ex) {
+			throw new UnexpectedException(ex);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		Random rand = new Random();
+		while (true) {
+			int dorsalgenerado = reservados + rand.nextInt(slots+30);
+			for (Integer dorsal : dorsales) {
+				if (dorsal != null && dorsal != dorsalgenerado) {
+					return dorsalgenerado;
+				}
+			}
 		}
 
 	}
@@ -140,7 +257,6 @@ public class InscriptionModel {
 			while (rs.next()) {
 				cantidad = rs.getDouble("fee");
 			}
-			
 
 			return cantidad;
 		} catch (SQLException e) {
@@ -188,7 +304,6 @@ public class InscriptionModel {
 		}
 	}
 
-
 	public String getSex(String email) {
 		String sql = "select sex " + "from PARTICIPANT  " + "where EMAIL = ?";
 		String sex = "";
@@ -218,78 +333,79 @@ public class InscriptionModel {
 			}
 		}
 	}
-	private String getIdCategory(String email, String name) {
-			String sql= "select idcategory from category where name=? and idCompetition=?";
-			String idC= getIdCompeticion(name);
-			String categoria = categoria(email,name);
-			String idCategory="";
-			Connection cn = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try {
-				cn = DbUtil.getConnection();
-				pstmt = cn.prepareStatement(sql);
-				pstmt.setString(1, categoria);
-				pstmt.setString(2, idC);
-				
-				rs = pstmt.executeQuery();
-				while (rs.next()) {
-					idCategory = rs.getString(1);
-				}
 
-				return idCategory;
-			} catch (SQLException e) {
-				throw new UnexpectedException(e);
-			} finally {
-				try {
-					rs.close();
-					pstmt.close();
-					cn.close();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+	private String getIdCategory(String email, String name) {
+		String sql = "select idcategory from category where name=? and idCompetition=?";
+		String idC = getIdCompeticion(name);
+		String categoria = categoria(email, name);
+		String idCategory = "";
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, categoria);
+			pstmt.setString(2, idC);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				idCategory = rs.getString(1);
+			}
+
+			return idCategory;
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
-	public String categoria(String email,String name) {
-		ZoneId defaultZoneId = ZoneId.systemDefault();
-		 LocalDate hoy = LocalDate.now();   
-		 LocalDate nacimiento = getBirthdate(email).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		 int edad = (int) ChronoUnit.YEARS.between(nacimiento, hoy); 
-		 String categoria="";
-		 String sql = "select name from category where idcompetition=? and initial_age<=? and final_age>=? and sex = ?";
-		 String sex = getSex(email);
-		 String idC= getIdCompeticion(name);
-		  Connection cn = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try {
-				cn = DbUtil.getConnection();
-				pstmt = cn.prepareStatement(sql);
-				pstmt.setString(1, idC+"");
-				pstmt.setInt(2, edad);
-				pstmt.setInt(3, edad);
-				pstmt.setString(4, sex);
-				rs = pstmt.executeQuery();
-				while (rs.next()) {
-					categoria = rs.getString(1);
-				}
+	}
 
-				return categoria;
-			} catch (SQLException e) {
-				throw new UnexpectedException(e);
-			} finally {
-				try {
-					rs.close();
-					pstmt.close();
-					cn.close();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+	public String categoria(String email, String name) {
+		ZoneId defaultZoneId = ZoneId.systemDefault();
+		LocalDate hoy = LocalDate.now();
+		LocalDate nacimiento = getBirthdate(email).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int edad = (int) ChronoUnit.YEARS.between(nacimiento, hoy);
+		String categoria = "";
+		String sql = "select name from category where idcompetition=? and initial_age<=? and final_age>=? and sex = ?";
+		String sex = getSex(email);
+		String idC = getIdCompeticion(name);
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, idC + "");
+			pstmt.setInt(2, edad);
+			pstmt.setInt(3, edad);
+			pstmt.setString(4, sex);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				categoria = rs.getString(1);
 			}
-	
-			
+
+			return categoria;
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
 	}
 //		System.out.print(edad);
 //		int años = cal_hoy.get(Calendar.YEAR) - cal_birthdate.get(Calendar.YEAR);
@@ -332,14 +448,12 @@ public class InscriptionModel {
 //		}
 //
 //		return categoria;
-		
-
-	
 
 	public static void updateEstado(String estado, String dni, String idcompetition) {
 		Database db = new Database();
-		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? , INSCRIPTIONDATE = '"+fecha_hoy+"'WHERE dni = ? AND idcompetition = ? ";
-		
+		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? , INSCRIPTIONDATE = '" + fecha_hoy
+				+ "'WHERE dni = ? AND idcompetition = ? ";
+
 		db.executeUpdate(sql, estado, dni, idcompetition);
 	}
 
@@ -374,36 +488,37 @@ public class InscriptionModel {
 		}
 	}
 
-	//	public String getAforo(String id) {
-	//		String sql = "select aforo " + "from competition  " + "where IdCompetition = ?";
-	//		String aforo = "";
-	//		Connection cn = null;
-	//		PreparedStatement pstmt = null;
-	//		ResultSet rs = null;
-	//		try {
-	//			cn = DbUtil.getConnection();
-	//			pstmt = cn.prepareStatement(sql);
-	//			pstmt.setString(1, id);
-	//			rs = pstmt.executeQuery();
+	// public String getAforo(String id) {
+	// String sql = "select aforo " + "from competition " + "where IdCompetition =
+	// ?";
+	// String aforo = "";
+	// Connection cn = null;
+	// PreparedStatement pstmt = null;
+	// ResultSet rs = null;
+	// try {
+	// cn = DbUtil.getConnection();
+	// pstmt = cn.prepareStatement(sql);
+	// pstmt.setString(1, id);
+	// rs = pstmt.executeQuery();
 	//
-	//			while (rs.next()) {
-	//				aforo = rs.getString("aforo");
-	//			}
+	// while (rs.next()) {
+	// aforo = rs.getString("aforo");
+	// }
 	//
-	//			return aforo;
-	//		} catch (SQLException e) {
-	//			throw new UnexpectedException(e);
-	//		} finally {
-	//			try {
-	//				rs.close();
-	//				pstmt.close();
-	//				cn.close();
-	//			} catch (SQLException e1) {
-	//				// TODO Auto-generated catch block
-	//				e1.printStackTrace();
-	//			}
-	//		}
-	//	}
+	// return aforo;
+	// } catch (SQLException e) {
+	// throw new UnexpectedException(e);
+	// } finally {
+	// try {
+	// rs.close();
+	// pstmt.close();
+	// cn.close();
+	// } catch (SQLException e1) {
+	// // TODO Auto-generated catch block
+	// e1.printStackTrace();
+	// }
+	// }
+	// }
 
 	public Justificante getJustificante() {
 		return this.j;
@@ -443,12 +558,10 @@ public class InscriptionModel {
 
 	}
 
-
-
 	public static boolean existeYaInscripcion(String e, String name) {
-		String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ='"+e + "'";
+		String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ='" + e + "'";
 		try {
-			if(DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
+			if (DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
 				return true;
 			}
 		} catch (SQLException e1) {
@@ -458,9 +571,10 @@ public class InscriptionModel {
 	}
 
 	public static boolean yaPagoOEstaPendiente(String e, String name) {
-		String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ='"+ e + "' and INSCRIPTIONSTATE in ('PAGADO','PENDIENTE')" ;
+		String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ='" + e
+				+ "' and INSCRIPTIONSTATE in ('PAGADO','PENDIENTE')";
 		try {
-			if(DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
+			if (DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
 				return true;
 			}
 		} catch (SQLException e1) {
@@ -486,10 +600,10 @@ public class InscriptionModel {
 	}
 
 	/**
-	 * Metodo que hace una consulta sobre todas las carreras a las que se ha inscrito un participante
-	 * devuelve una lista de competiciones.
+	 * Metodo que hace una consulta sobre todas las carreras a las que se ha
+	 * inscrito un participante devuelve una lista de competiciones.
 	 */
-	public static List<InscriptionDto> getInscribedCompetitions(String dni){
+	public static List<InscriptionDto> getInscribedCompetitions(String dni) {
 		String sql = "select name, inscriptionstate, inscriptionDate, ins.idcompetition, ins.IDCATEGORY from INSCRIPTION as ins, competition where "
 				+ "competition.idcompetition = ins.idcompetition and dni = ?";
 		Database db = new Database();
@@ -497,4 +611,13 @@ public class InscriptionModel {
 		return result;
 	}
 
+	
+	/**
+	 * metodo para llamar al hacer la inscripcion grupal
+	 * inscribe directamente en el estado inscrito
+	 */
+	public void insertParticipant(String dni, String idCompeticion, String email, String competitionName) {
+		justificante(email, competitionName);
+		updateEstado("INSCRITO", dni, idCompeticion );
+	}
 }
