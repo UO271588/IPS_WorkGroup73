@@ -55,6 +55,10 @@ public class ClasificationAccess {
 			clasificacion.tiempoFinal = rs.getString("FINALTIME");
 			clasificacion.categoryname = rs.getString("CATEGORYNAME");
 			clasificacion.dorsal = rs.getString("DORSAL");
+			clasificacion.club = rs.getString("CLUB");
+			if(clasificacion.club == null || clasificacion.club.isBlank()) {
+				clasificacion.club = "Independiente";
+			}
 			
 			clasificacionAbsoluta.add(clasificacion);
 		}

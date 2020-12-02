@@ -105,14 +105,22 @@ public class ClasificationController {
 			panelClasificacion.add(txtCategory);
 			txtCategory.setHorizontalAlignment(JTextField.CENTER);
 
-			// Creacion textField tiempo
-			String[] tiempoInicial = clasificacion.tiempoInicio.split(":");
-			String[] tiempoFinal = clasificacion.tiempoFinal.split(":");
-			int segundosIniciales = Integer.parseInt(tiempoInicial[0]) * 3600
-					+ Integer.parseInt(tiempoInicial[1]) * 60 + Integer.parseInt(tiempoInicial[2]);
-			int segundosFinales = Integer.parseInt(tiempoFinal[0]) * 3600 + Integer.parseInt(tiempoFinal[1]) * 60
-					+ Integer.parseInt(tiempoFinal[2]);
-			if (segundosIniciales != 0 && segundosFinales != 0) {
+			if( clasificacion.tiempoInicio.equals("--:--:--")){
+				txtTiempo.setText("dns");
+			}
+			else if(clasificacion.tiempoFinal.equals("--:--:--")){
+				txtTiempo.setText("dnf");
+			}
+			else {
+				// Creacion textField tiempo
+				String[] tiempoInicial = clasificacion.tiempoInicio.split(":");
+				String[] tiempoFinal = clasificacion.tiempoFinal.split(":");
+
+				int segundosIniciales = Integer.parseInt(tiempoInicial[0]) * 3600
+						+ Integer.parseInt(tiempoInicial[1]) * 60 + Integer.parseInt(tiempoInicial[2]);
+				int segundosFinales = Integer.parseInt(tiempoFinal[0]) * 3600 + Integer.parseInt(tiempoFinal[1]) * 60
+						+ Integer.parseInt(tiempoFinal[2]);
+
 				int segundosTotales = segundosFinales - segundosIniciales;
 
 				int horas = segundosTotales / 3600;
@@ -121,14 +129,6 @@ public class ClasificationController {
 
 				String tiempo = horas + ":" + minutos + ":" + segundos;
 				txtTiempo.setText(tiempo);
-			} else {
-				if(clasificacion.tiempoInicio.equals("00:00:00") ) {
-					txtTiempo.setText("dns");
-				}
-				else {
-					txtTiempo.setText("dnf");
-					
-				}
 			}
 			panelClasificacion.add(txtTiempo);
 			txtTiempo.setHorizontalAlignment(JTextField.CENTER);

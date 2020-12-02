@@ -9,4 +9,5 @@ public class ClasificationDto {
 	public String tiempoFinal;	
 	public String categoryname;
 	public String dorsal;
+	public String club;
 }
