@@ -1,23 +1,43 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.RaceCreationController;
 import model.clasification.ClasificationAccess;
 import model.clasification.ClasificationDto;
+import model.inscription.InscriptionDto;
+import model.inscription.InscriptionModel;
+import model.payments.PaymentDto;
+import util.MyFile;
+import util.TimeUtil;
 import util.database.Main;
 
 import javax.swing.JSplitPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
@@ -39,6 +59,9 @@ public class MainFrame extends JFrame {
 	private JLabel label_4;
 	private JLabel label_5;
 	private JButton btnClasificaciones;
+	private JButton btnCargarArchivo;
+	private JFileChooser jfc;
+	private DefaultListModel<MyFile> modelolistLibrary;
 
 	/**
 	 * Launch the application.
@@ -62,6 +85,7 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 639, 543);
+		modelolistLibrary = new DefaultListModel<MyFile>();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -80,6 +104,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(getBtnNewButton_1_1());
 		contentPane.add(getLabel_4());
 		contentPane.add(getBtnClasificaciones());
+		contentPane.add(getBtnCargarArchivo());
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
@@ -252,5 +277,122 @@ public class MainFrame extends JFrame {
 			});
 		}
 		return btnClasificaciones;
+	}
+	
+	private JButton getBtnCargarArchivo() {
+		if (btnCargarArchivo == null) {
+			btnCargarArchivo = new JButton("CargarArchivo");
+			btnCargarArchivo.setBounds(128, 83, 162, 23);
+			btnCargarArchivo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					cargarArchivoFileChooser();
+					
+				}
+			});
+		}
+		return btnCargarArchivo;
+	}
+
+	public List<PaymentDto> leerFichero(File file) {
+		FileReader lector = null;
+		BufferedReader br = null;
+		List<PaymentDto> payments = new ArrayList<PaymentDto>();
+		try {
+			lector = new FileReader(file);
+			br = new BufferedReader(lector);
+			String linea;
+			while (br.ready()) {
+				linea = br.readLine();
+				if (!linea.contains("//")) {
+					String[] partes = linea.split(",");
+					if (partes.length == 4) {
+						PaymentDto pago = gestionarPago(partes[0], partes[1], partes[2], partes[3]);
+						if(pago.carrera!= null && !pago.carrera.isEmpty()  ) {
+							payments.add(pago);
+						}
+						
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return payments;
+	}
+
+	public PaymentDto gestionarPago(String dni, String idcarrera, String cantidad, String fecha) {
+		InscriptionModel im = new InscriptionModel();
+		List<InscriptionDto> inscripcionescarrera = im.getInscriptionList(idcarrera);
+		for (InscriptionDto inscripcion : inscripcionescarrera) {
+			if (inscripcion.dni.equals(dni)) {
+				Date fechaInscripcion = TimeUtil.isoStringToDate(inscripcion.getInscriptionDate());
+				LocalDateTime fechaIns = Instant.ofEpochMilli(fechaInscripcion.getTime()).atZone(ZoneId.systemDefault())
+						.toLocalDateTime();
+				LocalDateTime fechaLimite = fechaIns.plusDays(2);
+				Date fechatrans = TimeUtil.isoStringToDate(fecha);
+				LocalDateTime fechaPago = Instant.ofEpochMilli(fechatrans.getTime()).atZone(ZoneId.systemDefault())
+						.toLocalDateTime();
+				if (fechaLimite.plusDays(1).isAfter(fechaPago) && fechaIns.isBefore(fechaPago)) {
+					double dinero = im.getDineroAPagar(idcarrera,fecha);
+					if(dinero - Double.parseDouble(cantidad) > 0) {
+						im.updateEstado("CANCELADO", dni, idcarrera,fecha,"Dinero insuficiente");
+					}else if(dinero - Double.parseDouble(cantidad) == 0) {
+						im.updateEstado("PAGADO", dni, idcarrera,fecha,null);
+					}else {
+						im.updateEstado("PAGADO", dni, idcarrera,fecha,null);
+					}
+					
+					System.out.println("Fecha de pago: " + fechaPago);
+					System.out.println("Fecha limite de inscripcion: " + fechaLimite);
+					System.out.println("Dinero a pagar: " + dinero);
+					System.out.println("Dinero suministrado: " + dinero);
+					System.out.println();
+				}
+				
+				PaymentDto pago = new PaymentDto();
+				pago.dni = dni;
+				pago.carrera = idcarrera;
+				pago.dinero = Integer.parseInt(cantidad);
+				pago.fecha = fecha;
+				return pago;
+			}
+		}
+		
+		return new PaymentDto();
+	}	
+	
+	private void cargarArchivoFileChooser() {
+		int respuesta = getSelector().showOpenDialog(null);
+		if(respuesta == JFileChooser.APPROVE_OPTION) {
+			File seleccionado = jfc.getSelectedFile();
+			if(!modelolistLibrary.contains(seleccionado)) {
+				modelolistLibrary.addElement(new MyFile(jfc.getSelectedFile()));
+				getBtnCargarArchivo().setEnabled(false);
+				List<PaymentDto> pagos = leerFichero(seleccionado);
+				new ResumenPagos(pagos).setVisible(true);
+			}
+		}
+	}
+	
+	private JFileChooser getSelector() {
+		if(jfc == null) {
+			jfc = new JFileChooser();
+			jfc.setMultiSelectionEnabled(false);
+			jfc.setFileFilter(new FileNameExtensionFilter(".txt","txt"));
+			String desktopPath = System.getProperty("user.home") + "/Desktop";
+			jfc.setCurrentDirectory(new File (desktopPath));
+		}
+		return jfc;
 	}
 }

@@ -132,11 +132,6 @@ public class InscripcionFrame extends JFrame {
 	public JButton getBtnInscribirse() {
 		if (btnInscribirse == null) {
 			btnInscribirse = new JButton("INSCRIBIRSE");
-			btnInscribirse.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
-				}
-			});
 
 			btnInscribirse.setBounds(313, 205, 111, 23);
 		}
