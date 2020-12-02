@@ -146,7 +146,7 @@ public class CompetitionsAccess {
 		String SQL = "SELECT COUNT(*) < slots "
 				+ "FROM competition as c, inscription as i "
 				+ "WHERE i.IDCOMPETITION =  c.IDCOMPETITION  and i.IDCOMPETITION = ? "
-				+ "GROUP BY i.IDCOMPETITION ";
+				+ "GROUP BY c.IDCOMPETITION ";
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		Connection c  = null;
@@ -156,7 +156,13 @@ public class CompetitionsAccess {
 			pst = c.prepareStatement(SQL);
 			pst.setString(1, idCompetition);
 			rs = pst.executeQuery();
-			result = rs.getBoolean(1);
+			if(rs.next()) {
+				result = rs.getBoolean(1);
+				
+			}
+			else {
+				result = true;
+			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
