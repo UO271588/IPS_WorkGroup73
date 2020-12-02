@@ -16,6 +16,7 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 
 import business.race.RaceDto;
+import model.participant.ParticipantDtoPojo;
 import util.DbUtil;
 import util.Justificante;
 import util.TimeUtil;
@@ -616,8 +617,8 @@ public class InscriptionModel {
 	 * metodo para llamar al hacer la inscripcion grupal
 	 * inscribe directamente en el estado inscrito
 	 */
-	public void insertParticipant(String dni, String idCompeticion, String email, String competitionName) {
-		justificante(email, competitionName);
-		updateEstado("INSCRITO", dni, idCompeticion );
+	public void insertParticipant( ParticipantDtoPojo dto, String idCompeticion, String competitionName) {
+		justificante(dto.email, competitionName);
+		updateEstado("INSCRITO", dto.dni, idCompeticion );
 	}
 }

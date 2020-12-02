@@ -12,25 +12,30 @@ public class JustificanteClub {
 		this.nombreClub = nombreClub;
 	}
 
-	public void addAceptado(ParticipantDtoPojo dto) {
-		aceptados += "Nombre: " + dto.name;
+	public void addAceptado(ParticipantDtoPojo dto, String category) {
+		aceptados += "    Nombre: " + dto.name + " " + dto.surname;
+		aceptados += "\n";
+		aceptados += "        Categoria: " + category;
+		aceptados += "\n";
+		aceptados += "    -------------------------------------------------";
 		aceptados += "\n";
 	}
 
 	public void addDenegado(ParticipantDtoPojo dto, String string) {
-		denegados += "Nombre: " + dto.name + " motivo denegado: " + string;
+		denegados += "    Nombre: " + dto.name + " motivo: " + string;
+		denegados += "\n";
+		denegados += "    -------------------------------------------------";
 		denegados += "\n";
 		
 	}
 
 	@Override
 	public String toString() {
-		return "Justificante de inscripcion: \n"
-				+ " Nombre del Club: " + nombreClub + 
-				"\n Jugadores aceptados :\n"
-				+ aceptados + "Jugadores denegados :\n" +
-				 denegados
-				+ "]";
+		return "Justificante de inscripcion:\n"
+				+ "Nombre del Club: " + nombreClub + 
+				"\nJUGADORES DENEGADOS :\n"
+				+ aceptados + "JUGADORES ACEPTADOS :\n" +
+				 denegados;
 	}
 	
 }

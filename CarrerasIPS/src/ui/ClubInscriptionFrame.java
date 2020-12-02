@@ -61,7 +61,7 @@ public class ClubInscriptionFrame extends JFrame {
 	private JPanel pnlCard;
 	private JPanel pnlNorthCenter;
 	private JPanel pnlNorthEast;
-	private JButton btnNewButton_1;
+	private JButton btnCardSwitch;
 	private JLabel lblNewLabel_5;
 	private JTextField textClub;
 	private JPanel pnlForm;
@@ -80,6 +80,7 @@ public class ClubInscriptionFrame extends JFrame {
 	private JButton btnNewButton_3;
 	private JPanel pnlEast;
 	private JLabel lblCarrera;
+	private boolean inscripcionFormu;
 
 
 
@@ -101,6 +102,7 @@ public class ClubInscriptionFrame extends JFrame {
 		contentPane.add(getScrollPane(), BorderLayout.CENTER);
 		this.controller = new ClubInscriptionController(this, carrera);
 		getLblCarrera().setText(carrera.nombre);
+		inscripcionFormu = true;
 	}
 	private JPanel getPanelSouth() {
 		if (panelSouth == null) {
@@ -309,23 +311,31 @@ public class ClubInscriptionFrame extends JFrame {
 	private JPanel getPnlNorthEast() {
 		if (pnlNorthEast == null) {
 			pnlNorthEast = new JPanel();
-			pnlNorthEast.add(getBtnNewButton_1());
+			pnlNorthEast.add(getBtnCardSwitch());
 		}
 		return pnlNorthEast;
 	}
-	private JButton getBtnNewButton_1() {
-		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("Inscripcion desde Fichero");
-			btnNewButton_1.addActionListener(new ActionListener() {
+	private JButton getBtnCardSwitch() {
+		if (btnCardSwitch == null) {
+			btnCardSwitch = new JButton("Inscripcion desde Fichero");
+			btnCardSwitch.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					changeCard();
 				}
 			});
 		}
-		return btnNewButton_1;
+		return btnCardSwitch;
 	}
 	protected void changeCard() {
 		((CardLayout)getPnlCard().getLayout()).next(getPnlCard());
+		if(inscripcionFormu) {
+			getBtnCardSwitch().setText("Insc. fichero");
+			inscripcionFormu = false;
+		}
+		else {
+			inscripcionFormu = true;
+			getBtnCardSwitch().setText("Insc. formulario");
+		}
 		
 	}
 

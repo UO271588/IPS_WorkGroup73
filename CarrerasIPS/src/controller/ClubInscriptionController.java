@@ -187,7 +187,7 @@ public class ClubInscriptionController {
 				continue;
 			}
 			incribe(enLista.get(mail));
-			jc.addAceptado(enLista.get(mail));
+			jc.addAceptado(enLista.get(mail), model.categoria(mail, race.nombre));
 		}
 		System.out.println(jc.toString());
 		JOptionPane.showMessageDialog(null, jc.toString());
@@ -196,7 +196,7 @@ public class ClubInscriptionController {
 
 	private void incribe(ParticipantDtoPojo dto) {
 		InscriptionModel model = new InscriptionModel(race);
-		model.insertParticipant(dto.dni, race.id, dto.email, race.nombre);
+		model.insertParticipant(dto, race.id,  race.nombre);
 		
 	}
 
