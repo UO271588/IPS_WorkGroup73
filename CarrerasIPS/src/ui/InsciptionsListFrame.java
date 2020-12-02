@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 
 import business.race.RaceDto;
 import controller.InscriptionListController;
+import java.awt.Toolkit;
 
 public class InsciptionsListFrame extends JFrame {
 
@@ -67,6 +68,7 @@ public class InsciptionsListFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public InsciptionsListFrame(JFrame parent) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(InsciptionsListFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.02.37.jpeg")));
 		setTitle("Administrador: Carreras");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1178, 497);

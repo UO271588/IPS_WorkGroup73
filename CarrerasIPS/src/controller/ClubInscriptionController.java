@@ -187,7 +187,7 @@ public class ClubInscriptionController {
 				jc.addDenegado(enLista.get(mail), "No hay plazas libres para la competicion");
 				continue;
 			}
-			incribe(enLista.get(mail));
+			incribe(enLista.get(mail), nombreClub);
 			jc.addAceptado(enLista.get(mail), model.categoria(mail, race.nombre));
 		}
 		System.out.println(jc.toString());
@@ -195,9 +195,9 @@ public class ClubInscriptionController {
 		
 	}
 
-	private void incribe(ParticipantDtoPojo dto) {
+	private void incribe(ParticipantDtoPojo dto, String club) {
 		InscriptionModel model = new InscriptionModel(race);
-		model.insertParticipant(dto, race.id,  race.nombre);
+		model.insertParticipant(dto,club, race.id,  race.nombre);
 		
 	}
 

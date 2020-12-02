@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.registerController;
 import java.awt.Toolkit;
+import java.awt.Rectangle;
 
 public class RegisterFrame extends JFrame {
 
@@ -144,7 +145,7 @@ public class RegisterFrame extends JFrame {
 		if (lblDni == null) {
 			lblDni = new JLabel("DNI:");
 			lblDni.setLabelFor(getTextDNI());
-			lblDni.setBounds(67, 89, 127, 21);
+			lblDni.setBounds(67, 89, 127, 24);
 		}
 		return lblDni;
 	}
@@ -152,7 +153,7 @@ public class RegisterFrame extends JFrame {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre:");
 			lblNombre.setLabelFor(getTextNombre());
-			lblNombre.setBounds(67, 121, 127, 21);
+			lblNombre.setBounds(67, 121, 127, 24);
 		}
 		return lblNombre;
 	}
@@ -160,14 +161,14 @@ public class RegisterFrame extends JFrame {
 		if (lblApellidos == null) {
 			lblApellidos = new JLabel("Apellidos:");
 			lblApellidos.setLabelFor(lblApellidos);
-			lblApellidos.setBounds(67, 153, 127, 21);
+			lblApellidos.setBounds(67, 153, 127, 24);
 		}
 		return lblApellidos;
 	}
 	private JLabel getLblSexo() {
 		if (lblSexo == null) {
 			lblSexo = new JLabel("Sexo:");
-			lblSexo.setBounds(67, 185, 127, 21);
+			lblSexo.setBounds(67, 185, 127, 24);
 		}
 		return lblSexo;
 	}
@@ -175,14 +176,15 @@ public class RegisterFrame extends JFrame {
 		if (lblCorreoelectronico == null) {
 			lblCorreoelectronico = new JLabel("Correo Electronico:");
 			lblCorreoelectronico.setLabelFor(getTextMail());
-			lblCorreoelectronico.setBounds(67, 217, 147, 21);
+			lblCorreoelectronico.setBounds(67, 217, 147, 24);
 		}
 		return lblCorreoelectronico;
 	}
 	public JTextField getTextDNI() {
 		if (textDNI == null) {
 			textDNI = new JTextField();
-			textDNI.setBounds(204, 89, 198, 20);
+			textDNI.setBounds(new Rectangle(0, 0, 0, 24));
+			textDNI.setBounds(204, 89, 198, 24);
 			textDNI.setColumns(10);
 		}
 		return textDNI;
@@ -190,24 +192,27 @@ public class RegisterFrame extends JFrame {
 	public JTextField getTextNombre() {
 		if (textNombre == null) {
 			textNombre = new JTextField();
+			textNombre.setBounds(new Rectangle(0, 0, 0, 24));
 			textNombre.setColumns(10);
-			textNombre.setBounds(204, 121, 198, 20);
+			textNombre.setBounds(204, 121, 198, 24);
 		}
 		return textNombre;
 	}
 	public JTextField getTextApellidos() {
 		if (textApellidos == null) {
 			textApellidos = new JTextField();
+			textApellidos.setBounds(new Rectangle(0, 0, 0, 24));
 			textApellidos.setColumns(10);
-			textApellidos.setBounds(204, 153, 198, 20);
+			textApellidos.setBounds(204, 153, 198, 24);
 		}
 		return textApellidos;
 	}
 	public JTextField getTextMail() {
 		if (textMail == null) {
 			textMail = new JTextField();
+			textMail.setBounds(new Rectangle(0, 0, 0, 24));
 			textMail.setColumns(10);
-			textMail.setBounds(204, 217, 198, 20);
+			textMail.setBounds(204, 217, 198, 24);
 		}
 		return textMail;
 	}
@@ -232,7 +237,7 @@ public class RegisterFrame extends JFrame {
 	private JLabel getLblFechaNacimiento() {
 		if (lblFechaNacimiento == null) {
 			lblFechaNacimiento = new JLabel("Fecha Nacimiento");
-			lblFechaNacimiento.setBounds(67, 249, 127, 21);
+			lblFechaNacimiento.setBounds(67, 249, 127, 24);
 		}
 		return lblFechaNacimiento;
 	}
@@ -248,7 +253,8 @@ public class RegisterFrame extends JFrame {
 	public JTextField getTextAno() {
 		if (textAno == null) {
 			textAno = new JTextField();
-			textAno.setBounds(364, 249, 38, 20);
+			textAno.setBounds(new Rectangle(0, 0, 0, 24));
+			textAno.setBounds(364, 249, 38, 24);
 			textAno.setColumns(10);
 		}
 		return textAno;
@@ -256,16 +262,18 @@ public class RegisterFrame extends JFrame {
 	public JTextField getTextMes() {
 		if (textMes == null) {
 			textMes = new JTextField();
+			textMes.setBounds(new Rectangle(0, 0, 0, 24));
 			textMes.setColumns(10);
-			textMes.setBounds(294, 249, 30, 20);
+			textMes.setBounds(294, 249, 30, 24);
 		}
 		return textMes;
 	}
 	public JTextField getTextDia() {
 		if (textDia == null) {
 			textDia = new JTextField();
+			textDia.setBounds(new Rectangle(0, 0, 0, 24));
 			textDia.setColumns(10);
-			textDia.setBounds(230, 250, 30, 20);
+			textDia.setBounds(230, 250, 30, 24);
 		}
 		return textDia;
 	}
@@ -273,7 +281,7 @@ public class RegisterFrame extends JFrame {
 		if (lblD == null) {
 			lblD = new JLabel("dia");
 			lblD.setLabelFor(getTextDia());
-			lblD.setBounds(204, 249, 30, 20);
+			lblD.setBounds(204, 249, 30, 24);
 		}
 		return lblD;
 	}
@@ -281,7 +289,7 @@ public class RegisterFrame extends JFrame {
 		if (lblMes == null) {
 			lblMes = new JLabel("mes");
 			lblMes.setLabelFor(getTextMes());
-			lblMes.setBounds(265, 249, 30, 20);
+			lblMes.setBounds(265, 249, 30, 24);
 		}
 		return lblMes;
 	}
@@ -289,7 +297,7 @@ public class RegisterFrame extends JFrame {
 		if (lblAo == null) {
 			lblAo = new JLabel("a\u00F1o");
 			lblAo.setLabelFor(getTextAno());
-			lblAo.setBounds(334, 249, 30, 20);
+			lblAo.setBounds(334, 249, 30, 24);
 		}
 		return lblAo;
 	}

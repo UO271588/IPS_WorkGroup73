@@ -494,6 +494,14 @@ public class InscriptionModel {
 		db.executeUpdate(sql, estado, dni, idcompetition);
 	}
 	
+	public static void updateEstadoAndClub(String estado,String club ,String dni, String idcompetition) {
+		Database db = new Database();
+		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? ,SET CLUB = ? INSCRIPTIONDATE = '" + fecha_hoy
+				+ "'WHERE dni = ? AND idcompetition = ? ";
+
+		db.executeUpdate(sql, estado,club, dni, idcompetition);
+	}
+	
 	public static void updateDorsal(String dni, String idcompetition,Integer dorsal) {
 		Database db = new Database();
 		String sql = "UPDATE inscription SET DORSAL = ? WHERE dni = ? AND idcompetition = ? ";
@@ -666,9 +674,10 @@ public class InscriptionModel {
 	/**
 	 * metodo para llamar al hacer la inscripcion grupal
 	 * inscribe directamente en el estado inscrito
+	 * tambien añade el club correspondiente
 	 */
-	public void insertParticipant( ParticipantDtoPojo dto, String idCompeticion, String competitionName) {
+	public void insertParticipant( ParticipantDtoPojo dto,String club, String idCompeticion, String competitionName) {
 		justificante(dto.email, competitionName);
-		updateEstado("INSCRITO", dto.dni, idCompeticion );
+		updateEstadoAndClub("INSCRITO",club, dto.dni, idCompeticion );
 	}
 }

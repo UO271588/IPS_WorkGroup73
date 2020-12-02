@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.awt.Toolkit;
+import java.awt.Font;
 
 public class InscripcionFrame extends JFrame {
 
@@ -42,6 +44,8 @@ public class InscripcionFrame extends JFrame {
 	 * @param nombreCarrera
 	 */
 	public InscripcionFrame(RaceDto carrera, JFrame parent) {
+		setTitle("Inscripci\u00F3n");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(InscripcionFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.02.37.jpeg")));
 		this.parent = parent;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 485, 303);
@@ -68,7 +72,7 @@ public class InscripcionFrame extends JFrame {
 				new ClubInscriptionFrame(carrera).setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(313, 39, 146, 28);
+		btnNewButton_1.setBounds(313, 49, 146, 28);
 		contentPane.add(btnNewButton_1);
 	}
 
@@ -83,7 +87,8 @@ public class InscripcionFrame extends JFrame {
 	public JLabel getLblEmail() {
 		if (lblEmail == null) {
 			lblEmail = new JLabel("email:");
-			lblEmail.setBounds(33, 90, 46, 14);
+			lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblEmail.setBounds(33, 95, 46, 14);
 		}
 		return lblEmail;
 	}
@@ -113,7 +118,8 @@ public class InscripcionFrame extends JFrame {
 	public JLabel getLblNombreCompeticion() {
 		if (lblNombreCompeticion == null) {
 			lblNombreCompeticion = new JLabel("nombre Competicion:");
-			lblNombreCompeticion.setBounds(33, 129, 121, 14);
+			lblNombreCompeticion.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblNombreCompeticion.setBounds(33, 134, 121, 14);
 		}
 		return lblNombreCompeticion;
 	}
@@ -121,7 +127,7 @@ public class InscripcionFrame extends JFrame {
 	public JTextField getTextFieldEmail() {
 		if (textFieldEmail == null) {
 			textFieldEmail = new JTextField();
-			textFieldEmail.setBounds(85, 87, 241, 20);
+			textFieldEmail.setBounds(85, 87, 241, 32);
 			textFieldEmail.setColumns(10);
 		}
 		return textFieldEmail;
@@ -130,7 +136,7 @@ public class InscripcionFrame extends JFrame {
 	public JTextField getTextFieldNombreCompeticion() {
 		if (textFieldNombreCompeticion == null) {
 			textFieldNombreCompeticion = new JTextField();
-			textFieldNombreCompeticion.setBounds(164, 126, 162, 20);
+			textFieldNombreCompeticion.setBounds(164, 126, 162, 32);
 			textFieldNombreCompeticion.setColumns(10);
 			textFieldNombreCompeticion.setEditable(false);
 
@@ -156,7 +162,7 @@ public class InscripcionFrame extends JFrame {
 		if (fechaHoy == null) {
 			fechaHoy = new JTextField();
 			fechaHoy.setEditable(false);
-			fechaHoy.setBounds(232, 8, 150, 20);
+			fechaHoy.setBounds(232, 8, 150, 31);
 			fechaHoy.setColumns(10);
 		}
 		return fechaHoy;

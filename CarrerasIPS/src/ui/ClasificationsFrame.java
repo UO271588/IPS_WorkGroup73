@@ -62,6 +62,7 @@ public class ClasificationsFrame extends JFrame {
 	private JPanel pnlNum;
 	private JLabel lblPos;
 	private JLabel lblNewLabel;
+	private JLabel pnlClub;
 
 	/**
 	 * Create the frame.
@@ -123,7 +124,7 @@ public class ClasificationsFrame extends JFrame {
 						paneParticipantes.setLayout(new GridLayout(Math.max(10, clasificaciones.size()), 1, 0, 0));
 						paneParticipantes.removeAll();
 						controller.loadRows((String)getCbCategory().getSelectedItem(), paneParticipantes);
-						
+
 					}
 				}
 			});
@@ -149,10 +150,11 @@ public class ClasificationsFrame extends JFrame {
 		if (paneInformacion == null) {
 			paneInformacion = new JPanel();
 			paneInformacion.setBorder(new EmptyBorder(6, 0, 6, 0));
-			paneInformacion.setLayout(new GridLayout(0, 5, 0, 0));
+			paneInformacion.setLayout(new GridLayout(0, 6, 0, 0));
 			paneInformacion.add(getPnlNum());
 			paneInformacion.add(getTxtSexo());
 			paneInformacion.add(getTxtNombre());
+			paneInformacion.add(getPnlClub());
 			paneInformacion.add(getLblCategoria());
 			paneInformacion.add(getTxtTiempo());
 		}
@@ -229,7 +231,7 @@ public class ClasificationsFrame extends JFrame {
 
 	public void crearPanelesCarrera(List<ClasificationDto> clasificaciones, String sexo) {
 
-		
+
 
 		int posicion = 1;
 		for (ClasificationDto clasificacion : clasificaciones) {
@@ -251,10 +253,10 @@ public class ClasificationsFrame extends JFrame {
 				txtSexo.setBorder(new LineBorder(new Color(0, 0, 0)));
 				txtPosicion.setBorder(new LineBorder(new Color(0, 0, 0)));
 				txtTiempo.setBorder(new LineBorder(new Color(0, 0, 0)));
-				
+
 				pnlNum.setLayout(new GridLayout(1, 2, 1, 0));
-				
-				
+
+
 				panelClasificacion.add(pnlNum);
 				// Creacion textField poscion
 				txtPosicion.setText(posicion + "");
@@ -265,7 +267,7 @@ public class ClasificationsFrame extends JFrame {
 				txtDorsal.setText(clasificacion.dorsal);
 				txtDorsal.setHorizontalAlignment(JTextField.CENTER);
 				pnlNum.add(txtDorsal);
-				
+
 				// Creacion textField sexo
 				txtSexo.setText(clasificacion.sexo);
 				panelClasificacion.add(txtSexo);
@@ -275,20 +277,28 @@ public class ClasificationsFrame extends JFrame {
 				txtNombre.setText(ParticipantModel.getBasicData(clasificacion.dni).name);
 				panelClasificacion.add(txtNombre);
 				txtNombre.setHorizontalAlignment(JTextField.CENTER);
-				
+
 				// Creacion textField Dorsal
 				txtCategory.setText(clasificacion.categoryname);
 				panelClasificacion.add(txtCategory);
 				txtCategory.setHorizontalAlignment(JTextField.CENTER);
 
-				// Creacion textField tiempo
-				String[] tiempoInicial = clasificacion.tiempoInicio.split(":");
-				String[] tiempoFinal = clasificacion.tiempoFinal.split(":");
-				int segundosIniciales = Integer.parseInt(tiempoInicial[0]) * 3600
-						+ Integer.parseInt(tiempoInicial[1]) * 60 + Integer.parseInt(tiempoInicial[2]);
-				int segundosFinales = Integer.parseInt(tiempoFinal[0]) * 3600 + Integer.parseInt(tiempoFinal[1]) * 60
-						+ Integer.parseInt(tiempoFinal[2]);
-				if (segundosIniciales != 0 && segundosFinales != 0) {
+				if( clasificacion.tiempoInicio.equals("--:--:--")){
+					txtTiempo.setText("dns");
+				}
+				else if(clasificacion.tiempoFinal.equals("--:--:--")){
+					txtTiempo.setText("dnf");
+				}
+				else {
+					// Creacion textField tiempo
+					String[] tiempoInicial = clasificacion.tiempoInicio.split(":");
+					String[] tiempoFinal = clasificacion.tiempoFinal.split(":");
+
+					int segundosIniciales = Integer.parseInt(tiempoInicial[0]) * 3600
+							+ Integer.parseInt(tiempoInicial[1]) * 60 + Integer.parseInt(tiempoInicial[2]);
+					int segundosFinales = Integer.parseInt(tiempoFinal[0]) * 3600 + Integer.parseInt(tiempoFinal[1]) * 60
+							+ Integer.parseInt(tiempoFinal[2]);
+
 					int segundosTotales = segundosFinales - segundosIniciales;
 
 					int horas = segundosTotales / 3600;
@@ -297,15 +307,10 @@ public class ClasificationsFrame extends JFrame {
 
 					String tiempo = horas + ":" + minutos + ":" + segundos;
 					txtTiempo.setText(tiempo);
-				} else {
-					if(clasificacion.tiempoInicio.equals("00:00:00") ) {
-						txtTiempo.setText("dns");
-					}
-					else {
-						txtTiempo.setText("dnf");
-						
-					}
 				}
+
+				
+
 				panelClasificacion.add(txtTiempo);
 				txtTiempo.setHorizontalAlignment(JTextField.CENTER);
 
@@ -332,10 +337,10 @@ public class ClasificationsFrame extends JFrame {
 				txtSexo.setBorder(new LineBorder(new Color(0, 0, 0)));
 				txtPosicion.setBorder(new LineBorder(new Color(0, 0, 0)));
 				txtTiempo.setBorder(new LineBorder(new Color(0, 0, 0)));
-				
+
 				pnlNum.setLayout(new GridLayout(1, 2, 1, 0));
-				
-				
+
+
 				panelClasificacion.add(pnlNum);
 				// Creacion textField poscion
 				txtPosicion.setText(posicion + "");
@@ -346,7 +351,7 @@ public class ClasificationsFrame extends JFrame {
 				txtDorsal.setText(clasificacion.dorsal);
 				txtDorsal.setHorizontalAlignment(JTextField.CENTER);
 				pnlNum.add(txtDorsal);
-				
+
 				// Creacion textField sexo
 				txtSexo.setText(clasificacion.sexo);
 				panelClasificacion.add(txtSexo);
@@ -356,7 +361,7 @@ public class ClasificationsFrame extends JFrame {
 				txtNombre.setText(ParticipantModel.getBasicData(clasificacion.dni).name);
 				panelClasificacion.add(txtNombre);
 				txtNombre.setHorizontalAlignment(JTextField.CENTER);
-				
+
 				// Creacion textField Dorsal
 				txtCategory.setText(clasificacion.categoryname);
 				panelClasificacion.add(txtCategory);
@@ -386,7 +391,7 @@ public class ClasificationsFrame extends JFrame {
 					}
 					else {
 						txtTiempo.setText("dnf");
-						
+
 					}
 				}
 				panelClasificacion.add(txtTiempo);
@@ -488,7 +493,7 @@ public class ClasificationsFrame extends JFrame {
 			paneParticipantes = new JPanel();
 			paneParticipantes.setLayout(new BorderLayout(0, 0));
 		}
-		
+
 		return paneParticipantes;
 	}
 	private JPanel getPnlTodos() {
@@ -507,8 +512,8 @@ public class ClasificationsFrame extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					controller.loadAll(paneParticipantes);
 					//paneParticipantes.setLayout(new GridLayout(Math.max(10, clasificaciones.size()), 1, 0, 0));
-					
-					
+
+
 				}
 			});
 		}
@@ -550,5 +555,15 @@ public class ClasificationsFrame extends JFrame {
 			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return lblNewLabel;
+	}
+	private JLabel getPnlClub() {
+		if (pnlClub == null) {
+			pnlClub = new JLabel();
+			pnlClub.setText("Club");
+			pnlClub.setHorizontalAlignment(SwingConstants.CENTER);
+			pnlClub.setFont(new Font("Tahoma", Font.BOLD, 14));
+			pnlClub.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		}
+		return pnlClub;
 	}
 }

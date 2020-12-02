@@ -219,7 +219,7 @@ public class ClubInscriptionFrame extends JFrame {
 	}
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
-			btnCancelar = new JButton("Calcelar");
+			btnCancelar = new JButton("Cancelar");
 			btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					dispose();

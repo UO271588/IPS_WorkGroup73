@@ -66,7 +66,7 @@ public class RacesFrame extends JFrame {
 		setTitle("Carreras Disponibles");
 		this.parent=parent;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 763, 445);
+		setBounds(100, 100, 1053, 452);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,7 +84,7 @@ public class RacesFrame extends JFrame {
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(10, 51, 765, 304);
+		scrollPane.setBounds(10, 51, 963, 304);
 		contentPane.add(scrollPane);
 
 		JPanel panelCentral = new JPanel();
