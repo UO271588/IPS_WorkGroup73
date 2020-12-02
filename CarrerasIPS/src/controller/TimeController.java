@@ -99,6 +99,7 @@ public class TimeController {
 		   
 		   if(model.existDorsal(dorsal,raceId)==true) {
 			   for(TimeDto t:list) {
+				   
 				   if(t.getDorsal()==dto.getDorsal() ) {
 					   yaMos=true;
 				   }
@@ -108,7 +109,14 @@ public class TimeController {
 			   }
 			   if(yaMos==false) {
 				   if(comprobarTime(tiempoInicio)&& comprobarTime(tiempoFinal)) {
-					   list.add(dto);
+					   if(tiempoInicio.compareTo(tiempoFinal)<0) {
+						   list.add(dto);
+					   }
+					   else {
+						   listIncorrectas.add(dto);
+					   }
+					   
+					   
 				   }
 				   else {
 					   listIncorrectas.add(dto);
@@ -149,7 +157,7 @@ public class TimeController {
 			  String msg ="No seran mostrados los siguientes dorsales ya que los tiempos no estan en modo correcto: \n";
 			  for(TimeDto d:listIncorrectas) {
 				  for(TimeDto m:mostrados) {
-					  if((d.getDorsal())==(m.getDorsal())) {
+					  if((d.getDorsal())==(m.getDorsal()) && d.getTiempoInicio().equals(m.getTiempoInicio()) && d.getTiempoFinal().equals(m.getTiempoFinal())) {
 						  mostrado=true;
 						  break;
 					  }
@@ -189,7 +197,14 @@ public class TimeController {
 		if(t.length!=3) {
 			return false;
 		}
+		if(tiempo.equals("--:--:--")) {
+			return true;
+		}
+		
 		if(!isNumeric(t[0]) || !isNumeric(t[1]) || !isNumeric(t[2])) {
+			return false;
+		}
+		if(Integer.parseInt(t[2])>60 || Integer.parseInt(t[1])>60) {
 			return false;
 		}
 		return true;
