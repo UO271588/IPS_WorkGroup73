@@ -38,6 +38,7 @@ public class ReciboTarjeta extends JFrame {
 	 * @param carrera 
 	 */
 	public ReciboTarjeta(RaceDto carrera, String email, double cantidad) {
+		setTitle("Recibo");
 		this.carrera = carrera;
 		this.email = email;
 		this.cantidad = cantidad;
