@@ -43,12 +43,14 @@ public class ClubInscriptionController {
 	private File selectedFile;
 	private Map<String, ParticipantDtoPojo> enLista;
 	private RaceDto race;;
+	private double precio;
 
 	public ClubInscriptionController(ClubInscriptionFrame clubInscriptionFrame, RaceDto race) {
 		this.race = race;
 		this.view = clubInscriptionFrame;
 		enLista = new HashMap();
-		view.getLblPrecio().setText(""+CompetitionsAccess.getCantidad(race.id) +"€ por participante");
+		precio = CompetitionsAccess.getCantidad(race.id);
+		view.getLblPrecio().setText(""+precio +"€ por participante");
 	}
 
 	public boolean checkExist(String email) {
@@ -188,7 +190,7 @@ public class ClubInscriptionController {
 				continue;
 			}
 			incribe(enLista.get(mail), nombreClub);
-			jc.addAceptado(enLista.get(mail), model.categoria(mail, race.nombre));
+			jc.addAceptado(enLista.get(mail), model.categoria(mail, race.nombre), precio);
 		}
 		System.out.println(jc.toString());
 		JOptionPane.showMessageDialog(null, jc.toString());

@@ -7,12 +7,14 @@ public class JustificanteClub {
 	public String nombreClub;
 	public String aceptados = "";
 	public String denegados = "";
+	public double precio = 0;
 	
 	public JustificanteClub(String nombreClub) {
 		this.nombreClub = nombreClub;
 	}
 
-	public void addAceptado(ParticipantDtoPojo dto, String category) {
+	public void addAceptado(ParticipantDtoPojo dto, String category, double precio) {
+		this.precio += precio;
 		aceptados += "    Nombre: " + dto.name + " " + dto.surname;
 		aceptados += "\n";
 		aceptados += "        Categoria: " + category;
@@ -32,7 +34,8 @@ public class JustificanteClub {
 	@Override
 	public String toString() {
 		return "Justificante de inscripcion:\n"
-				+ "Nombre del Club: " + nombreClub + 
+				+ "Precio Total a pagar: "+ precio 
+				+ "\nNombre del Club: " + nombreClub + 
 				"\nJUGADORES ACEPTADOS :\n"
 				+ aceptados + "JUGADORES DENEGADOS :\n" +
 				 denegados;

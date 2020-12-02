@@ -39,8 +39,10 @@ public class ReciboTarjeta extends JFrame {
 	 * @param carrera 
 	 */
 	public ReciboTarjeta(RaceDto carrera, String email, double cantidad) {
+
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ReciboTarjeta.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.02.37.jpeg")));
-		setTitle("Pago: Tarjeta");
+
+		setTitle("Recibo");
 		this.carrera = carrera;
 		this.email = email;
 		this.cantidad = cantidad;
