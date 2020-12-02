@@ -64,7 +64,7 @@ public class InscriptionModel {
 	}
 
 	private int calcularDorsal(String competition) {
-		String sql = "select SECUENCIAL, RESERVADOS,SLOTS  from COMPETITION where IDCOMPETITION=?";
+		String sql = "select SECUENCIAL, RESERVED,SLOTS  from COMPETITION where IDCOMPETITION=?";
 		boolean secuencial = false;
 		Integer reservados = null;
 		Integer slots = 0;

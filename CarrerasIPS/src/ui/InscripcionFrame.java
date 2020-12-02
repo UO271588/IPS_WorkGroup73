@@ -61,6 +61,15 @@ public class InscripcionFrame extends JFrame {
 		textFieldNombreCompeticion.setText(nombreCarrera);
 		contentPane.add(getBtnPagar());
 		contentPane.add(getBtnNewButton());
+		//boton taso no esta en lazy
+		JButton btnNewButton_1 = new JButton("Inscripcion como Club");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ClubInscriptionFrame(carrera).setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(313, 39, 146, 28);
+		contentPane.add(btnNewButton_1);
 	}
 
 	public JLabel getLblFichaInscripcionAtleta() {

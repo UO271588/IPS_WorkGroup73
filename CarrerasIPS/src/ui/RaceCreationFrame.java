@@ -2184,6 +2184,7 @@ public class RaceCreationFrame extends JFrame {
 	public JRadioButton getRdbtnAleat() {
 		if (rdbtnAleat == null) {
 			rdbtnAleat = new JRadioButton("Aleatoria");
+			rdbtnAleat.setSelected(true);
 			buttonGroup_3.add(rdbtnAleat);
 			rdbtnAleat.setBounds(202, 22, 80, 21);
 		}
@@ -2217,6 +2218,7 @@ public class RaceCreationFrame extends JFrame {
 	public JRadioButton getRdbtnAlReg() {
 		if (rdbtnAlReg == null) {
 			rdbtnAlReg = new JRadioButton("Al registrarse");
+			rdbtnAlReg.setSelected(true);
 			buttonGroup_4.add(rdbtnAlReg);
 			rdbtnAlReg.setBounds(37, 19, 111, 23);
 		}
