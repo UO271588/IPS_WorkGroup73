@@ -41,6 +41,7 @@ public class InsciptionsListFrame extends JFrame {
 	private InscriptionListController controller;
 	private JFrame parent;
 	private JLabel lblClasifications;
+	private JLabel lblVerTiempos;
 
 	/**
 	 * Launch the application.
@@ -67,7 +68,7 @@ public class InsciptionsListFrame extends JFrame {
 	public InsciptionsListFrame(JFrame parent) {
 		setTitle("Administrador: Carreras");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 934, 495);
+		setBounds(100, 100, 1059, 497);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -154,6 +155,7 @@ public class InsciptionsListFrame extends JFrame {
 			pnlViewportNorth.add(getLblFecha());
 			pnlViewportNorth.add(getLblEstado());
 			pnlViewportNorth.add(getLblClasifications());
+			pnlViewportNorth.add(getLblVerTiempos());
 		}
 		return pnlViewportNorth;
 	}
@@ -220,5 +222,14 @@ public class InsciptionsListFrame extends JFrame {
 			lblClasifications.setBorder(new LineBorder(new Color(0, 0, 0)));
 		}
 		return lblClasifications;
+	}
+	public JLabel getLblVerTiempos() {
+		if (lblVerTiempos == null) {
+			lblVerTiempos = new JLabel("Ver tiempos");
+			lblVerTiempos.setHorizontalAlignment(SwingConstants.CENTER);
+			lblVerTiempos.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lblVerTiempos.setBorder(new LineBorder(new Color(0, 0, 0)));
+		}
+		return lblVerTiempos;
 	}
 }

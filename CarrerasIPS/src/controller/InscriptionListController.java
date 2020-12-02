@@ -29,9 +29,11 @@ import model.clasification.ClasificationAccess;
 import model.clasification.ClasificationDto;
 import model.inscription.InscriptionDto;
 import model.inscription.InscriptionModel;
+import model.time.TimeModel;
 import ui.ClasificationsFrame;
 import ui.InsciptionsListFrame;
 import ui.RegisterFrame;
+import ui.TimeReceptionFrame;
 import util.TimeUtil;
 
 public class InscriptionListController {
@@ -51,6 +53,7 @@ public class InscriptionListController {
 		List<RaceDto> list = new CompetitionsAccess().findAllRaces();
 		vista.getLblParticipantes().setText("Lista de carreras");
 		vista.getPnlViewportCenter().repaint();
+		vista.getPnlViewportCenter().revalidate();
 		createRacesList(list);
 
 	}
@@ -63,6 +66,7 @@ public class InscriptionListController {
 		List<InscriptionDto> list = model.getInscriptionList(carrera.id);
 		vista.getLblParticipantes().setText("Participantes  carrera: " + carrera.nombre);
 		vista.getPnlViewportCenter().repaint();
+		vista.getPnlViewportCenter().revalidate();
 		createParticipantList(list);
 
 	}
@@ -109,7 +113,7 @@ public class InscriptionListController {
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(6, 0, 0, 0));
 		JLabel lbl = new JLabel();
-		panel.setLayout(new GridLayout(0, 6, 0, 0));
+		panel.setLayout(new GridLayout(0, 7, 0, 0));
 		lbl.setText(race.nombre);
 		lbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -137,10 +141,38 @@ public class InscriptionListController {
 		panel.add(lbl);
 		panel.add(generateVerBtn(race));
 		panel.add(generateClasBtn(race));
+		panel.add(generateBtnVerTiempos(race));
 		return panel;
 	}
 
+	private JButton generateBtnVerTiempos(RaceDto race) {
+		JButton btn = new JButton();
+		btn.setText("Ver tiempos");
+		btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btn.setHorizontalAlignment(SwingConstants.CENTER);
+		btn.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				verTiempos(race);
+			}
+		});
 
+		return btn;
+	}
+
+	protected void verTiempos(RaceDto race) {
+		
+		createTimeReception(race);
+	}
+
+	protected void createTimeReception(RaceDto race) {
+		TimeModel model = new TimeModel(race.id);
+		TimeReceptionFrame frame = new TimeReceptionFrame(race.id,this);
+		TimeController tc = new TimeController(frame,model,race.id);
+		frame.setVisible(true);
+		
+		
+	}
 	private Component generateClasBtn(RaceDto race) {
 		JButton btn = new JButton();
 		btn.setText("Mas");
@@ -299,12 +331,12 @@ public class InscriptionListController {
 
 	private void setNombreColumnasRaces() {
 		vista.getLblDni().setText("Nombre ");
-		vista.getpnlViewportNorth().setLayout(new GridLayout(0, 6, 0, 0));
+		vista.getpnlViewportNorth().setLayout(new GridLayout(0, 7, 0, 0));
 		vista.getLblNombre().setText("Distancia");
 		vista.getLblCategoria().setText("Tipo");
 		vista.getLblFecha().setText("Fecha carrera");
 		vista.getLblEstado().setText("Seleccionar");
 		vista.getpnlViewportNorth().add(vista.getLblClasifications());
-
+		vista.getpnlViewportNorth().add(vista.getLblVerTiempos());
 	}
 }
