@@ -41,6 +41,8 @@ import java.awt.Dimension;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class RaceCreationFrame extends JFrame {
 	
@@ -203,6 +205,18 @@ public class RaceCreationFrame extends JFrame {
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JPanel panel_3;
+	private JPanel pnlDato6;
+	private JLabel lblNewLabel_6;
+	private JLabel lblNewLabel_7;
+	private JComboBox comboBoxReservados;
+	private JRadioButton rdbtnAleat;
+	private JRadioButton rdbtnSecuenc;
+	private JPanel panel_4;
+	private JLabel lblNewLabel_8;
+	private JRadioButton rdbtnAlReg;
+	private JRadioButton rdbtnAlFinalizarPlazoIns;
+	private final ButtonGroup buttonGroup_3 = new ButtonGroup();
+	private final ButtonGroup buttonGroup_4 = new ButtonGroup();
 
 
 	/**
@@ -224,11 +238,12 @@ public class RaceCreationFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public RaceCreationFrame(JFrame parent) {
+		setTitle("Creaci\u00F3n carrera");
 		this.parent = parent;
 
 		controller = new RaceCreationController(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1324, 599);
+		setBounds(100, 100, 1297, 750);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -374,6 +389,7 @@ public class RaceCreationFrame extends JFrame {
 		}
 		return pblTitBasic;
 	}
+	
 	private JLabel getLblTitBasic() {
 		if (lblTitBasic == null) {
 			lblTitBasic = new JLabel("Datos Basicos");
@@ -383,12 +399,15 @@ public class RaceCreationFrame extends JFrame {
 	private JPanel getPanel_7() {
 		if (pnlDatosBasic == null) {
 			pnlDatosBasic = new JPanel();
-			pnlDatosBasic.setLayout(new GridLayout(5, 0, 0, 0));
+			pnlDatosBasic.setLayout(new GridLayout(7, 0, 0, 0));
 			pnlDatosBasic.add(getPanel_8());
 			pnlDatosBasic.add(getPanel_2_1());
 			pnlDatosBasic.add(getPanel_1_2());
 			pnlDatosBasic.add(getPanel_4_1());
 			pnlDatosBasic.add(getPanel_3_1());
+			pnlDatosBasic.add(getPanel_4_2());
+			pnlDatosBasic.add(getPanel_4_3());
+
 		}
 		return pnlDatosBasic;
 	}
@@ -1146,11 +1165,24 @@ public class RaceCreationFrame extends JFrame {
 			JOptionPane.showMessageDialog(null, "Valide la fecha de la carrera");
 			return false;
 		}
+		else if(!getRdbtnAleat().isSelected() && !getRdbtnSecuenc().isSelected()) {
+			JOptionPane.showMessageDialog(null,"Seleccione una forma de asignación de dorsales");
+			return false;
+		}
+		else if(!getRdbtnAlFinalizarPlazoIns().isSelected() && !getRdbtnAlReg().isSelected()) {
+			JOptionPane.showMessageDialog(null,"Seleccione el momento de asignación de dorsales");
+			return false;
+		}
+		else if(!getRdSinDefinir().isSelected()&&(getComboBoxReservados().getSelectedIndex())>(Integer.parseInt(getTextFieldPlazas().getText()))){
+			JOptionPane.showMessageDialog(null, "El numero de dorsales reservados no puede ser mayor que el numero de plazas de la carrera");
+			return false;
+		}
 		else if(!lblValPlazos.getText().equals("Validado")) {
 			JOptionPane.showMessageDialog(null, "Valide los plazos de inscripcion en la carrera");
 			return false;
 		}
 		return true;
+		
 	}
 	protected void createRace() {
 		
@@ -1464,6 +1496,11 @@ public class RaceCreationFrame extends JFrame {
 	public JTextField getTextFieldPlazas() {
 		if (textFieldPlazas == null) {
 			textFieldPlazas = new JTextField();
+			textFieldPlazas.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					
+				}
+			});
 			
 			
 			textFieldPlazas.setColumns(10);
@@ -2104,5 +2141,93 @@ public class RaceCreationFrame extends JFrame {
 			panel_3 = new JPanel();
 		}
 		return panel_3;
+	}
+	private JPanel getPanel_4_2() {
+		if (pnlDato6 == null) {
+			pnlDato6 = new JPanel();
+			pnlDato6.setLayout(null);
+			pnlDato6.add(getLblNewLabel_6());
+			pnlDato6.add(getLblNewLabel_7());
+			pnlDato6.add(getComboBoxReservados());
+			pnlDato6.add(getRdbtnAleat());
+			pnlDato6.add(getRdbtnSecuenc());
+		}
+		return pnlDato6;
+	}
+	private JLabel getLblNewLabel_6() {
+		if (lblNewLabel_6 == null) {
+			lblNewLabel_6 = new JLabel("Asignaci\u00F3n dorsales");
+			lblNewLabel_6.setBounds(110, 2, 131, 13);
+		}
+		return lblNewLabel_6;
+	}
+	private JLabel getLblNewLabel_7() {
+		if (lblNewLabel_7 == null) {
+			lblNewLabel_7 = new JLabel("Dorsales reservados:");
+			lblNewLabel_7.setBounds(10, 22, 142, 17);
+		}
+		return lblNewLabel_7;
+	}
+	
+
+
+	public JComboBox getComboBoxReservados() {
+		if (comboBoxReservados == null) {
+			comboBoxReservados = new JComboBox();
+			comboBoxReservados.setBounds(142, 22, 54, 17);
+			for(int a=0;a<=500;a++){
+				comboBoxReservados.addItem(a);
+			}
+		}
+		return comboBoxReservados;
+	}
+	public JRadioButton getRdbtnAleat() {
+		if (rdbtnAleat == null) {
+			rdbtnAleat = new JRadioButton("Aleatoria");
+			buttonGroup_3.add(rdbtnAleat);
+			rdbtnAleat.setBounds(202, 22, 80, 21);
+		}
+		return rdbtnAleat;
+	}
+	public JRadioButton getRdbtnSecuenc() {
+		if (rdbtnSecuenc == null) {
+			rdbtnSecuenc = new JRadioButton("Secuencial");
+			buttonGroup_3.add(rdbtnSecuenc);
+			rdbtnSecuenc.setBounds(284, 22, 103, 21);
+		}
+		return rdbtnSecuenc;
+	}
+	private JPanel getPanel_4_3() {
+		if (panel_4 == null) {
+			panel_4 = new JPanel();
+			panel_4.setLayout(null);
+			panel_4.add(getLblNewLabel_8());
+			panel_4.add(getRdbtnAlReg());
+			panel_4.add(getRdbtnAlFinalizarPlazoIns());
+		}
+		return panel_4;
+	}
+	private JLabel getLblNewLabel_8() {
+		if (lblNewLabel_8 == null) {
+			lblNewLabel_8 = new JLabel("Momento asignación dorsales");
+			lblNewLabel_8.setBounds(77, 0, 192, 14);
+		}
+		return lblNewLabel_8;
+	}
+	public JRadioButton getRdbtnAlReg() {
+		if (rdbtnAlReg == null) {
+			rdbtnAlReg = new JRadioButton("Al registrarse");
+			buttonGroup_4.add(rdbtnAlReg);
+			rdbtnAlReg.setBounds(37, 19, 111, 23);
+		}
+		return rdbtnAlReg;
+	}
+	public JRadioButton getRdbtnAlFinalizarPlazoIns() {
+		if (rdbtnAlFinalizarPlazoIns == null) {
+			rdbtnAlFinalizarPlazoIns = new JRadioButton("Al finalizar periodo de inscripcion");
+			buttonGroup_4.add(rdbtnAlFinalizarPlazoIns);
+			rdbtnAlFinalizarPlazoIns.setBounds(157, 21, 239, 21);
+		}
+		return rdbtnAlFinalizarPlazoIns;
 	}
 }

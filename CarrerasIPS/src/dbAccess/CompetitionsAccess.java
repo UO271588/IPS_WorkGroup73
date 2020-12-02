@@ -128,12 +128,12 @@ public class CompetitionsAccess {
 	public static void createRace(RaceDto race) {
 
 		Database db = new Database();
-		String sql = "INSERT INTO COMPETITION (IDCOMPETITION,NAME,COMPETITION_TYPE,DISTANCE,INSCRIPTION_FEE,INSCRIPTION_DATE_END,COMPETITION_DATE,SLOTS)"
-				+ " VALUES (?, ?, ?, ?, ?,?, ?,?);";
-		db.executeUpdate(sql,race.id, race.nombre, race.tipo, race.distancia, race.precioInscripcion, TimeUtil.dateToIsoString(race.fechaLimite), TimeUtil.dateToIsoString(race.fechaCarrera), race.aforoMax);
+		String sql = "INSERT INTO COMPETITION (IDCOMPETITION,NAME,COMPETITION_TYPE,DISTANCE,INSCRIPTION_FEE,INSCRIPTION_DATE_END,COMPETITION_DATE,RESERVED,INMOMENTINSCRIPTION,SECUENCIAL,SLOTS)"
+				+ " VALUES (?, ?, ?, ?, ?,?, ?,?,?,?,?);";
 		
-				
-	}
+		db.executeUpdate(sql,race.id, race.nombre, race.tipo, race.distancia, race.precioInscripcion, TimeUtil.dateToIsoString(race.fechaLimite), TimeUtil.dateToIsoString(race.fechaCarrera), race.reserved, race.inMomentInscription,race.secuencial,race.aforoMax);
+			
+		}
 	
 	/**
 	 * Comprueba si hay espacio en una carrera
@@ -174,10 +174,16 @@ public class CompetitionsAccess {
 
 	
 
+		
+		
+				
+	}
+
+	
 
 
 
 
 
 
-}
+

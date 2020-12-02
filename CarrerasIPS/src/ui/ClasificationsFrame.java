@@ -29,7 +29,6 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.JSeparator;
 
 public class ClasificationsFrame extends JFrame {
 

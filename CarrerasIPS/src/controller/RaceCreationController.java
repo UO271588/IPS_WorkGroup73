@@ -138,10 +138,23 @@ public class RaceCreationController {
 		race.id = UUID.randomUUID().toString();
 		race.nombre = view.getTextFieldName().getText();
 		race.precioInscripcion = 0;
+		race.reserved = view.getComboBoxReservados().getSelectedIndex();
 		if(view.getRdbtnAsfalto().isSelected())
 			race.tipo = "ASFALTO";
 		else {
 			race.tipo = "MONTANA";
+		}
+		if(view.getRdbtnSecuenc().isSelected()) {
+			race.secuencial=true;
+		}
+		if(!view.getRdbtnSecuenc().isSelected()) {
+			race.secuencial=false;
+		}
+		if(view.getRdbtnAlReg().isSelected()) {
+			race.inMomentInscription=true;
+		}
+		if(!view.getRdbtnAlReg().isSelected()) {
+			race.inMomentInscription=false;
 		}
 		createCategories(race.id);
 		race.fechaLimite = createDeadLines(race.id);
@@ -153,6 +166,19 @@ public class RaceCreationController {
 		sb.append("\nTipo: " + race.tipo);
 		sb.append("\nDistancia: " + race.distancia);
 		sb.append("\nFecha Competicion: " + TimeUtil.dateToIsoString(race.fechaCarrera));
+		if(view.getRdbtnSecuenc().isSelected()) {
+			sb.append("\nAsignacion dorsales: secuencialmente");
+		}
+		else {
+			sb.append("\nAsignacion dorsales: aleatoriamente");
+		}
+		if(view.getRdbtnAlReg().isSelected()) {
+			sb.append("\nMomento asignacion dorsales: al registrarse");
+		}
+		else {
+			sb.append("\nMomento asignacion dorsales: al finalizar plazo de inscripción");
+		}
+		
 		System.out.println(sb);
 		JOptionPane.showMessageDialog(null, sb.toString());
 		

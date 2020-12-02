@@ -12,7 +12,10 @@ public class RaceDto implements Comparable<RaceDto> {
 	public Date fechaCarrera;
 	public int aforoMax;
 	public int aforoActual;
-	
+	public boolean inMomentInscription;
+	public boolean secuencial;
+	public int reserved;
+    
 	@Override
 	public int compareTo(RaceDto o) {
 		return this.fechaLimite.compareTo(o.fechaLimite);
