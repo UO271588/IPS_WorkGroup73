@@ -41,6 +41,8 @@ import java.awt.Dimension;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class RaceCreationFrame extends JFrame {
 	
@@ -203,6 +205,12 @@ public class RaceCreationFrame extends JFrame {
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JPanel panel_3;
+	private JPanel pnlDato6;
+	private JLabel lblNewLabel_6;
+	private JLabel lblNewLabel_7;
+	private JComboBox comboBoxDias_1;
+	private JRadioButton rdbtnNewRadioButton_2;
+	private JRadioButton rdbtnNewRadioButton_3;
 
 
 	/**
@@ -228,7 +236,7 @@ public class RaceCreationFrame extends JFrame {
 
 		controller = new RaceCreationController(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1324, 599);
+		setBounds(100, 100, 1324, 686);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -383,12 +391,13 @@ public class RaceCreationFrame extends JFrame {
 	private JPanel getPanel_7() {
 		if (pnlDatosBasic == null) {
 			pnlDatosBasic = new JPanel();
-			pnlDatosBasic.setLayout(new GridLayout(5, 0, 0, 0));
+			pnlDatosBasic.setLayout(new GridLayout(6, 0, 0, 0));
 			pnlDatosBasic.add(getPanel_8());
 			pnlDatosBasic.add(getPanel_2_1());
 			pnlDatosBasic.add(getPanel_1_2());
 			pnlDatosBasic.add(getPanel_4_1());
 			pnlDatosBasic.add(getPanel_3_1());
+			pnlDatosBasic.add(getPanel_4_2());
 		}
 		return pnlDatosBasic;
 	}
@@ -1464,6 +1473,11 @@ public class RaceCreationFrame extends JFrame {
 	public JTextField getTextFieldPlazas() {
 		if (textFieldPlazas == null) {
 			textFieldPlazas = new JTextField();
+			textFieldPlazas.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					
+				}
+			});
 			
 			
 			textFieldPlazas.setColumns(10);
@@ -2104,5 +2118,57 @@ public class RaceCreationFrame extends JFrame {
 			panel_3 = new JPanel();
 		}
 		return panel_3;
+	}
+	private JPanel getPanel_4_2() {
+		if (pnlDato6 == null) {
+			pnlDato6 = new JPanel();
+			pnlDato6.setLayout(null);
+			pnlDato6.add(getLblNewLabel_6());
+			pnlDato6.add(getLblNewLabel_7());
+			pnlDato6.add(getComboBoxDias_1());
+			pnlDato6.add(getRdbtnNewRadioButton_2());
+			pnlDato6.add(getRdbtnNewRadioButton_3());
+		}
+		return pnlDato6;
+	}
+	private JLabel getLblNewLabel_6() {
+		if (lblNewLabel_6 == null) {
+			lblNewLabel_6 = new JLabel("Asignaci\u00F3n dorsales");
+			lblNewLabel_6.setBounds(108, 0, 131, 13);
+		}
+		return lblNewLabel_6;
+	}
+	private JLabel getLblNewLabel_7() {
+		if (lblNewLabel_7 == null) {
+			lblNewLabel_7 = new JLabel("Dorsales reservados:");
+			lblNewLabel_7.setBounds(10, 29, 124, 17);
+		}
+		return lblNewLabel_7;
+	}
+	private JComboBox getComboBoxDias_1() {
+		if (comboBoxDias_1 == null) {
+			comboBoxDias_1 = new JComboBox();
+			comboBoxDias_1.setBounds(144, 23, 46, 23);
+			for(int a=1;a<=500;a++){
+				comboBoxDias_1.addItem(a);
+			}
+		}
+		return comboBoxDias_1;
+	}
+	private JRadioButton getRdbtnNewRadioButton_2() {
+		if (rdbtnNewRadioButton_2 == null) {
+			rdbtnNewRadioButton_2 = new JRadioButton("Aleatoria");
+			buttonGroup.add(rdbtnNewRadioButton_2);
+			rdbtnNewRadioButton_2.setBounds(200, 27, 80, 21);
+		}
+		return rdbtnNewRadioButton_2;
+	}
+	private JRadioButton getRdbtnNewRadioButton_3() {
+		if (rdbtnNewRadioButton_3 == null) {
+			rdbtnNewRadioButton_3 = new JRadioButton("Secuencial");
+			buttonGroup.add(rdbtnNewRadioButton_3);
+			rdbtnNewRadioButton_3.setBounds(284, 27, 103, 21);
+		}
+		return rdbtnNewRadioButton_3;
 	}
 }
