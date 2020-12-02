@@ -72,7 +72,7 @@ public class InscripcionFrame extends JFrame {
 				new ClubInscriptionFrame(carrera).setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(313, 49, 146, 28);
+		btnNewButton_1.setBounds(281, 49, 178, 28);
 		contentPane.add(btnNewButton_1);
 	}
 

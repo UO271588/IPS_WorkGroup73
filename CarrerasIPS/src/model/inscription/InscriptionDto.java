@@ -12,11 +12,14 @@ public class InscriptionDto implements Comparable<InscriptionDto>{
 	public String name;	// (opcional) se pone el nombre(del participante) para facilitar la consultad de atletas inscritos en carrera
 	public String Category;
 	public String idCategory;
+	public String dorsal;
+	public String club;
+	public String anotations;
+
+
+
+
 	
-
-
-
-
 
 	private String inscriptionState;
 	public String inscriptionDate;
@@ -77,7 +80,19 @@ public class InscriptionDto implements Comparable<InscriptionDto>{
 	public void setName(String nombre) {
 		this.name = nombre;
 	}
+	public String getClub() {
+		return club;
+	}
 
+
+
+
+
+
+
+	public void setClub(String club) {
+		this.club = club;
+	}
 
 	public String getCategory() {
 		return Category;

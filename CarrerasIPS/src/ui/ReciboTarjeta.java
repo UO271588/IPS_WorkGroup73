@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class ReciboTarjeta extends JFrame {
 
@@ -38,6 +39,8 @@ public class ReciboTarjeta extends JFrame {
 	 * @param carrera 
 	 */
 	public ReciboTarjeta(RaceDto carrera, String email, double cantidad) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ReciboTarjeta.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.02.37.jpeg")));
+		setTitle("Pago: Tarjeta");
 		this.carrera = carrera;
 		this.email = email;
 		this.cantidad = cantidad;

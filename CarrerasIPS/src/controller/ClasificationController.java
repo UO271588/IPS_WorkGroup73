@@ -12,10 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import model.category.CategoryDto;
 import model.clasification.ClasificationDto;
+import model.inscription.InscriptionModel;
 import model.participant.ParticipantModel;
 import ui.ClasificationsFrame;
 
@@ -68,6 +70,7 @@ public class ClasificationController {
 			JLabel txtPosicion = new JLabel();
 			JLabel txtTiempo = new JLabel();
 			JPanel pnlNum = new JPanel();
+			JLabel lblClub = new JLabel();
 			pnlNum.setBackground(Color.white);
 			txtDorsal.setBorder(new LineBorder(new Color(0, 0, 0)));
 			txtCategory.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -75,21 +78,26 @@ public class ClasificationController {
 			txtSexo.setBorder(new LineBorder(new Color(0, 0, 0)));
 			txtPosicion.setBorder(new LineBorder(new Color(0, 0, 0)));
 			txtTiempo.setBorder(new LineBorder(new Color(0, 0, 0)));
-			
+
+			txtDorsal.setBorder(new LineBorder(new Color(0, 0, 0)));
+
+			lblClub.setBorder(new LineBorder(new Color(0, 0, 0)));
 			pnlNum.setLayout(new GridLayout(1, 2, 1, 0));
-			
-			
+
 			panelClasificacion.add(pnlNum);
 			// Creacion textField poscion
 			txtPosicion.setText(posicion + "");
 			txtPosicion.setHorizontalAlignment(JTextField.CENTER);
+			txtPosicion.setBorder(new EmptyBorder(10, 0, 10, 0));
+
+			txtPosicion.setText(posicion + "");
 			pnlNum.add(txtPosicion);
 
 			// Creacion textField Dorsal
 			txtDorsal.setText(clasificacion.dorsal);
 			txtDorsal.setHorizontalAlignment(JTextField.CENTER);
 			pnlNum.add(txtDorsal);
-			
+
 			// Creacion textField sexo
 			txtSexo.setText(clasificacion.sexo);
 			panelClasificacion.add(txtSexo);
@@ -100,11 +108,18 @@ public class ClasificationController {
 			panelClasificacion.add(txtNombre);
 			txtNombre.setHorizontalAlignment(JTextField.CENTER);
 			
+			
+			
+			lblClub.setText(InscriptionModel.getAllData(clasificacion.dni, clasificacion.idcarrera).club);
+			panelClasificacion.add(lblClub);
+			lblClub.setHorizontalAlignment(JTextField.CENTER);
+
 			// Creacion textField Dorsal
 			txtCategory.setText(clasificacion.categoryname);
 			panelClasificacion.add(txtCategory);
 			txtCategory.setHorizontalAlignment(JTextField.CENTER);
-
+			
+			
 			if( clasificacion.tiempoInicio.equals("--:--:--")){
 				txtTiempo.setText("dns");
 			}

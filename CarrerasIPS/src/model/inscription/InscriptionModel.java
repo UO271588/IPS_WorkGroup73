@@ -496,7 +496,7 @@ public class InscriptionModel {
 	
 	public static void updateEstadoAndClub(String estado,String club ,String dni, String idcompetition) {
 		Database db = new Database();
-		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? ,SET CLUB = ? INSCRIPTIONDATE = '" + fecha_hoy
+		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? , CLUB = ?, INSCRIPTIONDATE = '" + fecha_hoy
 				+ "'WHERE dni = ? AND idcompetition = ? ";
 
 		db.executeUpdate(sql, estado,club, dni, idcompetition);
@@ -679,5 +679,17 @@ public class InscriptionModel {
 	public void insertParticipant( ParticipantDtoPojo dto,String club, String idCompeticion, String competitionName) {
 		justificante(dto.email, competitionName);
 		updateEstadoAndClub("INSCRITO",club, dto.dni, idCompeticion );
+	}
+	
+	public static InscriptionDto getAllData(String dni, String idcompetition) {
+		Database db = new Database();
+		String sql = "select * from inscription where dni= ? and idcompetition = ?";
+		List<InscriptionDto> lista = db.executeQueryPojo(InscriptionDto.class, sql, dni, idcompetition);
+		if(lista.size()>0) {
+			return lista.get(0);
+		}
+		else {
+			return null;
+		}
 	}
 }

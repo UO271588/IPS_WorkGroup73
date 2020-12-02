@@ -26,6 +26,7 @@ public class ClasificationAccess {
 			clasificacion.tiempoInicio = rs.getString("INITIALTIME");
 			clasificacion.tiempoFinal = rs.getString("FINALTIME");
 			clasificacion.categoryname = rs.getString("CATEGORYNAME");
+			clasificacion.dorsal = rs.getString("DORSAL");
 			
 			clasificacionAbsoluta.add(clasificacion);
 		}

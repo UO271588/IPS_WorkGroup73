@@ -33,8 +33,8 @@ public class JustificanteClub {
 	public String toString() {
 		return "Justificante de inscripcion:\n"
 				+ "Nombre del Club: " + nombreClub + 
-				"\nJUGADORES DENEGADOS :\n"
-				+ aceptados + "JUGADORES ACEPTADOS :\n" +
+				"\nJUGADORES ACEPTADOS :\n"
+				+ aceptados + "JUGADORES DENEGADOS :\n" +
 				 denegados;
 	}
 	

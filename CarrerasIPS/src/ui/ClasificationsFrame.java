@@ -23,6 +23,8 @@ import javax.swing.border.EmptyBorder;
 
 import controller.ClasificationController;
 import model.clasification.ClasificationDto;
+import model.inscription.InscriptionModel;
+import model.participant.ParticipantDto;
 import model.participant.ParticipantModel;
 import javax.swing.JSplitPane;
 import javax.swing.JLabel;
@@ -72,7 +74,7 @@ public class ClasificationsFrame extends JFrame {
 	public ClasificationsFrame(List<ClasificationDto> clasificaciones2) {
 		setTitle("Clasificaciones");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 984, 647);
+		setBounds(100, 100, 1115, 619);
 		this.clasificaciones = clasificaciones2;
 		contentPane = new JPanel();
 		setContentPane(contentPane);
@@ -199,16 +201,16 @@ public class ClasificationsFrame extends JFrame {
 		@Override
 		public int compare(ClasificationDto o1, ClasificationDto o2) {
 			if(o1.tiempoInicio.equals("--:--:--") && !o2.tiempoInicio.equals("--:--:--")) {
-				return -1;
+				return 1;
 			}
 			if(o2.tiempoInicio.equals("--:--:--") && !o1.tiempoInicio.equals("--:--:--")) {
-				return 1;
+				return -11;
 			}
 			if(o1.tiempoFinal.equals("--:--:--") && !o2.tiempoFinal.equals("--:--:--")) {
-				return -1;
+				return 1;
 			}
 			if(o2.tiempoFinal.equals("--:--:--") && !o1.tiempoFinal.equals("--:--:--")) {
-				return 1;
+				return -1;
 			}
 			
 			String[] tiempoInicialO1 = o1.tiempoInicio.split(":");
@@ -259,6 +261,7 @@ public class ClasificationsFrame extends JFrame {
 				JLabel txtPosicion = new JLabel();
 				JLabel txtTiempo = new JLabel();
 				JPanel pnlNum = new JPanel();
+				JLabel lblClub = new JLabel();
 				pnlNum.setBackground(Color.white);
 				txtDorsal.setBorder(new LineBorder(new Color(0, 0, 0)));
 				txtCategory.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -267,13 +270,18 @@ public class ClasificationsFrame extends JFrame {
 				txtPosicion.setBorder(new LineBorder(new Color(0, 0, 0)));
 				txtTiempo.setBorder(new LineBorder(new Color(0, 0, 0)));
 
-				pnlNum.setLayout(new GridLayout(1, 2, 1, 0));
+				txtDorsal.setBorder(new LineBorder(new Color(0, 0, 0)));
 
+				lblClub.setBorder(new LineBorder(new Color(0, 0, 0)));
+				pnlNum.setLayout(new GridLayout(1, 2, 1, 0));
 
 				panelClasificacion.add(pnlNum);
 				// Creacion textField poscion
 				txtPosicion.setText(posicion + "");
 				txtPosicion.setHorizontalAlignment(JTextField.CENTER);
+				txtPosicion.setBorder(new EmptyBorder(10, 0, 10, 0));
+
+				txtPosicion.setText(posicion + "");
 				pnlNum.add(txtPosicion);
 
 				// Creacion textField Dorsal
@@ -290,6 +298,17 @@ public class ClasificationsFrame extends JFrame {
 				txtNombre.setText(ParticipantModel.getBasicData(clasificacion.dni).name);
 				panelClasificacion.add(txtNombre);
 				txtNombre.setHorizontalAlignment(JTextField.CENTER);
+				
+				
+				
+				lblClub.setText(InscriptionModel.getAllData(clasificacion.dni, clasificacion.idcarrera).club);
+				panelClasificacion.add(lblClub);
+				lblClub.setHorizontalAlignment(JTextField.CENTER);
+
+				// Creacion textField Dorsal
+				txtCategory.setText(clasificacion.categoryname);
+				panelClasificacion.add(txtCategory);
+				txtCategory.setHorizontalAlignment(JTextField.CENTER);
 
 				// Creacion textField Dorsal
 				txtCategory.setText(clasificacion.categoryname);
@@ -334,7 +353,7 @@ public class ClasificationsFrame extends JFrame {
 				posicion++;
 			} else if (clasificacion.sexo.equals(sexo)) {
 				JPanel panelClasificacion = new JPanel();
-				panelClasificacion.setLayout(new GridLayout(1, 5, 1, 2));
+				panelClasificacion.setLayout(new GridLayout(1, 6, 1, 2));
 				panelClasificacion.setBackground(Color.white);
 				JLabel txtDorsal = new JLabel();
 				JLabel txtCategory = new JLabel();
@@ -343,6 +362,7 @@ public class ClasificationsFrame extends JFrame {
 				JLabel txtPosicion = new JLabel();
 				JLabel txtTiempo = new JLabel();
 				JPanel pnlNum = new JPanel();
+				JLabel lblClub = new JLabel();
 				pnlNum.setBackground(Color.white);
 				txtDorsal.setBorder(new LineBorder(new Color(0, 0, 0)));
 				txtCategory.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -351,13 +371,18 @@ public class ClasificationsFrame extends JFrame {
 				txtPosicion.setBorder(new LineBorder(new Color(0, 0, 0)));
 				txtTiempo.setBorder(new LineBorder(new Color(0, 0, 0)));
 
-				pnlNum.setLayout(new GridLayout(1, 2, 1, 0));
+				txtDorsal.setBorder(new LineBorder(new Color(0, 0, 0)));
 
+				lblClub.setBorder(new LineBorder(new Color(0, 0, 0)));
+				pnlNum.setLayout(new GridLayout(1, 2, 1, 0));
 
 				panelClasificacion.add(pnlNum);
 				// Creacion textField poscion
 				txtPosicion.setText(posicion + "");
 				txtPosicion.setHorizontalAlignment(JTextField.CENTER);
+				txtPosicion.setBorder(new EmptyBorder(10, 0, 10, 0));
+
+				txtPosicion.setText(posicion + "");
 				pnlNum.add(txtPosicion);
 
 				// Creacion textField Dorsal
@@ -374,13 +399,19 @@ public class ClasificationsFrame extends JFrame {
 				txtNombre.setText(ParticipantModel.getBasicData(clasificacion.dni).name);
 				panelClasificacion.add(txtNombre);
 				txtNombre.setHorizontalAlignment(JTextField.CENTER);
+				
+				
+				
+				lblClub.setText(InscriptionModel.getAllData(clasificacion.dni, clasificacion.idcarrera).club);
+				panelClasificacion.add(lblClub);
+				lblClub.setHorizontalAlignment(JTextField.CENTER);
 
 				// Creacion textField Dorsal
 				txtCategory.setText(clasificacion.categoryname);
 				panelClasificacion.add(txtCategory);
 				txtCategory.setHorizontalAlignment(JTextField.CENTER);
 
-				// Creacion textField tiempo
+				
 				if( clasificacion.tiempoInicio.equals("--:--:--")){
 					txtTiempo.setText("dns");
 				}
