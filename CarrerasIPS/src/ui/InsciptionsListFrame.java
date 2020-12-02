@@ -40,6 +40,7 @@ public class InsciptionsListFrame extends JFrame {
 	private JLabel lblEstado;
 	private InscriptionListController controller;
 	private JFrame parent;
+	private JLabel lblExtra;
 
 	/**
 	 * Launch the application.
@@ -65,7 +66,7 @@ public class InsciptionsListFrame extends JFrame {
 	 */
 	public InsciptionsListFrame(JFrame parent) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 751, 467);
+		setBounds(100, 100, 911, 467);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -145,12 +146,13 @@ public class InsciptionsListFrame extends JFrame {
 			pnlViewportNorth = new JPanel();
 			pnlViewportNorth.setAutoscrolls(true);
 			pnlViewportNorth.setBorder(new EmptyBorder(1, 0, 1, 0));
-			pnlViewportNorth.setLayout(new GridLayout(0, 5, 0, 0));
+			pnlViewportNorth.setLayout(new GridLayout(0, 6, 0, 0));
 			pnlViewportNorth.add(getLblDni());
 			pnlViewportNorth.add(getLblNombre());
 			pnlViewportNorth.add(getLblCategoria());
 			pnlViewportNorth.add(getLblFecha());
 			pnlViewportNorth.add(getLblEstado());
+			pnlViewportNorth.add(getLblExtra());
 		}
 		return pnlViewportNorth;
 	}
@@ -209,4 +211,13 @@ public class InsciptionsListFrame extends JFrame {
 		return lblEstado;
 	}
 	
+	public JLabel getLblExtra() {
+		if (lblExtra == null) {
+			lblExtra = new JLabel("New label");
+			lblExtra.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblExtra.setHorizontalAlignment(SwingConstants.CENTER);
+			lblExtra.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		}
+		return lblExtra;
+	}
 }

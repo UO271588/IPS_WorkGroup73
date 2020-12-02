@@ -62,7 +62,7 @@ public class InscripcionController {
 		model.justificante(view.getTextFieldEmail().getText(), view.getTextFieldNombreCompeticion().getText());
 		ReceiptFrame rf = new ReceiptFrame(model.getJustificante().getNombre(), model.getJustificante().getnombreCompeticion(),
 				model.getJustificante().getCategoria(),TimeUtil.dateToIsoString(model.getJustificante().getFecha_inscripcion()),
-				model.getJustificante().getCantidad(), model.getJustificante().getEstado());
+				model.getJustificante().getCantidad(), model.getJustificante().getEstado(),model.getJustificante().getDorsal());
 		rf.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		rf.setVisible(true);
 //		System.out.println("----------------------------------------------------");

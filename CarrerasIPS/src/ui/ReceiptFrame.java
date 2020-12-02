@@ -22,6 +22,9 @@ public class ReceiptFrame extends JDialog {
 	private JTextField textFieldDate;
 	private JTextField textFieldAmount;
 	private JTextField textFieldState;
+	private JLabel lblDorsal;
+	private JTextField textField;
+	private Integer dorsal;
 
 
 
@@ -29,8 +32,9 @@ public class ReceiptFrame extends JDialog {
 
 
 	public ReceiptFrame(String nombre, String nombreCompeticion, String categoria, String dateToIsoString,
-			double cantidad, String estado) {
-		setBounds(100, 100, 493, 393);
+			double cantidad, String estado,Integer dorsal) {
+		this.dorsal = dorsal;
+		setBounds(100, 100, 493, 464);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -65,45 +69,45 @@ public class ReceiptFrame extends JDialog {
 		
 		JLabel lblCategory = new JLabel("Category: ");
 		lblCategory.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCategory.setBounds(65, 153, 90, 16);
+		lblCategory.setBounds(65, 201, 90, 16);
 		contentPanel.add(lblCategory);
 		
 		textFieldCategory = new JTextField();
 		textFieldCategory.setEditable(false);
-		textFieldCategory.setBounds(183, 150, 214, 19);
+		textFieldCategory.setBounds(183, 198, 214, 19);
 		contentPanel.add(textFieldCategory);
 		textFieldCategory.setColumns(10);
 		
 		JLabel lblInscriptionDate = new JLabel("Inscription date:");
 		lblInscriptionDate.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblInscriptionDate.setBounds(65, 200, 108, 13);
+		lblInscriptionDate.setBounds(65, 248, 108, 13);
 		contentPanel.add(lblInscriptionDate);
 		
 		textFieldDate = new JTextField();
 		textFieldDate.setEditable(false);
-		textFieldDate.setBounds(183, 198, 214, 19);
+		textFieldDate.setBounds(183, 246, 214, 19);
 		contentPanel.add(textFieldDate);
 		textFieldDate.setColumns(10);
 		
 		JLabel lblAmount = new JLabel("Amount:");
 		lblAmount.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblAmount.setBounds(65, 247, 58, 13);
+		lblAmount.setBounds(65, 295, 58, 13);
 		contentPanel.add(lblAmount);
 		
 		textFieldAmount = new JTextField();
 		textFieldAmount.setEditable(false);
-		textFieldAmount.setBounds(183, 246, 214, 19);
+		textFieldAmount.setBounds(183, 294, 214, 19);
 		contentPanel.add(textFieldAmount);
 		textFieldAmount.setColumns(10);
 		
 		JLabel lblState = new JLabel("Inscription state:");
 		lblState.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblState.setBounds(65, 294, 108, 13);
+		lblState.setBounds(65, 342, 108, 13);
 		contentPanel.add(lblState);
 		
 		textFieldState = new JTextField();
 		textFieldState.setEditable(false);
-		textFieldState.setBounds(183, 294, 214, 19);
+		textFieldState.setBounds(183, 342, 214, 19);
 		contentPanel.add(textFieldState);
 		textFieldState.setColumns(10);
 		{
@@ -128,5 +132,25 @@ public class ReceiptFrame extends JDialog {
 		this.textFieldDate.setText(dateToIsoString);
 		this.textFieldState.setText(estado);
 		this.textFieldAmount.setText(cantidad+"");
+		contentPanel.add(getLblDorsal());
+		contentPanel.add(getTextField());
+	}
+	private JLabel getLblDorsal() {
+		if (lblDorsal == null) {
+			lblDorsal = new JLabel("Dorsal:");
+			lblDorsal.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lblDorsal.setBounds(65, 153, 46, 14);
+		}
+		return lblDorsal;
+	}
+	private JTextField getTextField() {
+		if (textField == null) {
+			textField = new JTextField();
+			textField.setEditable(false);
+			textField.setText(dorsal +"");
+			textField.setBounds(183, 151, 214, 20);
+			textField.setColumns(10);
+		}
+		return textField;
 	}
 }

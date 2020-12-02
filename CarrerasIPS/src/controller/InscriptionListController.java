@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -103,7 +104,7 @@ public class InscriptionListController {
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(6, 0, 0, 0));
 		JLabel lbl = new JLabel();
-		panel.setLayout(new GridLayout(0, 5, 0, 0));
+		panel.setLayout(new GridLayout(0, 6, 0, 0));
 		lbl.setText(race.nombre);
 		lbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -123,6 +124,7 @@ public class InscriptionListController {
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(lbl);
+		
 		lbl = new JLabel();
 		lbl.setText(TimeUtil.dateToIsoString(race.fechaCarrera));
 		lbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -130,6 +132,7 @@ public class InscriptionListController {
 		lbl.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(lbl);
 		panel.add(generateVerBtn(race));
+		panel.add(generateGenerarDorsalesBoton(race));
 		return panel;
 	}
 
@@ -152,6 +155,32 @@ public class InscriptionListController {
 			}
 		});
 		return btn;
+	}
+	
+	private JButton generateGenerarDorsalesBoton(RaceDto carrera) {
+		JButton btn = new JButton();
+		btn.setText("Generar");
+		btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btn.setHorizontalAlignment(SwingConstants.CENTER);
+		btn.setBorder(new LineBorder(new Color(0, 0, 0)));
+		if(carrera.fechaLimite.before(new Date()) && carrera.fechaCarrera.after(new Date())) {
+			btn.setEnabled(true);
+		}else {
+			btn.setEnabled(false);
+		}
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InscriptionModel im = new InscriptionModel();
+				int numeroDeDorsales = im.updateDorsales(carrera.id);
+				mostrarDorsalesGenerados(numeroDeDorsales,carrera.nombre);
+				
+			}
+		});
+		return btn;
+	}
+	
+	private void mostrarDorsalesGenerados(int numeroDorsales,String nombre) {
+		int input = JOptionPane.showConfirmDialog(vista, "Carrera"+nombre +"\nSe han generado: "+numeroDorsales+" dorsales");
 	}
 	
 	/**
@@ -252,6 +281,7 @@ public class InscriptionListController {
 
 		vista.getLblEstado().setText("Estado");
 		
+		
 	}
 
 	private void setNombreColumnasRaces() {
@@ -261,6 +291,7 @@ public class InscriptionListController {
 		vista.getLblFecha().setText("Fecha carrera");
 
 		vista.getLblEstado().setText("Seleccionar");
+		vista.getLblExtra().setText("Dorsales");
 		
 	}
 }

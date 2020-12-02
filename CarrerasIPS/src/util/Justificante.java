@@ -10,6 +10,7 @@ public class Justificante {
 	private Date fecha_inscripcion;
 	private double cantidad;
 	private String estado;
+	private Integer dorsal;
 	
 	public String getNombre() {
 		return nombre;
@@ -46,5 +47,13 @@ public class Justificante {
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	
+	public Integer getDorsal() {
+		return this.dorsal;
+	}
+	
+	public void setDorsal(Integer dorsal) {
+		this.dorsal = dorsal;
 	}
 }
