@@ -29,6 +29,7 @@ import javax.swing.border.EtchedBorder;
 
 import business.race.RaceDto;
 import controller.ClubInscriptionController;
+import dbAccess.CompetitionsAccess;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -81,6 +82,7 @@ public class ClubInscriptionFrame extends JFrame {
 	private JPanel pnlEast;
 	private JLabel lblCarrera;
 	private boolean inscripcionFormu;
+	private JLabel lblPrecio;
 
 
 
@@ -478,7 +480,9 @@ public class ClubInscriptionFrame extends JFrame {
 	private JPanel getPanel_1_1() {
 		if (pnlEast == null) {
 			pnlEast = new JPanel();
+			pnlEast.setLayout(new GridLayout(2, 1, 0, 0));
 			pnlEast.add(getLblCarrera());
+			pnlEast.add(getLblPrecio());
 		}
 		return pnlEast;
 	}
@@ -487,5 +491,11 @@ public class ClubInscriptionFrame extends JFrame {
 			lblCarrera = new JLabel("Aqui va nombre de carrera");
 		}
 		return lblCarrera;
+	}
+	public JLabel getLblPrecio() {
+		if (lblPrecio == null) {
+			lblPrecio = new JLabel("");
+		}
+		return lblPrecio;
 	}
 }

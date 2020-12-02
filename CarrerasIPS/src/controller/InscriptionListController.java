@@ -113,7 +113,7 @@ public class InscriptionListController {
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(6, 0, 0, 0));
 		JLabel lbl = new JLabel();
-		panel.setLayout(new GridLayout(0, 7, 0, 0));
+		panel.setLayout(new GridLayout(0, 8, 0, 0));
 		lbl.setText(race.nombre);
 		lbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -142,12 +142,13 @@ public class InscriptionListController {
 		panel.add(generateVerBtn(race));
 		panel.add(generateClasBtn(race));
 		panel.add(generateBtnVerTiempos(race));
+		panel.add(generateGenerarDorsalesBoton(race));
 		return panel;
 	}
 
 	private JButton generateBtnVerTiempos(RaceDto race) {
 		JButton btn = new JButton();
-		btn.setText("Ver tiempos");
+		btn.setText("Cargar");
 		btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btn.setHorizontalAlignment(SwingConstants.CENTER);
 		btn.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -226,6 +227,33 @@ public class InscriptionListController {
 		});
 		return btn;
 	}
+	
+	private JButton generateGenerarDorsalesBoton(RaceDto carrera) {
+		JButton btn = new JButton();
+		btn.setText("Generar");
+		btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btn.setHorizontalAlignment(SwingConstants.CENTER);
+		btn.setBorder(new LineBorder(new Color(0, 0, 0)));
+		if(carrera.fechaLimite.before(new Date()) && carrera.fechaCarrera.after(new Date())) {
+			btn.setEnabled(true);
+		}else {
+			btn.setEnabled(false);
+		}
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InscriptionModel im = new InscriptionModel();
+				int numeroDeDorsales = im.updateDorsales(carrera.id);
+				mostrarDorsalesGenerados(numeroDeDorsales,carrera.nombre);
+				
+			}
+		});
+		return btn;
+	}
+	
+	private void mostrarDorsalesGenerados(int numeroDorsales,String nombre) {
+		int input = JOptionPane.showConfirmDialog(vista, "Carrera"+nombre +"\nSe han generado: "+numeroDorsales+" dorsales");
+	}
+	
 
 	/**
 	 * Resetea la lista y añade los participante a la carrera en la que se pulso el boton ver, ademas 
@@ -318,25 +346,28 @@ public class InscriptionListController {
 	 * Cambio los nombres de la cabecera para que se correspondan con los datos de las columnas
 	 */
 	private void setNombreColumnasParticipantes() {
-		vista.getpnlViewportNorth().remove(vista.getLblClasifications());;
+		vista.getpnlViewportNorth().remove(vista.getLblClasifications());
+		vista.getpnlViewportNorth().remove(vista.getLblVerTiempos());
+		vista.getpnlViewportNorth().remove(vista.getLblExtra());
 		vista.getpnlViewportNorth().setLayout(new GridLayout(0, 5, 0, 0));
 		vista.getLblDni().setText("DNI ");
 		vista.getLblNombre().setText("Nombre");
 		vista.getLblCategoria().setText("Categoria");
 		vista.getLblFecha().setText("Fecha Insc.");
-
 		vista.getLblEstado().setText("Estado");
+		
 
 	}
 
 	private void setNombreColumnasRaces() {
 		vista.getLblDni().setText("Nombre ");
-		vista.getpnlViewportNorth().setLayout(new GridLayout(0, 7, 0, 0));
+		vista.getpnlViewportNorth().setLayout(new GridLayout(0, 8, 0, 0));
 		vista.getLblNombre().setText("Distancia");
 		vista.getLblCategoria().setText("Tipo");
 		vista.getLblFecha().setText("Fecha carrera");
-		vista.getLblEstado().setText("Seleccionar");
+		vista.getLblEstado().setText("Inscritos");
 		vista.getpnlViewportNorth().add(vista.getLblClasifications());
 		vista.getpnlViewportNorth().add(vista.getLblVerTiempos());
+		vista.getpnlViewportNorth().add(vista.getLblExtra());
 	}
 }

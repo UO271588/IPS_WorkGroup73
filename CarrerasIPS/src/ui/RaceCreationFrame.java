@@ -43,6 +43,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.awt.Toolkit;
 
 public class RaceCreationFrame extends JFrame {
 	
@@ -141,18 +142,8 @@ public class RaceCreationFrame extends JFrame {
 	private JLabel lblMascInici;
 	private JLabel lblMascFin;
 	private RaceCreationController controller;
-	private JPanel pnlAdd;
-	private JPanel pnlRemove;
 	private JPanel pnlValidate;
-	private JButton btnAdd;
-	private JPanel pnlRbtAdd;
-	private JRadioButton rbtnAddM;
-	private JRadioButton rbtnAddF;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	private JButton btnRemove;
-	private JPanel pnlRbtRemove;
-	private JRadioButton rbtnRemoveM;
-	private JRadioButton rbtnRemoveF;
 	private final ButtonGroup buttonGroup_2 = new ButtonGroup();
 	private JPanel rowMasc1;
 	private JTextField txtSeniorM;
@@ -217,6 +208,11 @@ public class RaceCreationFrame extends JFrame {
 	private JRadioButton rdbtnAlFinalizarPlazoIns;
 	private final ButtonGroup buttonGroup_3 = new ButtonGroup();
 	private final ButtonGroup buttonGroup_4 = new ButtonGroup();
+	private JButton btnAdd_2;
+	private JButton btnRemove_2;
+	private JButton btnAdd_3;
+	private JButton btnRemove_3;
+	private JPanel panel_5;
 
 
 	/**
@@ -238,6 +234,7 @@ public class RaceCreationFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public RaceCreationFrame(JFrame parent) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RaceCreationFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.02.37.jpeg")));
 		setTitle("Creaci\u00F3n carrera");
 		this.parent = parent;
 
@@ -333,7 +330,7 @@ public class RaceCreationFrame extends JFrame {
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("Configuracion de Carrera");
+			lblNewLabel = new JLabel("Configuraci\u00F3n de Carrera");
 			lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 19));
 		}
 		return lblNewLabel;
@@ -349,8 +346,7 @@ public class RaceCreationFrame extends JFrame {
 		if (pnlBotones == null) {
 			pnlBotones = new JPanel();
 			pnlBotones.setLayout(new GridLayout(3, 4, 20, 20));
-			pnlBotones.add(getPnlAdd());
-			pnlBotones.add(getPnlRemove());
+			pnlBotones.add(getPanel_5());
 			pnlBotones.add(getPnlValidate());
 		}
 		return pnlBotones;
@@ -532,7 +528,9 @@ public class RaceCreationFrame extends JFrame {
 	private JPanel getPnlTitMasc() {
 		if (pnlTitMasc == null) {
 			pnlTitMasc = new JPanel();
+			pnlTitMasc.add(getBtnAdd_3());
 			pnlTitMasc.add(getLblMasculina());
+			pnlTitMasc.add(getBtnRemove_3());
 		}
 		return pnlTitMasc;
 	}
@@ -548,6 +546,7 @@ public class RaceCreationFrame extends JFrame {
 	private JLabel getLblMasculina() {
 		if (lblMasculina == null) {
 			lblMasculina = new JLabel("Masculina");
+			lblMasculina.setBorder(new EmptyBorder(0, 25, 0, 25));
 		}
 		return lblMasculina;
 	}
@@ -685,8 +684,9 @@ public class RaceCreationFrame extends JFrame {
 	private JComboBox getCbIni1F() {
 		if (cbIni1F == null) {
 			cbIni1F = new JComboBox();
-			cbIni1F.setPreferredSize(new Dimension(50, 0));
-			cbIni1F.setModel(controller.createcbModelNum());
+			cbIni1F.setPreferredSize(new Dimension(50, 0));Integer[] numeros = new Integer[1];
+			numeros[0] = 18;
+			cbIni1F.setModel(new DefaultComboBoxModel<Integer>(numeros));
 		}
 		return cbIni1F;
 	}
@@ -717,53 +717,6 @@ public class RaceCreationFrame extends JFrame {
 		}
 		return cbFin2F;
 	}
-
-	private JRadioButton getRbtnAddF() {
-		if (rbtnAddF == null) {
-			rbtnAddF = new JRadioButton("F");
-			buttonGroup_1.add(rbtnAddF);
-		}
-		return rbtnAddF;
-	}
-	private JButton getBtnRemove() {
-		if (btnRemove == null) {
-			btnRemove = new JButton("Eliminar");
-			btnRemove.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if(getRbtnRemoveM().isSelected()) {
-						controller.deleteCategoryRow(getPnlMascView());
-					}
-					if(getRbtnRemoveF().isSelected()) {
-						controller.deleteCategoryRow(getPnlFemView());
-					}
-				}
-			});
-		}
-		return btnRemove;
-	}
-	private JPanel getPnlRbtRemove() {
-		if (pnlRbtRemove == null) {
-			pnlRbtRemove = new JPanel();
-			pnlRbtRemove.add(getRbtnRemoveM());
-			pnlRbtRemove.add(getRbtnRemoveF());
-		}
-		return pnlRbtRemove;
-	}
-	private JRadioButton getRbtnRemoveM() {
-		if (rbtnRemoveM == null) {
-			rbtnRemoveM = new JRadioButton("M");
-			rbtnRemoveM.setSelected(true);
-			buttonGroup_2.add(rbtnRemoveM);
-		}
-		return rbtnRemoveM;
-	}
-	private JRadioButton getRbtnRemoveF() {
-		if (rbtnRemoveF == null) {
-			rbtnRemoveF = new JRadioButton("F");
-			buttonGroup_2.add(rbtnRemoveF);
-		}
-		return rbtnRemoveF;
-	}
 	private JPanel getRowMasc1() {
 		if (rowMasc1 == null) {
 			rowMasc1 = new JPanel();
@@ -772,25 +725,6 @@ public class RaceCreationFrame extends JFrame {
 			rowMasc1.add(getPnlMasR1C2());
 		}
 		return rowMasc1;
-	}
-
-	private JPanel getPnlAdd() {
-		if (pnlAdd == null) {
-			pnlAdd = new JPanel();
-			pnlAdd.setLayout(new GridLayout(0, 1, 0, 0));
-			pnlAdd.add(getBtnAdd());
-			pnlAdd.add(getPnlRbtAdd());
-		}
-		return pnlAdd;
-	}
-	private JPanel getPnlRemove() {
-		if (pnlRemove == null) {
-			pnlRemove = new JPanel();
-			pnlRemove.setLayout(new GridLayout(2, 3, 0, 0));
-			pnlRemove.add(getBtnRemove());
-			pnlRemove.add(getPnlRbtRemove());
-		}
-		return pnlRemove;
 	}
 	private JPanel getPnlValidate() {
 		if (pnlValidate == null) {
@@ -817,7 +751,9 @@ public class RaceCreationFrame extends JFrame {
 		if (cbIni1M == null) {
 			cbIni1M = new JComboBox();
 			cbIni1M.setPreferredSize(new Dimension(50, 0));
-			cbIni1M.setModel(controller.createcbModelNum());
+			Integer[] numeros = new Integer[1];
+			numeros[0] = 18;
+			cbIni1M.setModel(new DefaultComboBoxModel<Integer>(numeros));
 		}
 		return cbIni1M;
 	}
@@ -880,13 +816,16 @@ public class RaceCreationFrame extends JFrame {
 	private JPanel getPnlTitFem() {
 		if (pnlTitFem == null) {
 			pnlTitFem = new JPanel();
+			pnlTitFem.add(getBtnAdd_2());
 			pnlTitFem.add(getLblFemenina());
+			pnlTitFem.add(getBtnRemove_2());
 		}
 		return pnlTitFem;
 	}
 	private JLabel getLblFemenina() {
 		if (lblFemenina == null) {
 			lblFemenina = new JLabel("Femenina");
+			lblFemenina.setBorder(new EmptyBorder(0, 25, 0, 25));
 		}
 		return lblFemenina;
 	}
@@ -898,38 +837,6 @@ public class RaceCreationFrame extends JFrame {
 			sclFem.setViewportView(getPnlFemView());
 		}
 		return sclFem;
-	}
-	private JButton getBtnAdd() {
-		if (btnAdd == null) {
-			btnAdd = new JButton("A\u00F1adir");
-			btnAdd.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if(getRbtnAddM().isSelected()) {
-						controller.addCategoryRow(getPnlMascView());						
-					}
-					else if(getRbtnAddF().isSelected()) {
-						controller.addCategoryRow(getPnlFemView());						
-					}
-				}
-			});
-		}
-		return btnAdd;
-	}
-	private JPanel getPnlRbtAdd() {
-		if (pnlRbtAdd == null) {
-			pnlRbtAdd = new JPanel();
-			pnlRbtAdd.add(getRbtnAddM());
-			pnlRbtAdd.add(getRbtnAddF());
-		}
-		return pnlRbtAdd;
-	}
-	private JRadioButton getRbtnAddM() {
-		if (rbtnAddM == null) {
-			rbtnAddM = new JRadioButton("M");
-			rbtnAddM.setSelected(true);
-			buttonGroup_1.add(rbtnAddM);
-		}
-		return rbtnAddM;
 	}
 	private JLabel getLblMascNombre() {
 		if (lblMascNombre == null) {
@@ -2231,5 +2138,56 @@ public class RaceCreationFrame extends JFrame {
 			rdbtnAlFinalizarPlazoIns.setBounds(157, 21, 239, 21);
 		}
 		return rdbtnAlFinalizarPlazoIns;
+	}
+	private JButton getBtnAdd_2() {
+		if (btnAdd_2 == null) {
+			btnAdd_2 = new JButton("A\u00F1adir");
+			btnAdd_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.addCategoryRow(getPnlFemView());	
+				}
+			});
+		}
+		return btnAdd_2;
+	}
+	private JButton getBtnRemove_2() {
+		if (btnRemove_2 == null) {
+			btnRemove_2 = new JButton("Eliminar");
+			btnRemove_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					controller.deleteCategoryRow(getPnlFemView());
+				}
+			});
+		}
+		return btnRemove_2;
+	}
+	private JButton getBtnAdd_3() {
+		if (btnAdd_3 == null) {
+			btnAdd_3 = new JButton("A\u00F1adir");
+			btnAdd_3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.addCategoryRow(getPnlMascView());	
+				}
+			});
+		}
+		return btnAdd_3;
+	}
+	private JButton getBtnRemove_3() {
+		if (btnRemove_3 == null) {
+			btnRemove_3 = new JButton("Eliminar");
+			btnRemove_3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.deleteCategoryRow(getPnlMascView());
+				}
+			});
+		}
+		return btnRemove_3;
+	}
+	private JPanel getPanel_5() {
+		if (panel_5 == null) {
+			panel_5 = new JPanel();
+		}
+		return panel_5;
 	}
 }

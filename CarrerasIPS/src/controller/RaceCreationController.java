@@ -102,6 +102,7 @@ public class RaceCreationController {
 			JComboBox cb2 = (JComboBox)((JPanel)((JPanel)pnlView.getComponent(i)).getComponent(1)).getComponent(1);
 			first = (Integer)cb1.getSelectedItem();
 
+			
 			if(i!= 0 && first != second +1) {
 				JOptionPane.showMessageDialog(null, "Error:\nNo puede haber huecos entre categorias");
 				return false;

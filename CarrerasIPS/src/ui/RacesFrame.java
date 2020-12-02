@@ -35,6 +35,7 @@ import model.inscription.InscriptionModel;
 import util.DbUtil;
 import util.TimeUtil;
 import util.UnexpectedException;
+import java.awt.Toolkit;
 
 public class RacesFrame extends JFrame {
 
@@ -61,6 +62,8 @@ public class RacesFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public RacesFrame(JFrame parent) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RacesFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.02.37.jpeg")));
+		setTitle("Carreras Disponibles");
 		this.parent=parent;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 763, 445);

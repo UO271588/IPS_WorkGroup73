@@ -48,7 +48,7 @@ public class InscriptionModel {
 		String idCompeticion = getIdCompeticion(name);
 		cal_birthdate = Calendar.getInstance();
 		cal_birthdate.setTime(getBirthdate(email));
-		dorsal = calcularDorsal(idCompeticion);
+		dorsal = calcularDorsal(idCompeticion,true);
 
 		j.setNombre(getNombre_justificante(email));
 		j.setnombreCompeticion(name);
@@ -62,10 +62,82 @@ public class InscriptionModel {
 		insert(idCompeticion, email, idCategory);
 
 	}
+	
+	public int updateDorsales(String carrera) {
+		String sql = "select DNI from INSCRIPTION where INSCRIPTIONSTATE = 'INSCRITO' AND IDCOMPETITION= ? AND DORSAL is null";
+		List<String> dnis = new ArrayList<String>();
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, carrera);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				dnis.add(rs.getString(1));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			throw new UnexpectedException(ex);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}	
+		int contador = 0;
+		for(String dni: dnis) {
+			Integer dorsal = calcularDorsal(carrera,false);
+			if(dorsal != null) {
+				contador ++;
+				updateDorsal(dni, carrera,dorsal);
+			}
+		}
+		return contador;
+	}
+	
+	public double getDineroAPagar(String idCompeticion, String fecha) {
+		String sql = "select d.fee from inscription_deadline d where d.idcompetition=? and ?>=d.initialdate and ?<=d.finaldate";
+		double cantidad = 0;
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, idCompeticion);
+			pstmt.setString(2, fecha);
+			pstmt.setString(3, fecha);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				cantidad = rs.getDouble("fee");
+			}
+			
 
-	private int calcularDorsal(String competition) {
-		String sql = "select SECUENCIAL, RESERVED,SLOTS  from COMPETITION where IDCOMPETITION=?";
+			return cantidad;
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+	}
+
+	private Integer calcularDorsal(String competition,boolean solicitante) {
+		String sql = "select SECUENCIAL,INMOMENTINSCRIPTION, RESERVED,SLOTS  from COMPETITION where IDCOMPETITION=?";
 		boolean secuencial = false;
+		boolean inInscription = false;
 		Integer reservados = null;
 		Integer slots = 0;
 		Connection cn = null;
@@ -78,8 +150,9 @@ public class InscriptionModel {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				secuencial = Boolean.parseBoolean(rs.getString(1));
-				reservados = (Integer)rs.getObject(2);
-				slots = rs.getInt(3);
+				inInscription = Boolean.parseBoolean(rs.getString(2));
+				reservados = (Integer)rs.getObject(3);
+				slots = rs.getInt(4);
 			}
 		} catch (SQLException ex) {
 			throw new UnexpectedException(ex);
@@ -94,10 +167,14 @@ public class InscriptionModel {
 
 		}		
 
-		if (secuencial) {
-			return getNextDorsalSecuencial(competition,reservados);
-		} else {
-			return getDorsalAleatorio(competition,reservados,slots);
+		if(inInscription == solicitante) {
+			if (secuencial) {
+				return getNextDorsalSecuencial(competition,reservados);
+			} else {
+				return getDorsalAleatorio(competition,reservados,slots);
+			}
+		}else {
+			return null;
 		}
 	}
 
@@ -408,53 +485,26 @@ public class InscriptionModel {
 		}
 
 	}
-//		System.out.print(edad);
-//		int años = cal_hoy.get(Calendar.YEAR) - cal_birthdate.get(Calendar.YEAR);
-//
-//		String categoria = "";
-//		if (años >= 18 && años <= 34) {
-//			if (getSex(email).equals("HOMBRE")) {
-//				categoria = "Senior Masculino";
-//			}
-//			if (getSex(email).equals("MUJER")) {
-//				categoria = "Senior Femenino";
-//
-//			}
-//		}
-//
-//		if (años >= 35 && años <= 49) {
-//			if (getSex(email).equals("HOMBRE")) {
-//				categoria = "Veterano A Masculino";
-//			}
-//
-//		}
-//
-//		if (años >= 35 && años <= 54) {
-//			if (getSex(email).equals("MUJER")) {
-//				categoria = "Veterano A Femenino";
-//			}
-//		}
-//
-//		if (años >= 50) {
-//			if (getSex(email).equals("HOMBRE")) {
-//				categoria = "Veterano B Masculino";
-//			}
-//
-//		}
-//
-//		if (años >= 55) {
-//			if (getSex(email).equals("MUJER")) {
-//				categoria = "Veterano B Femenino";
-//			}
-//		}
-//
-//		return categoria;
 
 	public static void updateEstado(String estado, String dni, String idcompetition) {
 		Database db = new Database();
 		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? , INSCRIPTIONDATE = '" + fecha_hoy
 				+ "'WHERE dni = ? AND idcompetition = ? ";
 
+		db.executeUpdate(sql, estado, dni, idcompetition);
+	}
+	
+	public static void updateDorsal(String dni, String idcompetition,Integer dorsal) {
+		Database db = new Database();
+		String sql = "UPDATE inscription SET DORSAL = ? WHERE dni = ? AND idcompetition = ? ";
+
+		db.executeUpdate(sql,dorsal, dni, idcompetition);
+	}
+	
+	public static void updateEstado(String estado, String dni, String idcompetition,String fecha,String anotacion) {
+		Database db = new Database();
+		String sql = "UPDATE inscription SET INSCRIPTIONSTATE = ? , INSCRIPTIONDATE = '"+fecha+"' , ANOTATIONS = '"+anotacion+"' WHERE dni = ? AND idcompetition = ? ";
+		
 		db.executeUpdate(sql, estado, dni, idcompetition);
 	}
 
@@ -573,7 +623,7 @@ public class InscriptionModel {
 
 	public static boolean yaPagoOEstaPendiente(String e, String name) {
 		String sql = "select idcompetition from INSCRIPTION where idcompetition=? and dni ='" + e
-				+ "' and INSCRIPTIONSTATE in ('PAGADO','PENDIENTE')";
+				+ "' and INSCRIPTIONSTATE in ('INSCRITO','PENDIENTE')";
 		try {
 			if (DbUtil.existRowStringDB(sql, String.valueOf(getIdCompeticion(name)))) {
 				return true;

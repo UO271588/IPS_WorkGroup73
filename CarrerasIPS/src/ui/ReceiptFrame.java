@@ -22,6 +22,9 @@ public class ReceiptFrame extends JDialog {
 	private JTextField textFieldDate;
 	private JTextField textFieldAmount;
 	private JTextField textFieldState;
+	private JLabel lblDorsal;
+	private JTextField textField;
+	private Integer dorsal;
 
 
 
@@ -29,7 +32,8 @@ public class ReceiptFrame extends JDialog {
 
 
 	public ReceiptFrame(String nombre, String nombreCompeticion, String categoria, String dateToIsoString,
-			double cantidad, String estado) {
+			double cantidad, String estado,Integer dorsal) {
+		this.dorsal = dorsal;
 		setBounds(100, 100, 493, 393);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -128,5 +132,25 @@ public class ReceiptFrame extends JDialog {
 		this.textFieldDate.setText(dateToIsoString);
 		this.textFieldState.setText(estado);
 		this.textFieldAmount.setText(cantidad+"");
+		contentPanel.add(getLblDorsal());
+		contentPanel.add(getTextField());
+	}
+	private JLabel getLblDorsal() {
+		if (lblDorsal == null) {
+			lblDorsal = new JLabel("Dorsal:");
+			lblDorsal.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lblDorsal.setBounds(65, 153, 46, 14);
+		}
+		return lblDorsal;
+	}
+	private JTextField getTextField() {
+		if (textField == null) {
+			textField = new JTextField();
+			textField.setEditable(false);
+			textField.setText(dorsal +"");
+			textField.setBounds(183, 151, 214, 20);
+			textField.setColumns(10);
+		}
+		return textField;
 	}
 }

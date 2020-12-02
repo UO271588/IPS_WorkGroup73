@@ -144,7 +144,7 @@ public class TimeController {
 					  }
 				  }
 				  if(mostrado==false) {
-				  msg+=d.getDorsal()+ "  ";
+				  msg+="\n" + d.getDorsal()+ "  ";
 				  mostrados.add(d);
 				  }
 			  }
@@ -166,7 +166,7 @@ public class TimeController {
 					  }
 				  }
 				  if(mostrado==false) {
-				  msg+=d.getDorsal()+ " ("+ d.getTiempoInicio() + " " + d.getTiempoFinal()+") ";
+				  msg+= "\n" + d.getDorsal()+ " ("+ d.getTiempoInicio() + " " + d.getTiempoFinal()+")";
 				  mostrados.add(d);
 				  }
 			  }

@@ -48,6 +48,7 @@ public class ClubInscriptionController {
 		this.race = race;
 		this.view = clubInscriptionFrame;
 		enLista = new HashMap();
+		view.getLblPrecio().setText(""+CompetitionsAccess.getCantidad(race.id) +"€ por participante");
 	}
 
 	public boolean checkExist(String email) {

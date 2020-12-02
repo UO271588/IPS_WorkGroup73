@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 import business.race.RaceDto;
+import util.DbUtil;
 import util.TimeUtil;
+import util.UnexpectedException;
 import util.database.Database;
 
 public class CompetitionsAccess {
@@ -172,7 +174,37 @@ public class CompetitionsAccess {
 		return result;
 	}
 
-	
+	public static double getCantidad(String idCompeticion) {
+		String sql = "select d.fee from inscription_deadline d, inscription i where d.idcompetition=? and i.inscriptiondate>=d.initialdate and i.inscriptiondate<=d.finaldate";
+		double cantidad = 0;
+		Connection cn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			cn = DbUtil.getConnection();
+			pstmt = cn.prepareStatement(sql);
+			pstmt.setString(1, idCompeticion);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				cantidad = rs.getDouble("fee");
+			}
+			
+
+			return cantidad;
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				cn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+	}
 
 		
 		

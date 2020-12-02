@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import controller.registerController;
+import java.awt.Toolkit;
 
 public class RegisterFrame extends JFrame {
 
@@ -66,6 +67,7 @@ public class RegisterFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public RegisterFrame() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegisterFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.02.37.jpeg")));
 		setTitle("Registro Corredor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 537, 443);
@@ -115,7 +117,7 @@ public class RegisterFrame extends JFrame {
 				
 				
 			});
-			btnAceptar.setBounds(67, 328, 114, 36);
+			btnAceptar.setBounds(93, 338, 114, 36);
 		}
 		return btnAceptar;
 	}
@@ -134,7 +136,7 @@ public class RegisterFrame extends JFrame {
 					dispose();
 				}
 			});
-			btnCancelar.setBounds(265, 328, 114, 36);
+			btnCancelar.setBounds(295, 336, 114, 36);
 		}
 		return btnCancelar;
 	}

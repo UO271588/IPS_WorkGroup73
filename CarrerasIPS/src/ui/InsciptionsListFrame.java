@@ -42,6 +42,7 @@ public class InsciptionsListFrame extends JFrame {
 	private JFrame parent;
 	private JLabel lblClasifications;
 	private JLabel lblVerTiempos;
+	private JLabel lblExtra;
 
 	/**
 	 * Launch the application.
@@ -68,7 +69,7 @@ public class InsciptionsListFrame extends JFrame {
 	public InsciptionsListFrame(JFrame parent) {
 		setTitle("Administrador: Carreras");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1059, 497);
+		setBounds(100, 100, 1178, 497);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -148,7 +149,7 @@ public class InsciptionsListFrame extends JFrame {
 			pnlViewportNorth = new JPanel();
 			pnlViewportNorth.setAutoscrolls(true);
 			pnlViewportNorth.setBorder(new EmptyBorder(1, 0, 1, 0));
-			pnlViewportNorth.setLayout(new GridLayout(0, 6, 0, 0));
+			pnlViewportNorth.setLayout(new GridLayout(0, 8, 0, 0));
 			pnlViewportNorth.add(getLblDni());
 			pnlViewportNorth.add(getLblNombre());
 			pnlViewportNorth.add(getLblCategoria());
@@ -225,11 +226,21 @@ public class InsciptionsListFrame extends JFrame {
 	}
 	public JLabel getLblVerTiempos() {
 		if (lblVerTiempos == null) {
-			lblVerTiempos = new JLabel("Ver tiempos");
+			lblVerTiempos = new JLabel("Tiempos");
 			lblVerTiempos.setHorizontalAlignment(SwingConstants.CENTER);
 			lblVerTiempos.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			lblVerTiempos.setBorder(new LineBorder(new Color(0, 0, 0)));
 		}
 		return lblVerTiempos;
+	}
+	
+	public JLabel getLblExtra() {
+		if (lblExtra == null) {
+			lblExtra = new JLabel("Dorsales");
+			lblExtra.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblExtra.setHorizontalAlignment(SwingConstants.CENTER);
+			lblExtra.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		}
+		return lblExtra;
 	}
 }

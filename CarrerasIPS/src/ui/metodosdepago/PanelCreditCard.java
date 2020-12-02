@@ -154,7 +154,7 @@ public class PanelCreditCard extends JPanel {
 		}else {
 			String dni = InscriptionModel.getDni(email);
 			if (dni != null) {
-				InscriptionModel.updateEstado("PAGADO", dni, carrera.id);
+				InscriptionModel.updateEstado("INSCRITO", dni, carrera.id);
 				new ReciboTarjeta(carrera,email,getCantidad(carrera.id)).setVisible(true);
 				padre.dispose();
 			} else {

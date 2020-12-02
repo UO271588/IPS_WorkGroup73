@@ -26,6 +26,7 @@ import util.interfaces.Indentificable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import java.awt.Toolkit;
 
 public class InscribedRacesFrame extends JFrame {
 
@@ -61,6 +62,8 @@ public class InscribedRacesFrame extends JFrame {
 
 	
 	public  InscribedRacesFrame(JFrame parent) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(InscribedRacesFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.02.37.jpeg")));
+		setTitle("Carreras Inscritas");
 		ParticipantDtoPojo part;
 		this.parentFrame = parent;
 		this.setVisible(true);
