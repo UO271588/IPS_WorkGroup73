@@ -2064,7 +2064,7 @@ public class RaceCreationFrame extends JFrame {
 	private JLabel getLblNewLabel_6() {
 		if (lblNewLabel_6 == null) {
 			lblNewLabel_6 = new JLabel("Asignaci\u00F3n dorsales");
-			lblNewLabel_6.setBounds(110, 2, 131, 13);
+			lblNewLabel_6.setBounds(110, 0, 131, 13);
 		}
 		return lblNewLabel_6;
 	}
@@ -2127,7 +2127,7 @@ public class RaceCreationFrame extends JFrame {
 			rdbtnAlReg = new JRadioButton("Al registrarse");
 			rdbtnAlReg.setSelected(true);
 			buttonGroup_4.add(rdbtnAlReg);
-			rdbtnAlReg.setBounds(37, 19, 111, 23);
+			rdbtnAlReg.setBounds(37, 18, 111, 23);
 		}
 		return rdbtnAlReg;
 	}
@@ -2135,7 +2135,7 @@ public class RaceCreationFrame extends JFrame {
 		if (rdbtnAlFinalizarPlazoIns == null) {
 			rdbtnAlFinalizarPlazoIns = new JRadioButton("Al finalizar periodo de inscripcion");
 			buttonGroup_4.add(rdbtnAlFinalizarPlazoIns);
-			rdbtnAlFinalizarPlazoIns.setBounds(157, 21, 239, 21);
+			rdbtnAlFinalizarPlazoIns.setBounds(157, 18, 239, 21);
 		}
 		return rdbtnAlFinalizarPlazoIns;
 	}

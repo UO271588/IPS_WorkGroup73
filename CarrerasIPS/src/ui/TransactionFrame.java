@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import business.race.RaceDto;
 import ui.metodosdepago.PanelCreditCard;
 import ui.metodosdepago.TransferenceCard;
+import java.awt.Toolkit;
 
 public class TransactionFrame extends JFrame {
 
@@ -53,6 +54,7 @@ public class TransactionFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public TransactionFrame(RaceDto carrera, String email) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TransactionFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.35.14.jpeg")));
 		this.email = email;
 		setTitle("Metodos de Pago");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

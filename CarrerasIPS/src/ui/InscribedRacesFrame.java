@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Toolkit;
 
 public class InscribedRacesFrame extends JFrame {
 
@@ -66,6 +67,7 @@ public class InscribedRacesFrame extends JFrame {
 
 	
 	public  InscribedRacesFrame(JFrame parent) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(InscribedRacesFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.35.14.jpeg")));
 		setTitle("Lista de Carreras Inscritas");
 		ParticipantDtoPojo part;
 		this.parentFrame = parent;

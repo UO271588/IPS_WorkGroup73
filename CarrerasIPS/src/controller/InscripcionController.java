@@ -60,6 +60,7 @@ public class InscripcionController {
 	private void imprimirFormulario() {
 		
 		model.justificante(view.getTextFieldEmail().getText(), view.getTextFieldNombreCompeticion().getText());
+		
 		ReceiptFrame rf = new ReceiptFrame(model.getJustificante().getNombre(), model.getJustificante().getnombreCompeticion(),
 				model.getJustificante().getCategoria(),TimeUtil.dateToIsoString(model.getJustificante().getFecha_inscripcion()),
 				model.getJustificante().getCantidad(), model.getJustificante().getEstado(),model.getJustificante().getDorsal());

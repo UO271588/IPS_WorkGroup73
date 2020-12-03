@@ -81,7 +81,7 @@ public class ReciboTarjeta extends JFrame {
 			txtNombreAtleta = new JTextField();
 			txtNombreAtleta.setEditable(false);
 			txtNombreAtleta.setText(ParticipantModel.getByEmail(email).getName());
-			txtNombreAtleta.setBounds(10, 36, 202, 20);
+			txtNombreAtleta.setBounds(10, 36, 202, 31);
 			txtNombreAtleta.setColumns(10);
 		}
 		return txtNombreAtleta;
@@ -89,7 +89,7 @@ public class ReciboTarjeta extends JFrame {
 	private JLabel getLblNombreCarrera() {
 		if (lblNombreCarrera == null) {
 			lblNombreCarrera = new JLabel("Nombre Carrera:");
-			lblNombreCarrera.setBounds(10, 69, 122, 14);
+			lblNombreCarrera.setBounds(10, 78, 122, 27);
 		}
 		return lblNombreCarrera;
 	}
@@ -98,7 +98,7 @@ public class ReciboTarjeta extends JFrame {
 			txtNombreCarrera = new JTextField();
 			txtNombreCarrera.setText(carrera.nombre);
 			txtNombreCarrera.setEditable(false);
-			txtNombreCarrera.setBounds(10, 94, 202, 20);
+			txtNombreCarrera.setBounds(10, 107, 202, 36);
 			txtNombreCarrera.setColumns(10);
 		}
 		return txtNombreCarrera;
@@ -106,7 +106,7 @@ public class ReciboTarjeta extends JFrame {
 	private JLabel getLblCantidad() {
 		if (lblCantidad == null) {
 			lblCantidad = new JLabel("Cantidad:");
-			lblCantidad.setBounds(10, 125, 148, 14);
+			lblCantidad.setBounds(10, 154, 148, 20);
 		}
 		return lblCantidad;
 	}
@@ -115,7 +115,7 @@ public class ReciboTarjeta extends JFrame {
 			txtCantidad = new JTextField();
 			txtCantidad.setText(cantidad+"€");
 			txtCantidad.setEditable(false);
-			txtCantidad.setBounds(10, 150, 86, 20);
+			txtCantidad.setBounds(10, 185, 86, 31);
 			txtCantidad.setColumns(10);
 		}
 		return txtCantidad;

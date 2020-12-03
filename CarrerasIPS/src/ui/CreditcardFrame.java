@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import business.race.RaceDto;
 import model.inscription.InscriptionModel;
+import java.awt.Toolkit;
 
 public class CreditcardFrame extends JFrame {
 
@@ -50,6 +51,7 @@ public class CreditcardFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public CreditcardFrame() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CreditcardFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.35.14.jpeg")));
 		setTitle("Pago con tarjeta de credito");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -113,7 +115,7 @@ public class CreditcardFrame extends JFrame {
 		if (txtNtarjeta == null) {
 			txtNtarjeta = new JTextField();
 			txtNtarjeta.setText("\r\n");
-			txtNtarjeta.setBounds(37, 56, 258, 20);
+			txtNtarjeta.setBounds(37, 51, 258, 25);
 			txtNtarjeta.setColumns(10);
 		}
 		return txtNtarjeta;
@@ -122,7 +124,7 @@ public class CreditcardFrame extends JFrame {
 	private JLabel getLblNtarjeta() {
 		if (lblNtarjeta == null) {
 			lblNtarjeta = new JLabel("N\u00BA Tarjeta");
-			lblNtarjeta.setBounds(37, 32, 152, 14);
+			lblNtarjeta.setBounds(37, 26, 152, 14);
 		}
 		return lblNtarjeta;
 	}
@@ -138,7 +140,7 @@ public class CreditcardFrame extends JFrame {
 	private JTextField getTxtFechacaducidad() {
 		if (txtFechacaducidad == null) {
 			txtFechacaducidad = new JTextField();
-			txtFechacaducidad.setBounds(37, 112, 86, 20);
+			txtFechacaducidad.setBounds(37, 112, 86, 27);
 			txtFechacaducidad.setColumns(10);
 		}
 		return txtFechacaducidad;
@@ -147,7 +149,7 @@ public class CreditcardFrame extends JFrame {
 	private JLabel getLblCvv() {
 		if (lblCvv == null) {
 			lblCvv = new JLabel("CVV");
-			lblCvv.setBounds(37, 143, 107, 14);
+			lblCvv.setBounds(37, 150, 107, 14);
 		}
 		return lblCvv;
 	}
@@ -155,7 +157,7 @@ public class CreditcardFrame extends JFrame {
 	private JTextField getTxtCvv() {
 		if (txtCvv == null) {
 			txtCvv = new JTextField();
-			txtCvv.setBounds(37, 168, 86, 20);
+			txtCvv.setBounds(37, 175, 86, 31);
 			txtCvv.setColumns(10);
 		}
 		return txtCvv;

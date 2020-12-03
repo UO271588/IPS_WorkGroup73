@@ -12,6 +12,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class ReceiptFrame extends JDialog {
 
@@ -33,8 +34,10 @@ public class ReceiptFrame extends JDialog {
 
 	public ReceiptFrame(String nombre, String nombreCompeticion, String categoria, String dateToIsoString,
 			double cantidad, String estado,Integer dorsal) {
+		setTitle("Justificante");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ReceiptFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.35.14.jpeg")));
 		this.dorsal = dorsal;
-		setBounds(100, 100, 493, 393);
+		setBounds(100, 100, 493, 478);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -42,72 +45,72 @@ public class ReceiptFrame extends JDialog {
 		
 		JLabel lblReceipt = new JLabel("Receipt");
 		lblReceipt.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblReceipt.setBounds(208, 10, 58, 34);
+		lblReceipt.setBounds(183, 10, 83, 34);
 		contentPanel.add(lblReceipt);
 		
 		JLabel lblName = new JLabel("Athlete name:");
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblName.setBounds(65, 59, 90, 13);
+		lblName.setBounds(65, 81, 90, 19);
 		contentPanel.add(lblName);
 		
 		textFieldName = new JTextField();
 		textFieldName.setEditable(false);
-		textFieldName.setBounds(183, 54, 214, 19);
+		textFieldName.setBounds(183, 79, 214, 24);
 		contentPanel.add(textFieldName);
 		textFieldName.setColumns(10);
 		
 		JLabel lblCompetition = new JLabel("Competition: ");
 		lblCompetition.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCompetition.setBounds(65, 106, 90, 13);
+		lblCompetition.setBounds(65, 128, 90, 21);
 		contentPanel.add(lblCompetition);
 		
 		textFieldCompetition = new JTextField();
 		textFieldCompetition.setEditable(false);
-		textFieldCompetition.setBounds(183, 102, 214, 19);
+		textFieldCompetition.setBounds(183, 125, 214, 24);
 		contentPanel.add(textFieldCompetition);
 		textFieldCompetition.setColumns(10);
 		
 		JLabel lblCategory = new JLabel("Category: ");
 		lblCategory.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCategory.setBounds(65, 153, 90, 16);
+		lblCategory.setBounds(65, 222, 90, 23);
 		contentPanel.add(lblCategory);
 		
 		textFieldCategory = new JTextField();
 		textFieldCategory.setEditable(false);
-		textFieldCategory.setBounds(183, 150, 214, 19);
+		textFieldCategory.setBounds(183, 219, 214, 24);
 		contentPanel.add(textFieldCategory);
 		textFieldCategory.setColumns(10);
 		
 		JLabel lblInscriptionDate = new JLabel("Inscription date:");
 		lblInscriptionDate.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblInscriptionDate.setBounds(65, 200, 108, 13);
+		lblInscriptionDate.setBounds(65, 264, 108, 19);
 		contentPanel.add(lblInscriptionDate);
 		
 		textFieldDate = new JTextField();
 		textFieldDate.setEditable(false);
-		textFieldDate.setBounds(183, 198, 214, 19);
+		textFieldDate.setBounds(183, 260, 214, 24);
 		contentPanel.add(textFieldDate);
 		textFieldDate.setColumns(10);
 		
 		JLabel lblAmount = new JLabel("Amount:");
 		lblAmount.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblAmount.setBounds(65, 247, 58, 13);
+		lblAmount.setBounds(66, 307, 58, 19);
 		contentPanel.add(lblAmount);
 		
 		textFieldAmount = new JTextField();
 		textFieldAmount.setEditable(false);
-		textFieldAmount.setBounds(183, 246, 214, 19);
+		textFieldAmount.setBounds(183, 305, 214, 24);
 		contentPanel.add(textFieldAmount);
 		textFieldAmount.setColumns(10);
 		
 		JLabel lblState = new JLabel("Inscription state:");
 		lblState.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblState.setBounds(65, 294, 108, 13);
+		lblState.setBounds(65, 350, 108, 23);
 		contentPanel.add(lblState);
 		
 		textFieldState = new JTextField();
 		textFieldState.setEditable(false);
-		textFieldState.setBounds(183, 294, 214, 19);
+		textFieldState.setBounds(183, 347, 214, 26);
 		contentPanel.add(textFieldState);
 		textFieldState.setColumns(10);
 		{
@@ -139,7 +142,7 @@ public class ReceiptFrame extends JDialog {
 		if (lblDorsal == null) {
 			lblDorsal = new JLabel("Dorsal:");
 			lblDorsal.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblDorsal.setBounds(65, 153, 46, 14);
+			lblDorsal.setBounds(65, 179, 46, 19);
 		}
 		return lblDorsal;
 	}
@@ -148,7 +151,7 @@ public class ReceiptFrame extends JDialog {
 			textField = new JTextField();
 			textField.setEditable(false);
 			textField.setText(dorsal +"");
-			textField.setBounds(183, 151, 214, 20);
+			textField.setBounds(183, 175, 214, 24);
 			textField.setColumns(10);
 		}
 		return textField;

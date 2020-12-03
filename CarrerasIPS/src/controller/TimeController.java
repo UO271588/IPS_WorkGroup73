@@ -102,6 +102,7 @@ public class TimeController {
 				   
 				   if(t.getDorsal()==dto.getDorsal() ) {
 					   yaMos=true;
+					   break;
 				   }
 				   else {
 					   yaMos=false;
@@ -109,11 +110,20 @@ public class TimeController {
 			   }
 			   if(yaMos==false) {
 				   if(comprobarTime(tiempoInicio)&& comprobarTime(tiempoFinal)) {
+					   if(tiempoInicio.equals("--:--:--") && !tiempoFinal.equals("--:--:--")) {
+						   listIncorrectas.add(dto);
+					   }
+					   else if(tiempoFinal.equals("--:--:--") && comprobarTime(tiempoInicio)) {
+						   list.add(dto);
+						  
+					   }
+					   else {
 					   if(tiempoInicio.compareTo(tiempoFinal)<0) {
 						   list.add(dto);
 					   }
 					   else {
 						   listIncorrectas.add(dto);
+					   }
 					   }
 					   
 					   

@@ -35,6 +35,8 @@ import java.awt.GridLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 import java.awt.Panel;
+import java.awt.Toolkit;
+import java.awt.Dialog.ModalExclusionType;
 
 public class TimeReceptionFrame extends JFrame {
 
@@ -65,6 +67,7 @@ public class TimeReceptionFrame extends JFrame {
 	 * @param inscriptionListController 
 	 */
 	public TimeReceptionFrame(String id, InscriptionListController inscriptionListController) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TimeReceptionFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.35.14.jpeg")));
 		setTitle("Time Reception");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 592, 335);

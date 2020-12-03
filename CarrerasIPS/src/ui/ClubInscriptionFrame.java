@@ -35,6 +35,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
+import java.awt.Toolkit;
 
 public class ClubInscriptionFrame extends JFrame {
 
@@ -91,6 +92,7 @@ public class ClubInscriptionFrame extends JFrame {
 	 * @param carrera 
 	 */
 	public ClubInscriptionFrame(RaceDto carrera) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ClubInscriptionFrame.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.35.14.jpeg")));
 		setTitle("Inscripcion como club");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 760, 542);
