@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.payments.PaymentDto;
+import java.awt.Toolkit;
 
 public class ResumenPagos extends JFrame {
 
@@ -19,6 +20,8 @@ public class ResumenPagos extends JFrame {
 	 * Create the frame.
 	 */
 	public ResumenPagos(List<PaymentDto> lista) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ResumenPagos.class.getResource("/img/WhatsApp Image 2020-12-02 at 20.02.37.jpeg")));
+		setTitle("Datos actualizados");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pagos = lista;
 		setBounds(100, 100, 450, 300);
