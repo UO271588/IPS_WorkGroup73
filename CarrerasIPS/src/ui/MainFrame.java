@@ -290,7 +290,7 @@ public class MainFrame extends JFrame {
 					}else if(dinero - Double.parseDouble(cantidad) == 0) {
 						im.updateEstado("PAGADO", dni, idcarrera,fecha,null);
 					}else {
-						im.updateEstado("PAGADO", dni, idcarrera,fecha,null);
+						im.updateEstado("PAGADO", dni, idcarrera,fecha,"Se tiene que devolver "+ (dinero - Double.parseDouble(cantidad)));
 					}
 					
 					System.out.println("Fecha de pago: " + fechaPago);
@@ -298,6 +298,9 @@ public class MainFrame extends JFrame {
 					System.out.println("Dinero a pagar: " + dinero);
 					System.out.println("Dinero suministrado: " + dinero);
 					System.out.println();
+				}
+				else {
+					im.updateEstado("CANCELADO", dni, idcarrera,fecha,"Fuera de plazo");
 				}
 				
 				PaymentDto pago = new PaymentDto();
