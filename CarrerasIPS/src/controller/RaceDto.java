@@ -1,4 +1,4 @@
-package business.race;
+package controller;
 
 import java.util.Date;
 

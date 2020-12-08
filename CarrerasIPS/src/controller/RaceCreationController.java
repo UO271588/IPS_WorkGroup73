@@ -14,8 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import business.race.RaceDto;
-import dbAccess.CompetitionsAccess;
+import model.CompetitionsAccess;
 import model.category.CategoryDto;
 import model.category.CategoryModel;
 import model.deadline.DeadLineDto;

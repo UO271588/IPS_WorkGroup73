@@ -23,8 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import business.race.RaceDto;
-import dbAccess.CompetitionsAccess;
+import model.CompetitionsAccess;
 import model.clasification.ClasificationAccess;
 import model.clasification.ClasificationDto;
 import model.inscription.InscriptionDto;

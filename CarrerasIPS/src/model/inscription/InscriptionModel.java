@@ -15,7 +15,7 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
-import business.race.RaceDto;
+import controller.RaceDto;
 import model.participant.ParticipantDtoPojo;
 import util.DbUtil;
 import util.Justificante;

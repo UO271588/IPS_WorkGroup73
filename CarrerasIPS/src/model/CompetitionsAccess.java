@@ -1,4 +1,4 @@
-package dbAccess;
+package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import business.race.RaceDto;
+import controller.RaceDto;
 import util.DbUtil;
 import util.TimeUtil;
 import util.UnexpectedException;

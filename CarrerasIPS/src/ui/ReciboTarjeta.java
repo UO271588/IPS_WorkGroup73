@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import business.race.RaceDto;
+import controller.RaceDto;
 import model.participant.ParticipantModel;
 
 import javax.swing.JLabel;

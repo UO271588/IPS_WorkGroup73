@@ -27,9 +27,9 @@ import java.awt.GridLayout;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 
-import business.race.RaceDto;
 import controller.ClubInscriptionController;
-import dbAccess.CompetitionsAccess;
+import controller.RaceDto;
+import model.CompetitionsAccess;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;

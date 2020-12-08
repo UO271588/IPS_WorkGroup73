@@ -27,8 +27,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import business.race.RaceDto;
-import dbAccess.CompetitionsAccess;
+import model.CompetitionsAccess;
 import model.inscription.InscriptionModel;
 import model.participant.ParticipantDtoPojo;
 import model.participant.ParticipantModel;

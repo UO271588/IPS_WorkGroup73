@@ -15,7 +15,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import business.race.RaceDto;
 import model.inscription.InscriptionDto;
 import model.inscription.InscriptionModel;
 import model.participant.ParticipantDto;

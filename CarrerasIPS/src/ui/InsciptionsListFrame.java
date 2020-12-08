@@ -19,8 +19,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import business.race.RaceDto;
 import controller.InscriptionListController;
+import controller.RaceDto;
+
 import java.awt.Toolkit;
 
 public class InsciptionsListFrame extends JFrame {

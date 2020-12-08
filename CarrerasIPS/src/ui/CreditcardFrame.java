@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import business.race.RaceDto;
+import controller.RaceDto;
 import model.inscription.InscriptionModel;
 import java.awt.Toolkit;
 

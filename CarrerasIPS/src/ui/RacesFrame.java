@@ -28,9 +28,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import business.race.RaceDto;
 import controller.InscripcionController;
-import dbAccess.CompetitionsAccess;
+import controller.RaceDto;
+import model.CompetitionsAccess;
 import model.inscription.InscriptionModel;
 import util.DbUtil;
 import util.TimeUtil;

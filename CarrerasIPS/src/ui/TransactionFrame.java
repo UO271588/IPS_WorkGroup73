@@ -19,7 +19,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import business.race.RaceDto;
+import controller.RaceDto;
 import ui.metodosdepago.PanelCreditCard;
 import ui.metodosdepago.TransferenceCard;
 import java.awt.Toolkit;

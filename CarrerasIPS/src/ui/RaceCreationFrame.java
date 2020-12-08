@@ -8,9 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import business.race.RaceDto;
 import controller.RaceCreationController;
 import controller.RaceCreationController2;
+import controller.RaceDto;
 import util.database.Database;
 
 import javax.swing.JLabel;

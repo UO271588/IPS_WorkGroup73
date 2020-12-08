@@ -17,7 +17,7 @@ import javax.swing.border.EmptyBorder;
 
 import org.sqlite.util.StringUtils;
 
-import business.race.RaceDto;
+import controller.RaceDto;
 import model.inscription.InscriptionModel;
 import ui.ReciboTarjeta;
 import util.DbUtil;
